@@ -16,15 +16,20 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@material-tailwind/react";
 import { MaterialTailwindControllerProvider } from "@/context";
 import "../public/css/tailwind.css";
-
+import { store } from "./Rtk/store";
+import { Provider } from "react-redux";
+import { Toaster } from "sonner";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <Provider store={store}>
     <BrowserRouter>
       <ThemeProvider>
         <MaterialTailwindControllerProvider>
           <App />
+          <Toaster richColors position='bottom-right' toastOptions={{ duration: 1700 }} />
         </MaterialTailwindControllerProvider>
       </ThemeProvider>
     </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
