@@ -5,6 +5,7 @@ import { MdAutoDelete, MdEdit } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { confirmDialog } from "../utlis/confirmDialog";
+import { useNavigate } from "react-router-dom";
 
 
 const ViewScan = () => {
@@ -13,7 +14,10 @@ const ViewScan = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [show,setShow]=useState(false)
-    const [deleteScan, { isLoading:isDeleteLoading, isError, isSuccess }] = useDeleteScanMutation();
+  const [showTest,setShowTest]=useState(false)
+  const [scanData,setScanData]=useState("")
+  const [deleteScan, { isLoading:isDeleteLoading, isError, isSuccess }] = useDeleteScanMutation();
+  const navigate=useNavigate()
 
   // Filter data first
   const filteredData = data?.filter((scan) =>
@@ -139,10 +143,12 @@ const ViewScan = () => {
                       />
                     </td>
                     <td className="p-3 flex gap-2">
-                    <button className="bg-green-500  text-white px-3 py-1 rounded-md text-sm hover:bg-red-600">
+                    <button className="bg-green-500  text-white px-3 py-1 rounded-md text-sm hover:bg-red-600" onClick={()=> navigate(`/dashboard/test/scan/${scan?.slug}`)}>
                        <FaEye/>
                       </button>
-                    <button className="bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600">
+                    <button className="bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600"
+                       onClick={()=>(setShow(true), setScanData(scan))}
+                    >
                         <MdEdit/>
                       </button>
                       <button className="bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600" 
@@ -214,7 +220,7 @@ const ViewScan = () => {
           </button>
         </div>
       </div>
-    </div> : <AddScan/>
+    </div> : <AddScan data={scanData}/>
 
     }
     </div>

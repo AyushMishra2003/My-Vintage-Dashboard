@@ -62,6 +62,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
             )}
             {pages.map(({ icon, name, path }) => (
               <li key={name}>
+                {name !="Scan Test"  && 
                 <NavLink to={`/${layout}${path}`}>
                   {({ isActive }) => (
                     <Button
@@ -73,7 +74,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
                           ? "white"
                           : "blue-gray"
                       }
-                      className="flex items-center gap-4 px-4 capitalize"
+                      className="flex items-center gap-4 px-4 capitalize "
                       fullWidth
                     >
                       {icon}
@@ -86,6 +87,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
                     </Button>
                   )}
                 </NavLink>
+}
               </li>
             ))}
           </ul>

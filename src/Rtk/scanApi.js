@@ -14,6 +14,7 @@ export const scanApi = createApi({
             }),
             providesTags: ["scan"],  // ✅ Caching Enable
         }),
+        
 
         // ✅ ADD New Test (POST)
         addScan: builder.mutation({
@@ -34,10 +35,11 @@ export const scanApi = createApi({
 
         // ✅ EDIT Test (PUT)
         editScan: builder.mutation({
-            query: ({ id, data }) => ({
-                url: `/service/detail/service/${id}`,
+            query: ({ id, formData }) => ({
+                url: `/service/detail/${id}`,
                 method: "PUT",
-                data,
+                data: formData, // ✅ Change from `body` to `data`
+                formData: true, // ✅ Ensure FormData is properly handled
             }),
             invalidatesTags: ["scan"], // ✅ Cache Refresh
         }),

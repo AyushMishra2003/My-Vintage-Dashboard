@@ -9,6 +9,7 @@ import {
 import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
 import ViewScan from "./pages/scan/ViewScan";
+import ScanTest from "./pages/scan/ScanTest";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -41,6 +42,12 @@ export const routes = [
         name: "Our Scan",
         path: "/scan",
         element: <ViewScan/>,
+      },
+      {
+        icon: <TableCellsIcon {...icon} />,
+        name: "Scan Test",
+        path: "/test/scan/:slug",
+        element: <ScanTest/>,
       },
       // {
       //   icon: <InformationCircleIcon {...icon} />,
