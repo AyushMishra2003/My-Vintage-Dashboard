@@ -1,64 +1,64 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import axiosBaseQuery from "./axiosBaseQuery";
 
-export const bannerApi = createApi({
-    reducerPath: "bannerApi",   // ✅ Redux Store in  Reducer Name
+export const packageApi = createApi({
+    reducerPath: "packageApi",   // ✅ Redux Store in  Reducer Name
     baseQuery: axiosBaseQuery, // ✅ Custom Axios Query
-    tagTypes: ["banner"],  // ✅ Caching tag
+    tagTypes: ["package"],  // ✅ Caching tag
     endpoints: (builder) => ({
         // ✅ GET All Tests (Fetch)
-        getAllBanner: builder.query({
+        getAllPackage: builder.query({
             query: () => ({
-                url: "/banner",
+                url: "/package",
                 method: "GET",
             }),
-            providesTags: ["banner"],  // ✅ Caching Enable
+            providesTags: ["package"],  // ✅ Caching Enable
         }),
         
 
-        // ✅ ADD New Banner (POST)
-        addBanner: builder.mutation({
+        // ✅ ADD New Test (POST)
+        addScan: builder.mutation({
             query: (formData) => {
                 console.log("RTK Query Received FormData:", formData);
                 return {
-                    url: "/banner",
+                    url: "/service/detail/service",
                     method: "POST",
                     data: formData, // ✅ Change from `body` to `data`
                     formData: true, // ✅ Ensure FormData is properly handled
                 };
             },
-            invalidatesTags: ["banner"],
+            invalidatesTags: ["scan"],
         }),
         
         
         
 
         // ✅ EDIT Test (PUT)
-        editBanner: builder.mutation({
+        editScan: builder.mutation({
             query: ({ id, formData }) => ({
-                url: `/banner/${id}`,
+                url: `/service/detail/${id}`,
                 method: "PUT",
                 data: formData, // ✅ Change from `body` to `data`
                 formData: true, // ✅ Ensure FormData is properly handled
             }),
-            invalidatesTags: ["banner"], // ✅ Cache Refresh
+            invalidatesTags: ["scan"], // ✅ Cache Refresh
         }),
 
-        // ✅ DELETE Banner (DELETE)
-        deleteBanner: builder.mutation({
+        // ✅ DELETE Test (DELETE)
+        deleteScan: builder.mutation({
             query: (id) => ({
-                url: `/banner/${id}`,
+                url: `/service/detail/${id}`,
                 method: "DELETE",
             }),
-            invalidatesTags: ["banner"], // ✅ Cache Refresh
+            invalidatesTags: ["scan"], // ✅ Cache Refresh
         }),
     }),
 });
 
 // ✅ Hooks Export (Use in Components)
 export const {
-    useGetAllBannerQuery,
-    useAddBannerMutation,
-    useEditBannerMutation,
-    useDeleteBannerMutation,
-} = bannerApi;
+    useGetAllPackageQuery,
+    useAddScanMutation,
+    useEditScanMutation,
+    useDeleteScanMutation,
+} = packageApi;

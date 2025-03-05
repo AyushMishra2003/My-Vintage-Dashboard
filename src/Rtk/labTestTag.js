@@ -1,18 +1,26 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import axiosBaseQuery from "./axiosBaseQuery";
 
-export const bannerApi = createApi({
-    reducerPath: "bannerApi",   // ✅ Redux Store in  Reducer Name
+export const labTestApi = createApi({
+    reducerPath: "labTestApi",   // ✅ Redux Store in  Reducer Name
     baseQuery: axiosBaseQuery, // ✅ Custom Axios Query
-    tagTypes: ["banner"],  // ✅ Caching tag
+    tagTypes: ["lab"],  // ✅ Caching tag
     endpoints: (builder) => ({
         // ✅ GET All Tests (Fetch)
-        getAllBanner: builder.query({
+        getAllLabTestTag: builder.query({
             query: () => ({
-                url: "/banner",
+                url: "/pathology/tag",
                 method: "GET",
             }),
-            providesTags: ["banner"],  // ✅ Caching Enable
+            providesTags: ["lab"],  // ✅ Caching Enable
+        }),
+
+        getAllLabTest: builder.query({
+            query: () => ({
+                url: "/pathology",
+                method: "GET",
+            }),
+            providesTags: ["lab"],  // ✅ Caching Enable
         }),
         
 
@@ -57,8 +65,9 @@ export const bannerApi = createApi({
 
 // ✅ Hooks Export (Use in Components)
 export const {
-    useGetAllBannerQuery,
+    useGetAllLabTestTagQuery,
+    useGetAllLabTestQuery,
     useAddBannerMutation,
     useEditBannerMutation,
     useDeleteBannerMutation,
-} = bannerApi;
+} = labTestApi;

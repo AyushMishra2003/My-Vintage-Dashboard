@@ -11,6 +11,14 @@ import { SignIn, SignUp } from "@/pages/auth";
 import ViewScan from "./pages/scan/ViewScan";
 import ScanTest from "./pages/scan/ScanTest";
 import Banner from "./pages/banner/Banner";
+import { MdLabelOutline } from "react-icons/md";
+import LabTestTag from "./pages/pathology/LabTestTag";
+import { ImLab } from "react-icons/im";
+import { IoMdImages } from "react-icons/io";
+import { FaDiagnoses } from "react-icons/fa";
+import LabTest from "./pages/pathology/LabTest";
+import Package from "./pages/packages/Package";
+import { MdHealthAndSafety } from "react-icons/md";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -26,21 +34,10 @@ export const routes = [
         path: "/home",
         element: <Home />,
       },
-      // {
-      //   icon: <UserCircleIcon {...icon} />,
-      //   name: "profile",
-      //   path: "/profile",
-      //   element: <Profile />,
-      // },
-      // {
-      //   icon: <TableCellsIcon {...icon} />,
-      //   name: "tables",
-      //   path: "/tables",
-      //   element: <Tables />,
-      // },
+
       {
-        icon: <TableCellsIcon {...icon} />,
-        name: "Our Scan",
+        icon: <FaDiagnoses {...icon} />,
+        name: "Scan List",
         path: "/scan",
         element: <ViewScan/>,
       },
@@ -51,7 +48,25 @@ export const routes = [
         element: <ScanTest/>,
       },
       {
-        icon: <TableCellsIcon {...icon} />,
+        icon: <ImLab {...icon} />,
+        name: "Lab Test",
+        path: "/pathology",
+        element: <LabTest/>,
+      },
+      {
+        icon: <MdHealthAndSafety {...icon} />,
+        name:  "Health Package",
+        path: "/package",
+        element: <Package/>,
+      },
+      {
+        icon: <ImLab {...icon} />,
+        name: "Pathology Tag",
+        path: "/lab/tag",
+        element: <LabTestTag/>,
+      },
+      {
+        icon: <IoMdImages {...icon} />,
         name: "Banner",
         path: "/banner",
         element: <Banner/>,

@@ -6,6 +6,7 @@ import TableComponent from '../helper/TableComponent';
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import ViewModal from '../helper/ViewModel';
 import Swal from 'sweetalert2';
+import AddScanTest from './AddScanTest';
 
 const ScanTest = () => {
     const { slug } = useParams();
@@ -13,6 +14,7 @@ const ScanTest = () => {
     const { data, isLoading } = useGetAllScanTestQuery(slug);
     const [modalData, setModalData] = useState(null); // Modal Data
     const [isModalOpen, setIsModalOpen] = useState(false); // Modal State
+    const [show, setShow] = useState(false);
     const [deleteScanTest, { isLoading: isDeleteLoading, isError, isSuccess }] = useDeleteScanTestMutation();
 
 
@@ -82,7 +84,7 @@ const ScanTest = () => {
 
     // Define table columns with View, Edit, Delete buttons
     const columns = [
-        { header: "S.No", accessor: "sno" },
+        // { header: "S.No", accessor: "sno" },
         { header: "Test Name", accessor: "testDetailName" },
         { header: "Category", accessor: "category" },
         { header: "Price (₹)", accessor: "testPrice" },
@@ -95,7 +97,7 @@ const ScanTest = () => {
 
     // Ensure `data` exists and map over it with an index for S.No
     const tableData = data?.map((test, index) => ({
-        sno: index + 1,
+        // sno: index + 1,
         testDetailName: test.testDetailName || "N/A",
         category: test.category || "N/A",
         testPrice: test.testPrice ? `₹${test.testPrice}` : "N/A",
@@ -132,25 +134,30 @@ const ScanTest = () => {
 
     return (
         <div>
-            {isLoading ? (
-                <p className="text-center text-lg font-semibold">Loading...</p>
-            ) : (
-                <TableComponent
-                    title="Scan Test List"
-                    columns={columns}
-                    data={tableData}
-                    itemsPerPage={10}
-                />
-            )}
+        {isLoading ? (
+            <p className="text-center text-lg font-semibold">Loading...</p>
+        ) : show ? (
+            <AddScanTest />
+        ) : (
+            <div>
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-2xl font-semibold text-gray-700">Scan Test</h2>
+                    <button
+                        className="bg-[#212121] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+                        onClick={() => setShow(true)}
+                    >
+                        + Add Scan Test
+                    </button>
+                </div>
+                <TableComponent title="Scan Test List" columns={columns} data={tableData} itemsPerPage={10} />
+            </div>
+        )}
 
-            {/* View/Edit Modal */}
-            {isModalOpen && modalData && (
-                <ViewModal
-                    data={modalData}
-                    closeModal={() => setIsModalOpen(false)}
-                />
-            )}
-        </div>
+        {/* View/Edit Modal */}
+        {isModalOpen && modalData && (
+            <ViewModal data={modalData} closeModal={() => setIsModalOpen(false)} />
+        )}
+    </div>
     );
 };
 
