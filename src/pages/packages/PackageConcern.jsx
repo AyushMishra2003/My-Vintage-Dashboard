@@ -30,11 +30,6 @@ const PackageConcern = () => {
         { header: "Action", accessor: "action", type: "action" }
     ];
 
-
-
-
-    
-
     const tableData = data?.map((test) => ({
         tag: test?.packageTagName
             || "N/A",
@@ -75,9 +70,6 @@ const PackageConcern = () => {
         formData.append("icon", photo)
         formData.append("slug", pathologyId)
          
-
-        
-
         let response
 
         if (currentTag) {

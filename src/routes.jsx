@@ -6,23 +6,35 @@ import {
   ServerStackIcon,
   RectangleStackIcon,
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
-import { SignIn, SignUp } from "@/pages/auth";
-import ViewScan from "./pages/scan/ViewScan";
-import ScanTest from "./pages/scan/ScanTest";
-import Banner from "./pages/banner/Banner";
-import { MdLabelOutline } from "react-icons/md";
-import LabTestTag from "./pages/pathology/LabTestTag";
+
+import { MdLabelOutline, MdHealthAndSafety } from "react-icons/md";
 import { ImLab } from "react-icons/im";
 import { IoMdImages } from "react-icons/io";
 import { FaDiagnoses } from "react-icons/fa";
-import LabTest from "./pages/pathology/LabTest";
-import Package from "./pages/packages/Package";
-import { MdHealthAndSafety } from "react-icons/md";
-import PackageConcern from "./pages/packages/PackageConcern";
 import { IoPricetagsSharp } from "react-icons/io5";
-import Order from "./pages/order/Order";
 import { GoListUnordered } from "react-icons/go";
+import { LuCopyright } from "react-icons/lu";
+import { FaBloggerB } from "react-icons/fa";
+
+import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
+import { SignIn, SignUp } from "@/pages/auth";
+
+import ViewScan from "./pages/scan/ViewScan";
+import ScanTest from "./pages/scan/ScanTest";
+
+import Banner from "./pages/banner/Banner";
+
+import LabTestTag from "./pages/pathology/LabTestTag";
+import LabTest from "./pages/pathology/LabTest";
+
+import Package from "./pages/packages/Package";
+import PackageConcern from "./pages/packages/PackageConcern";
+
+import Order from "./pages/order/Order";
+
+import Carrer from "./pages/carrer/Carrer";
+import Blog from "./pages/Blogs/Blog";
+import BlogAdd from "./pages/Blogs/BlogAdd";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -82,17 +94,29 @@ export const routes = [
         element: <Banner/>,
       },
       {
+        icon: <LuCopyright {...icon} />,
+        name: "Carrer",
+        path: "/carrer",
+        element: <Carrer/>,
+      },
+      {
         icon: <GoListUnordered {...icon} />,
         name: "All-Order",
         path: "/order",
         element: <Order/>,
       },
-      // {
-      //   icon: <InformationCircleIcon {...icon} />,
-      //   name: "notifications",
-      //   path: "/notifications",
-      //   element: <Notifications />,
-      // },
+      {
+        icon: <FaBloggerB {...icon} />,
+        name: "Blog",
+        path: "/blog",
+        element: <Blog/>,
+      },
+      {
+        icon: <FaBloggerB {...icon} />,
+        name: "Add Blog",
+        path: "/add/blog",
+        element: <BlogAdd/>,
+      },
     ],
   },
   {
