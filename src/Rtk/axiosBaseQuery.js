@@ -23,8 +23,14 @@ const axiosBaseQuery = async ({ url, method, data }) => {
             ),
         });
 
-        response?.data?.message && toast.success(response?.data?.message); // ✅ Success Toast
-        return { data: response?.data?.data };
+        // ✅ Success Toast
+        if (response?.data?.message) {
+            toast.success(response.data.message);
+        }
+
+        // ✅ GET API के लिए `data.data`, बाकी के लिए पूरा `data`
+        return { data: method === "GET" ? response?.data?.data : response?.data };
+        
     } catch (error) {
         console.error("Request Error:", error);
         
@@ -39,6 +45,5 @@ const axiosBaseQuery = async ({ url, method, data }) => {
         };
     }
 };
-
 
 export default axiosBaseQuery;

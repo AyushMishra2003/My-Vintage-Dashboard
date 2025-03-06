@@ -1,49 +1,26 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import axiosBaseQuery from "./axiosBaseQuery";
 
-export const packageApi = createApi({
-    reducerPath: "packageApi",   // ✅ Redux Store in  Reducer Name
+export const orderApi = createApi({
+    reducerPath: "orderApi",   // ✅ Redux Store in  Reducer Name
     baseQuery: axiosBaseQuery, // ✅ Custom Axios Query
-    tagTypes: ["package"],  // ✅ Caching tag
+    tagTypes: ["order"],  // ✅ Caching tag
     endpoints: (builder) => ({
         // ✅ GET All Tests (Fetch)
-        getAllPackage: builder.query({
+        getAllOrder: builder.query({
             query: () => ({
-                url: "/package",
+                url: "/order",
                 method: "GET",
             }),
             providesTags: ["package"],  // ✅ Caching Enable
         }),
         
-
         getAllPackageTag: builder.query({
             query: () => ({
                 url: "/package/tag",
                 method: "GET",
             }),
             providesTags: ["package"],  // ✅ Caching Enable
-        }),
-
-        addPackageTag: builder.mutation({
-            query: ({formData,pathologyId:slug}) => {
-           
-                return {
-                    url: `/package/tag/${slug}`,
-                    method: "POST",
-                    data: formData, // ✅ Change from `body` to `data`
-                    formData: true, // ✅ Ensure FormData is properly handled
-                };
-            },
-            invalidatesTags: ["package"],
-        }),
-
-         // ✅ DELETE Test (DELETE)
-         deletePackageTag: builder.mutation({
-            query: (id) => ({
-                url: `/package/tag/${id}`,
-                method: "DELETE",
-            }),
-            invalidatesTags: ["package"], // ✅ Cache Refresh
         }),
 
         // ✅ ADD New Test (POST)
@@ -60,27 +37,36 @@ export const packageApi = createApi({
             invalidatesTags: ["scan"],
         }),
         
+        
+        
+
         // ✅ EDIT Test (PUT)
-        editPackageTag: builder.mutation({
-            query: ({formData,id}) => ({
-                url: `/package/tag/${id}`,
+        editScan: builder.mutation({
+            query: ({ id, formData }) => ({
+                url: `/service/detail/${id}`,
                 method: "PUT",
                 data: formData, // ✅ Change from `body` to `data`
                 formData: true, // ✅ Ensure FormData is properly handled
             }),
-            invalidatesTags: ["package"], // ✅ Cache Refresh
+            invalidatesTags: ["scan"], // ✅ Cache Refresh
         }),
 
-       
+        // ✅ DELETE Test (DELETE)
+        deleteScan: builder.mutation({
+            query: (id) => ({
+                url: `/service/detail/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["scan"], // ✅ Cache Refresh
+        }),
     }),
 });
 
 // ✅ Hooks Export (Use in Components)
 export const {
-    useGetAllPackageQuery,
+    useGetAllOrderQuery,
     useGetAllPackageTagQuery,
-    useAddPackageTagMutation,
     useAddScanMutation,
-    useEditPackageTagMutation,
-    useDeletePackageTagMutation,
-} = packageApi;
+    useEditScanMutation,
+    useDeleteScanMutation,
+} = orderApi;

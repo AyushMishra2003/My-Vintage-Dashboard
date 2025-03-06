@@ -25,40 +25,40 @@ export const labTestApi = createApi({
         
 
         // ✅ ADD New Banner (POST)
-        addBanner: builder.mutation({
-            query: (formData) => {
-                console.log("RTK Query Received FormData:", formData);
+        addLabTestTag: builder.mutation({
+            query: ({formData,pathologyId:slug}) => {
+           
                 return {
-                    url: "/banner",
+                    url: `/pathology/tag/${slug}`,
                     method: "POST",
                     data: formData, // ✅ Change from `body` to `data`
                     formData: true, // ✅ Ensure FormData is properly handled
                 };
             },
-            invalidatesTags: ["banner"],
+            invalidatesTags: ["lab"],
         }),
         
         
         
 
         // ✅ EDIT Test (PUT)
-        editBanner: builder.mutation({
-            query: ({ id, formData }) => ({
-                url: `/banner/${id}`,
+        editLabTag: builder.mutation({
+            query: ({ formData,pathologyId:id }) => ({
+                url: `/pathology/tag/${id}`,
                 method: "PUT",
                 data: formData, // ✅ Change from `body` to `data`
                 formData: true, // ✅ Ensure FormData is properly handled
             }),
-            invalidatesTags: ["banner"], // ✅ Cache Refresh
+            invalidatesTags: ["lab"], // ✅ Cache Refresh
         }),
 
         // ✅ DELETE Banner (DELETE)
-        deleteBanner: builder.mutation({
+        deleteLabTag: builder.mutation({
             query: (id) => ({
-                url: `/banner/${id}`,
+                url: `/pathology/tag/${id}`,
                 method: "DELETE",
             }),
-            invalidatesTags: ["banner"], // ✅ Cache Refresh
+            invalidatesTags: ["lab"], // ✅ Cache Refresh
         }),
     }),
 });
@@ -67,7 +67,7 @@ export const labTestApi = createApi({
 export const {
     useGetAllLabTestTagQuery,
     useGetAllLabTestQuery,
-    useAddBannerMutation,
-    useEditBannerMutation,
-    useDeleteBannerMutation,
+    useAddLabTestTagMutation,
+    useEditLabTagMutation,
+    useDeleteLabTagMutation,
 } = labTestApi;

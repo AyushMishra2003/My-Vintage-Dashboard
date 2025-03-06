@@ -19,6 +19,10 @@ import { FaDiagnoses } from "react-icons/fa";
 import LabTest from "./pages/pathology/LabTest";
 import Package from "./pages/packages/Package";
 import { MdHealthAndSafety } from "react-icons/md";
+import PackageConcern from "./pages/packages/PackageConcern";
+import { IoPricetagsSharp } from "react-icons/io5";
+import Order from "./pages/order/Order";
+import { GoListUnordered } from "react-icons/go";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -49,7 +53,7 @@ export const routes = [
       },
       {
         icon: <ImLab {...icon} />,
-        name: "Lab Test",
+        name: "Pathology List",
         path: "/pathology",
         element: <LabTest/>,
       },
@@ -66,10 +70,22 @@ export const routes = [
         element: <LabTestTag/>,
       },
       {
+        icon: <IoPricetagsSharp {...icon} />,
+        name: "Health Concern Tag",
+        path: "/health-concern/package",
+        element: <PackageConcern/>
+      },
+      {
         icon: <IoMdImages {...icon} />,
         name: "Banner",
         path: "/banner",
         element: <Banner/>,
+      },
+      {
+        icon: <GoListUnordered {...icon} />,
+        name: "All-Order",
+        path: "/order",
+        element: <Order/>,
       },
       // {
       //   icon: <InformationCircleIcon {...icon} />,

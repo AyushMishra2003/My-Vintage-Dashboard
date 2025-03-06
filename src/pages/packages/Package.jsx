@@ -41,6 +41,15 @@ const Package = () => {
 
   return (
     <div>
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-semibold text-black">{"Health-Package Tag"}</h2>
+                <button
+                    className="bg-[#212121] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+                // onClick={() => setIsModalOpen(true)}
+                >
+                    + Add Package
+                </button>
+            </div>
           {isLoading ? (
                 <p className="text-center text-lg font-semibold">Loading...</p>
             ) : (
