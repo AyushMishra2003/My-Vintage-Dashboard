@@ -8,6 +8,7 @@ import { packageApi } from "./packageApi";
 import { orderApi } from "./orderApi";
 import { carrerApi } from "./carrerApi";
 import { blogApi } from "./blogApi";
+import { teamApi } from "./teamApi";
 
 export const store = configureStore({
     reducer: {
@@ -19,8 +20,9 @@ export const store = configureStore({
         [packageApi.reducerPath]:packageApi.reducer,
         [orderApi.reducerPath]:orderApi.reducer,
         [carrerApi.reducerPath]:carrerApi.reducer,
-        [blogApi.reducerPath]:blogApi.reducer
+        [blogApi.reducerPath]:blogApi.reducer,
+        [teamApi.reducerPath]:teamApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(testApi.middleware, scanApi.middleware,scanTestApi.middleware, bannerApi.middleware, labTestApi.middleware,packageApi.middleware,orderApi.middleware,carrerApi.middleware,blogApi.middleware),
+        getDefaultMiddleware().concat(testApi.middleware, scanApi.middleware,scanTestApi.middleware, bannerApi.middleware, labTestApi.middleware,packageApi.middleware,orderApi.middleware,carrerApi.middleware,blogApi.middleware,teamApi.middleware),
 });

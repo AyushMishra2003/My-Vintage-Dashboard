@@ -37,6 +37,26 @@ export const labTestApi = createApi({
             },
             invalidatesTags: ["lab"],
         }),
+
+
+        addLabTest: builder.mutation({
+            query: ({data}) => ({
+                url: `/pathology`,
+                method: "POST",
+                data
+            }),
+            invalidatesTags: ["lab"],
+        }),
+
+        editLabTest: builder.mutation({
+            query: ({ data,id:id }) => ({
+                url: `/pathology/${id}`,
+                method: "PUT",
+                data
+            }),
+            invalidatesTags: ["lab"], // ✅ Cache Refresh
+        }),
+        
         
         
         
@@ -60,6 +80,15 @@ export const labTestApi = createApi({
             }),
             invalidatesTags: ["lab"], // ✅ Cache Refresh
         }),
+
+        deleteLabTest: builder.mutation({
+            query: (id) => ({
+                url: `/pathology/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["lab"], // ✅ Cache Refresh
+        }),
+
     }),
 });
 
@@ -68,6 +97,9 @@ export const {
     useGetAllLabTestTagQuery,
     useGetAllLabTestQuery,
     useAddLabTestTagMutation,
+    useAddLabTestMutation,
     useEditLabTagMutation,
+    useEditLabTestMutation,
     useDeleteLabTagMutation,
+    useDeleteLabTestMutation
 } = labTestApi;

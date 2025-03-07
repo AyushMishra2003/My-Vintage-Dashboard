@@ -1,12 +1,15 @@
-import { useGetAllLabTestQuery } from '@/Rtk/labTestTag'
+import { useDeleteLabTestMutation, useGetAllLabTestQuery } from '@/Rtk/labTestTag'
 import React from 'react'
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import TableComponent from '../helper/TableComponent';
+import { useNavigate } from 'react-router-dom';
 
 const LabTest = () => {
       const { data, isLoading } = useGetAllLabTestQuery()
-    
-      console.log(data);
+      const [deleteLabTest]=useDeleteLabTestMutation()
+ 
+      const navigate=useNavigate()
+     
 
           const columns = [
               { header: "PathologyName", accessor: "type" },
@@ -17,7 +20,7 @@ const LabTest = () => {
           const tableData = data?.map((test) => ({
               type: test?.testDetailName
               || "N/A",
-              price: test.testPrice || "N/A",
+              price: test.testPrice+ +" "+  "Rs" || "N/A",
              
               action: (
                   <div className="flex gap-3">
@@ -36,6 +39,16 @@ const LabTest = () => {
                   </div>
               ),
           })) || [];
+
+
+          const handleEdit=async(data)=>{
+               navigate("/dashboard/pathology/add",{state:data})
+          }
+
+
+          const handleDelete=async(id)=>{
+               const response=await deleteLabTest(id)
+          } 
       
 
   return (
@@ -45,7 +58,8 @@ const LabTest = () => {
                 <h2 className="text-2xl font-semibold text-gray-700">{"Pathology Test List"}</h2>
                 <button
                     className="bg-[#212121] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-                    // onClick={() => setIsModalOpen(true)}
+              
+                    onClick={()=>navigate("/dashboard/pathology/add")}
                 >
                     + Add Pathology Test
                 </button>

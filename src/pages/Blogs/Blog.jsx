@@ -102,6 +102,7 @@ const Blog = () => {
                 <button
                     className="bg-[#212121] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
                 // onClick={() => setIsModalOpen(true)}
+                onClick={()=>navigate("/dashboard/add/blog")}
                 >
                     + Add Blog
                 </button>

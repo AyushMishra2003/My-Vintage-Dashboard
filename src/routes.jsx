@@ -15,6 +15,7 @@ import { IoPricetagsSharp } from "react-icons/io5";
 import { GoListUnordered } from "react-icons/go";
 import { LuCopyright } from "react-icons/lu";
 import { FaBloggerB } from "react-icons/fa";
+import { RiTeamFill } from "react-icons/ri";
 
 import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
@@ -35,6 +36,9 @@ import Order from "./pages/order/Order";
 import Carrer from "./pages/carrer/Carrer";
 import Blog from "./pages/Blogs/Blog";
 import BlogAdd from "./pages/Blogs/BlogAdd";
+import Team from "./pages/team/Team";
+import AddTeam from "./pages/team/AddTeam";
+import AddLabTest from "./pages/pathology/AddLabTest";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -83,6 +87,13 @@ export const routes = [
         element: <LabTestTag/>,
       },
       {
+        icon: <ImLab {...icon} />,
+        name: "Add Pathology",
+        path: "/pathology/add",
+        element: <AddLabTest/>,
+        index:1
+      },
+      {
         icon: <IoPricetagsSharp {...icon} />,
         name: "Health Concern Tag",
         path: "/health-concern/package",
@@ -93,6 +104,19 @@ export const routes = [
         name: "Banner",
         path: "/banner",
         element: <Banner/>,
+      },
+      {
+        icon: <RiTeamFill {...icon} />,
+        name: "Team",
+        path: "/team",
+        element: <Team/>,
+      },
+      {
+        icon: <RiTeamFill {...icon} />,
+        name: "Add Team",
+        path: "/team/add",
+        element: <AddTeam/>,
+        index:1
       },
       {
         icon: <LuCopyright {...icon} />,

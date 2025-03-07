@@ -18,7 +18,7 @@ const Package = () => {
 
        const tableData = data?.map((test) => ({
             package: test.packageName || "N/A",
-            rate: test.packageRate || "N/A",
+            rate: test.packageRate + "/-" || "N/A",
             action: (
                 <div className="flex gap-3">
                     <button
