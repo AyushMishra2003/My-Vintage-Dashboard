@@ -60,6 +60,7 @@ export const routes = [
       {
         icon: <TableCellsIcon {...icon} />,
         name: "Scan Test",
+        index:1,
         path: "/test/scan/:slug",
         element: <ScanTest/>,
       },
@@ -115,28 +116,29 @@ export const routes = [
         icon: <FaBloggerB {...icon} />,
         name: "Add Blog",
         path: "/add/blog",
+        index:1,
         element: <BlogAdd/>,
       },
     ],
   },
-  {
-    title: "auth pages",
-    layout: "auth",
-    pages: [
-      {
-        icon: <ServerStackIcon {...icon} />,
-        name: "sign in",
-        path: "/sign-in",
-        element: <SignIn />,
-      },
-      {
-        icon: <RectangleStackIcon {...icon} />,
-        name: "sign up",
-        path: "/sign-up",
-        element: <SignUp />,
-      },
-    ],
-  },
+  // {
+  //   title: "auth pages",
+  //   layout: "auth",
+  //   pages: [
+  //     {
+  //       icon: <ServerStackIcon {...icon} />,
+  //       name: "sign in",
+  //       path: "/sign-in",
+  //       element: <SignIn />,
+  //     },
+  //     {
+  //       icon: <RectangleStackIcon {...icon} />,
+  //       name: "sign up",
+  //       path: "/sign-up",
+  //       element: <SignUp />,
+  //     },
+  //   ],
+  // },
 ];
 
 export default routes;

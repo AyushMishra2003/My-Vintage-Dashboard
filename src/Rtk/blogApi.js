@@ -34,14 +34,14 @@ export const blogApi = createApi({
         
 
         // ✅ EDIT Test (PUT)
-        editBanner: builder.mutation({
+        editBlog: builder.mutation({
             query: ({ id, formData }) => ({
-                url: `/banner/${id}`,
+                url: `/blog/${id}`,
                 method: "PUT",
                 data: formData, // ✅ Change from `body` to `data`
                 formData: true, // ✅ Ensure FormData is properly handled
             }),
-            invalidatesTags: ["banner"], // ✅ Cache Refresh
+            invalidatesTags: ["blog"], // ✅ Cache Refresh
         }),
 
         // ✅ DELETE Banner (DELETE)
@@ -59,6 +59,6 @@ export const blogApi = createApi({
 export const {
     useGetAllBlogQuery,
     useAddBlogMutation,
-    useEditBannerMutation,
+    useEditBlogMutation,
     useDeleteBlogMutation
 } = blogApi;

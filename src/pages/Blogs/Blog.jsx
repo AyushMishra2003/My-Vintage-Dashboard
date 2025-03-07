@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import TableComponent from '../helper/TableComponent';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 
 const Blog = () => {
@@ -10,6 +11,7 @@ const Blog = () => {
     const { data, isLoading } = useGetAllBlogQuery()
     const [deleteBlog] = useDeleteBlogMutation()
     const [spinLoading,setSpinLoading]=useState(false)
+    const navigate=useNavigate()
 
     const columns = [
         { header: "Blog Name", accessor: "name" },
@@ -17,6 +19,14 @@ const Blog = () => {
 
         { header: "Action", accessor: "action", type: "action" }
     ];
+
+    const handleEdit=(data)=>{
+          navigate("/dashboard/add/blog",{state:data})
+    }
+
+    const handleAdd=()=>{
+         navigate("/dashboard/add/blog")
+    }
 
     const tableData = data?.map((test) => ({
         name: test?.blogName
@@ -35,7 +45,7 @@ const Blog = () => {
         action: (
             <div className="flex gap-3">
                 <button
-
+                   onClick={()=>handleEdit(test)}
                     className="text-blue-600 hover:text-blue-800"
                 >
                     <FaEdit size={18} />
