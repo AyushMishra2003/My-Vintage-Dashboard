@@ -47,17 +47,17 @@ export const packageApi = createApi({
         }),
 
         // ✅ ADD New Test (POST)
-        addScan: builder.mutation({
+        addPackage: builder.mutation({
             query: (formData) => {
-                console.log("RTK Query Received FormData:", formData);
+            
                 return {
-                    url: "/service/detail/service",
+                    url: "/package/detail",
                     method: "POST",
                     data: formData, // ✅ Change from `body` to `data`
                     formData: true, // ✅ Ensure FormData is properly handled
                 };
             },
-            invalidatesTags: ["scan"],
+            invalidatesTags: ["package"],
         }),
         
         // ✅ EDIT Test (PUT)
@@ -71,6 +71,24 @@ export const packageApi = createApi({
             invalidatesTags: ["package"], // ✅ Cache Refresh
         }),
 
+        updatePackage: builder.mutation({
+            query: ({formData,id}) => ({
+                url: `/package/detail/${id}`,
+                method: "PUT",
+                data: formData, // ✅ Change from `body` to `data`
+                formData: true, // ✅ Ensure FormData is properly handled
+            }),
+            invalidatesTags: ["package"], // ✅ Cache Refresh
+        }),
+
+        deletePackage: builder.mutation({
+            query: (id) => ({
+                url: `/package/detail/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["package"], // ✅ Cache Refresh
+        }),
+
        
     }),
 });
@@ -80,7 +98,9 @@ export const {
     useGetAllPackageQuery,
     useGetAllPackageTagQuery,
     useAddPackageTagMutation,
-    useAddScanMutation,
+    useAddPackageMutation,
     useEditPackageTagMutation,
     useDeletePackageTagMutation,
+    useDeletePackageMutation,
+    useUpdatePackageMutation
 } = packageApi;

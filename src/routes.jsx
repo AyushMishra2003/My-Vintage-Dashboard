@@ -39,6 +39,7 @@ import BlogAdd from "./pages/Blogs/BlogAdd";
 import Team from "./pages/team/Team";
 import AddTeam from "./pages/team/AddTeam";
 import AddLabTest from "./pages/pathology/AddLabTest";
+import AddPackage from "./pages/packages/AddPackage";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -81,6 +82,13 @@ export const routes = [
         element: <Package/>,
       },
       {
+        icon: <MdHealthAndSafety {...icon} />,
+        name:  "Add Packages",
+        path: "/package/add",
+        element: <AddPackage/>,
+        index:1
+      },
+      {
         icon: <ImLab {...icon} />,
         name: "Pathology Tag",
         path: "/lab/tag",
@@ -99,6 +107,7 @@ export const routes = [
         path: "/health-concern/package",
         element: <PackageConcern/>
       },
+      
       {
         icon: <IoMdImages {...icon} />,
         name: "Banner",
