@@ -41,6 +41,8 @@ import AddTeam from "./pages/team/AddTeam";
 import AddLabTest from "./pages/pathology/AddLabTest";
 import AddPackage from "./pages/packages/AddPackage";
 import AddScanTest from "./pages/scan/AddScanTest";
+import Inquiry from "./pages/inquiry/Inquiry";
+import { CiViewList } from "react-icons/ci";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -161,6 +163,12 @@ export const routes = [
         path: "/add/blog",
         index:1,
         element: <BlogAdd/>,
+      },
+      {
+        icon: <CiViewList {...icon} />,
+        name: "Inquiry",
+        path: "/inquiry",
+        element: <Inquiry/>,
       },
     ],
   },

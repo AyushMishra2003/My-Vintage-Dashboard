@@ -20,35 +20,36 @@ export function Sidenav({ brandImg, brandName, routes }) {
 
   return (
     <aside
-      className={`${sidenavTypes[sidenavType]} ${
-        openSidenav ? "translate-x-0" : "-translate-x-80"
-      } fixed inset-0 z-50  ml-4 mt-2 h-[calc(100vh-32px)] rounded-xl  w-72 transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100 overflow-y-hidden`}
+      className={`${sidenavTypes[sidenavType]} ${openSidenav ? "translate-x-0" : "-translate-x-80"
+        } fixed inset-0 z-50 ml-4 mt-2 h-screen w-72 transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100 overflow-y-auto`}
     >
-      <div
-        className={`relative`}
+
+      {/* <div
+        className={`relative border border-blue-500 h-fit`}
       >
         <Link to="/" className="px-2 text-center">
           <Typography
             variant="h6"
             color={sidenavType === "dark" ? "white" : "blue-gray"}
+            className="border border-red-500"
           >
             {"Shanya Scans & Theranostics"}
           </Typography>
         </Link>
-        <IconButton
-          variant="text"
-          color="white"
-          size="sm"
-          ripple={false}
-          className="absolute right-0 top-0 grid rounded-br-none rounded-tl-none xl:hidden"
-          onClick={() => setOpenSidenav(dispatch, false)}
+      
+      </div> */}
+      <Link to="/" className="px-2 text-center">
+        <Typography
+          variant="h6"
+          color={sidenavType === "dark" ? "white" : "blue-gray"}
+
         >
-          <XMarkIcon strokeWidth={2.5} className="h-2 w-5 text-white" />
-        </IconButton>
-      </div>
+          {"Shanya Scans & Theranostics"}
+        </Typography>
+      </Link>
       <div className="mx-4">
         {routes.map(({ layout, title, pages }, key) => (
-          <ul key={key} className="mb-4 flex flex-col gap-1">
+          <ul key={key} className="mb-2 flex flex-col gap-1">
             {title && (
               <li className="mx-3.5 mt-4 ">
                 <Typography
@@ -60,34 +61,34 @@ export function Sidenav({ brandImg, brandName, routes }) {
                 </Typography>
               </li>
             )}
-            {pages.map(({ icon, name, path,index }) => (
+            {pages.map(({ icon, name, path, index }) => (
               <li key={name}>
-                {index!=1  && 
-                <NavLink to={`/${layout}${path}`}>
-                  {({ isActive }) => (
-                    <Button
-                      variant={isActive ? "gradient" : "text"}
-                      color={
-                        isActive
-                          ? sidenavColor
-                          : sidenavType === "dark"
-                          ? "white"
-                          : "blue-gray"
-                      }
-                      className="flex items-center gap-4 px-4 capitalize "
-                      fullWidth
-                    >
-                      {icon}
-                      <Typography
-                        color="inherit"
-                        className="font-medium capitalize"
+                {index != 1 &&
+                  <NavLink to={`/${layout}${path}`}>
+                    {({ isActive }) => (
+                      <Button
+                        variant={isActive ? "gradient" : "text"}
+                        color={
+                          isActive
+                            ? sidenavColor
+                            : sidenavType === "dark"
+                              ? "white"
+                              : "blue-gray"
+                        }
+                        className="flex items-center gap-4 px-4 capitalize "
+                        fullWidth
                       >
-                        {name}
-                      </Typography>
-                    </Button>
-                  )}
-                </NavLink>
-}
+                        {icon}
+                        <Typography
+                          color="inherit"
+                          className="font-medium capitalize"
+                        >
+                          {name}
+                        </Typography>
+                      </Button>
+                    )}
+                  </NavLink>
+                }
               </li>
             ))}
           </ul>
