@@ -19,14 +19,10 @@ const ScanTest = () => {
 
 
 
+
     // 🟢 View Action: Modal Open or Navigate
     const handleView = (test) => {
-        // Agar modal me dikhana hai toh ye karein:
-        setModalData(test);
-        setIsModalOpen(true);
-
-        // Agar navigate karna ho toh:
-        // navigate(`/scan-test/view/${test.testId}`);
+        navigate(`/dashboard/test/scan/add/${slug}`);
     };
 
     // 🟡 Edit Action: Modal Open or Navigate
@@ -36,7 +32,7 @@ const ScanTest = () => {
         setIsModalOpen(true);
 
         // Agar dusre page par navigate karna ho toh:
-        // navigate(`/scan-test/edit/${test.testId}`);
+        navigate(`/dashboard/test/scan/add/${slug}`,{state:test});
     };
 
     // 🔴 Delete Action: API Call
@@ -99,7 +95,7 @@ const ScanTest = () => {
     const tableData = data?.map((test, index) => ({
         // sno: index + 1,
         testDetailName: test.testDetailName || "N/A",
-        category: test.category || "N/A",
+        category: test.departement || "N/A",
         testPrice: test.testPrice ? `₹${test.testPrice}` : "N/A",
         action: (
             <div className="flex gap-3">
@@ -137,14 +133,14 @@ const ScanTest = () => {
         {isLoading ? (
             <p className="text-center text-lg font-semibold">Loading...</p>
         ) : show ? (
-            <AddScanTest />
+            <AddScanTest data={testData} />
         ) : (
             <div>
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-2xl font-semibold text-gray-700">Scan Test</h2>
                     <button
                         className="bg-[#212121] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-                        onClick={() => setShow(true)}
+                        onClick={() => handleView()}
                     >
                         + Add Scan Test
                     </button>
@@ -154,9 +150,9 @@ const ScanTest = () => {
         )}
 
         {/* View/Edit Modal */}
-        {isModalOpen && modalData && (
+        {/* {isModalOpen && modalData && (
             <ViewModal data={modalData} closeModal={() => setIsModalOpen(false)} />
-        )}
+        )} */}
     </div>
     );
 };

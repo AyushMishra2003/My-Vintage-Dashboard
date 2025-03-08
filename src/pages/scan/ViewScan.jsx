@@ -84,6 +84,8 @@ const ViewScan = () => {
     }
   }, [totalPages]);
 
+
+
   return (
     <div>
       {!show ? 

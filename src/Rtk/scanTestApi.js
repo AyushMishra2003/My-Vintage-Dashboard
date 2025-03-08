@@ -43,6 +43,15 @@ export const scanTestApi = createApi({
             invalidatesTags: ["scanTest"], // ✅ Cache Refresh
         }),
 
+        editScanTest: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/test/detail/${id}`,
+                method: "PUT",
+                data,
+            }),
+            invalidatesTags: ["scanTest"], // ✅ Cache Refresh
+        }),
+
         // ✅ DELETE Test (DELETE)
         deleteScanTest: builder.mutation({
             
@@ -61,4 +70,5 @@ export const {
     useAddScanTestMutation,
     useEditScanMutation,
     useDeleteScanTestMutation,
+    useEditScanTestMutation
 } = scanTestApi;

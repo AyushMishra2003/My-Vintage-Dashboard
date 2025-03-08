@@ -40,6 +40,7 @@ import Team from "./pages/team/Team";
 import AddTeam from "./pages/team/AddTeam";
 import AddLabTest from "./pages/pathology/AddLabTest";
 import AddPackage from "./pages/packages/AddPackage";
+import AddScanTest from "./pages/scan/AddScanTest";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -69,6 +70,15 @@ export const routes = [
         path: "/test/scan/:slug",
         element: <ScanTest/>,
       },
+      {
+        icon: <TableCellsIcon {...icon} />,
+        name: "Scan Test",
+        index:1,
+        path: "/test/scan/add/:slug",
+        element: <AddScanTest/>,
+      },
+      
+      
       {
         icon: <ImLab {...icon} />,
         name: "Pathology List",

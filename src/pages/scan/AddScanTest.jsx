@@ -1,27 +1,44 @@
-import { useAddScanTestMutation } from "@/Rtk/scanTestApi";
+import { useEditScanMutation } from "@/Rtk/scanApi";
+import { useAddScanTestMutation, useEditScanTestMutation } from "@/Rtk/scanTestApi";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
 
 const AddScanTest = () => {
     const [step, setStep] = useState(1);
     const {slug}=useParams()
+    const location=useLocation()
+
+    const {state}=location
+
+    
     const [formData, setFormData] = useState({
-        testDetailName: "",
+        testDetailName: state?.testDetailName || "",
         department: "",
-        fasting: "",
-        paramterInclude: "",
-        recommedFor: "",
-        testRequirement: "",
-        testInstructionsEng: "",
+        fasting: state?.fasting || "",
+        paramterInclude: state?.paramterInclude || "",
+        recommedFor:state?.recommedFor ||  "",
+        testRequirement: state?.testRequirement1 || "",
+        testInstructionsEng:state?.testDetails1  ||         "",
         testInstructionsHin: "",
-        testDetails: "",
-        department:slug
+        testDetails:state?.testRequirement1 ||  "",
+        department:slug,
+        testPrice:state?.testPrice || "",
+        age:state?.age || "",
+        category:state?.category || "",
+        reportConsuling: state?.reportConsuling || "",
+        sampleCollection:state?.sampleCollection || "",
+        reportTime:state?.reportTime || ""
     });
-    const [editorContent2, setEditorContent2] = useState(""); // SunEditor state
-    const [editorContent3, setEditorContent3] = useState(""); // SunEditor state
-     const [addScanTest, { isLoading, isError, isSuccess }] = useAddScanTestMutation(); 
+
+    const [editorContent2, setEditorContent2] = useState(state?.testDetails1 || ""); // SunEditor state
+    const [editorContent3, setEditorContent3] = useState(state?.testDetails2 || ""); // SunEditor state
+    const [addScanTest, { isLoading, isError, isSuccess }] = useAddScanTestMutation(); 
+    const [editScanTest]=useEditScanTestMutation()
+    
+
+  
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -40,7 +57,15 @@ const AddScanTest = () => {
         
        formData.testInstructionsEng=editorContent2
        formData.testInstructionsHin=editorContent3
-       const response=await addScanTest({formData,slug})     
+       let response
+        
+       if(state){
+            response=await editScanTest({data:formData,id:state?._id})  
+       }else{
+        response=await addScanTest({formData,slug})  
+       }
+
+         
        if(response?.data){
           setFormData({
             testDetailName: "",
@@ -236,6 +261,7 @@ const AddScanTest = () => {
                 <div>
                     <h2 className="text-xl font-bold mb-4">Test Description</h2>
                     <SunEditor
+                        setContents={formData.testDetails}
                         setOptions={{
                             minHeight: "200px", // Minimum height before scrolling
                             maxHeight: "400px", // Maximum height, scroll enabled after this
