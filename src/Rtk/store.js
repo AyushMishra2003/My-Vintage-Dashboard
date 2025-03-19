@@ -10,6 +10,7 @@ import { carrerApi } from "./carrerApi";
 import { blogApi } from "./blogApi";
 import { teamApi } from "./teamApi";
 import { inquiryApi } from "./inquiryApi";
+import { collectionApi } from "./collectionApi";
 
 export const store = configureStore({
     reducer: {
@@ -23,8 +24,9 @@ export const store = configureStore({
         [carrerApi.reducerPath]:carrerApi.reducer,
         [blogApi.reducerPath]:blogApi.reducer,
         [teamApi.reducerPath]:teamApi.reducer,
-        [inquiryApi.reducerPath]:inquiryApi.reducer
+        [inquiryApi.reducerPath]:inquiryApi.reducer,
+        [collectionApi.reducerPath]:collectionApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(testApi.middleware, scanApi.middleware,scanTestApi.middleware, bannerApi.middleware, labTestApi.middleware,packageApi.middleware,orderApi.middleware,carrerApi.middleware,blogApi.middleware,teamApi.middleware,inquiryApi.middleware),
+        getDefaultMiddleware().concat(testApi.middleware, scanApi.middleware,scanTestApi.middleware, bannerApi.middleware, labTestApi.middleware,packageApi.middleware,orderApi.middleware,carrerApi.middleware,blogApi.middleware,teamApi.middleware,inquiryApi.middleware,collectionApi.middleware),
 });

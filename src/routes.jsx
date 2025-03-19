@@ -19,20 +19,14 @@ import { RiTeamFill } from "react-icons/ri";
 
 import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
-
 import ViewScan from "./pages/scan/ViewScan";
 import ScanTest from "./pages/scan/ScanTest";
-
 import Banner from "./pages/banner/Banner";
-
 import LabTestTag from "./pages/pathology/LabTestTag";
 import LabTest from "./pages/pathology/LabTest";
-
 import Package from "./pages/packages/Package";
 import PackageConcern from "./pages/packages/PackageConcern";
-
 import Order from "./pages/order/Order";
-
 import Carrer from "./pages/carrer/Carrer";
 import Blog from "./pages/Blogs/Blog";
 import BlogAdd from "./pages/Blogs/BlogAdd";
@@ -43,6 +37,11 @@ import AddPackage from "./pages/packages/AddPackage";
 import AddScanTest from "./pages/scan/AddScanTest";
 import Inquiry from "./pages/inquiry/Inquiry";
 import { CiViewList } from "react-icons/ci";
+import Test from "./pages/Test/Test";
+import CollectionSales from "./pages/collection/CollectionSales";
+import AddCollectionSales from "./pages/collection/AddCollectionSales";
+import HomeCollectionOrder from "./pages/collection/HomeCollectionOrder";
+import DetailHomeCollection from "./pages/collection/DetailHomeCollection";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -169,6 +168,33 @@ export const routes = [
         name: "Inquiry",
         path: "/inquiry",
         element: <Inquiry/>,
+      },
+      {
+        icon: <CiViewList {...icon} />,
+        name: "HomeCollection",
+        path: "/home-collection",
+        element: <CollectionSales/>,
+      },
+      {
+        icon: <CiViewList {...icon} />,
+        name: "HomeCollection",
+        path: "/home-collection/add",
+        element: <AddCollectionSales/>,
+        index:1,
+      },
+      {
+        icon: <CiViewList {...icon} />,
+        name: "HomeCollection Order",
+        path: "/home-collection/order",
+        element: <HomeCollectionOrder/>
+        // index:1,
+      },
+      {
+        icon: <CiViewList {...icon} />,
+        name: "HomeCollection Detail",
+        path: "/home-collection/detail",
+        element: <DetailHomeCollection/>,
+        index:1,
       },
     ],
   },
