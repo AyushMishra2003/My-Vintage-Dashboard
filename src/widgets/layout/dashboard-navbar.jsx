@@ -1,4 +1,4 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import {
   Navbar,
   Typography,
@@ -25,12 +25,28 @@ import {
   setOpenConfigurator,
   setOpenSidenav,
 } from "@/context";
+import { useDispatch } from "react-redux";
+import { useLogoutMutation } from "@/Rtk/authApi";
 
 export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { fixedNavbar, openSidenav } = controller;
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
+  const dispatch1=useDispatch()
+  const navigate=useNavigate()
+
+  const [logout]=useLogoutMutation()
+
+
+  const handleLogout=async()=>{
+      const response=await logout()
+      console.log(response);
+      if(response?.data?.success){
+         navigate("/login")
+      }
+      
+  }
 
   return (
     <Navbar
@@ -83,15 +99,16 @@ export function DashboardNavbar() {
           >
             <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
           </IconButton>
-          <Link to="/auth/sign-in">
-            <Button
+          <div >
+            {/* <Button
               variant="text"
               color="blue-gray"
               className="hidden items-center gap-1 px-4 xl:flex normal-case"
             >
               <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-              Sign In
-            </Button>
+              Sign In 123
+            </Button> */}
+            <button className=" px-6 py-1 rounded-md  text-white bg-gray-600 " onClick={()=>handleLogout()}>Logout</button>
             <IconButton
               variant="text"
               color="blue-gray"
@@ -99,7 +116,7 @@ export function DashboardNavbar() {
             >
               <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
             </IconButton>
-          </Link>
+          </div>
           <Menu>
             <MenuHandler>
               <IconButton variant="text" color="blue-gray">
@@ -178,13 +195,13 @@ export function DashboardNavbar() {
               </MenuItem>
             </MenuList>
           </Menu>
-          <IconButton
+          {/* <IconButton
             variant="text"
             color="blue-gray"
             onClick={() => setOpenConfigurator(dispatch, true)}
           >
             <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
-          </IconButton>
+          </IconButton> */}
         </div>
       </div>
     </Navbar>

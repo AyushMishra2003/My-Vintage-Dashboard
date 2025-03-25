@@ -7,7 +7,7 @@ import {
   RectangleStackIcon,
 } from "@heroicons/react/24/solid";
 
-import { MdLabelOutline, MdHealthAndSafety } from "react-icons/md";
+import { MdLabelOutline, MdHealthAndSafety, MdPhoto } from "react-icons/md";
 import { ImLab } from "react-icons/im";
 import { IoMdImages } from "react-icons/io";
 import { FaDiagnoses } from "react-icons/fa";
@@ -42,6 +42,9 @@ import CollectionSales from "./pages/collection/CollectionSales";
 import AddCollectionSales from "./pages/collection/AddCollectionSales";
 import HomeCollectionOrder from "./pages/collection/HomeCollectionOrder";
 import DetailHomeCollection from "./pages/collection/DetailHomeCollection";
+import CollectionSalesDetail from "./pages/collection/CollectionSalesDetail";
+import OrderDetail from "./pages/order/OrderDetail";
+import Gallery from "./pages/gallery/Gallery";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -85,6 +88,13 @@ export const routes = [
         name: "Pathology List",
         path: "/pathology",
         element: <LabTest/>,
+      },
+
+      {
+        icon: <CiViewList {...icon} />,
+        name: "HomeCollection",
+        path: "/home-collection",
+        element: <CollectionSales/>,
       },
       {
         icon: <MdHealthAndSafety {...icon} />,
@@ -151,6 +161,13 @@ export const routes = [
         element: <Order/>,
       },
       {
+        icon: <GoListUnordered {...icon} />,
+        name: "Order Detail",
+        path: "/order/detail",
+        element: <OrderDetail/>,
+        index:1
+      },
+      {
         icon: <FaBloggerB {...icon} />,
         name: "Blog",
         path: "/blog",
@@ -169,12 +186,7 @@ export const routes = [
         path: "/inquiry",
         element: <Inquiry/>,
       },
-      {
-        icon: <CiViewList {...icon} />,
-        name: "HomeCollection",
-        path: "/home-collection",
-        element: <CollectionSales/>,
-      },
+
       {
         icon: <CiViewList {...icon} />,
         name: "HomeCollection",
@@ -186,8 +198,8 @@ export const routes = [
         icon: <CiViewList {...icon} />,
         name: "HomeCollection Order",
         path: "/home-collection/order",
-        element: <HomeCollectionOrder/>
-        // index:1,
+        element: <HomeCollectionOrder/>,
+        index:1,
       },
       {
         icon: <CiViewList {...icon} />,
@@ -195,6 +207,26 @@ export const routes = [
         path: "/home-collection/detail",
         element: <DetailHomeCollection/>,
         index:1,
+      },
+      // {
+      //   icon: <CiViewList {...icon} />,
+      //   name: "HomeCollectionSales Detail",
+      //   path: "/home-collection/sales/detail",
+      //   element: <CollectionSalesDetail/>,
+      //   index:1,
+      // },
+      {
+        icon: <MdPhoto {...icon} />,
+        name: "Gallery",
+        path: "/gallery",
+        element:<Gallery/>,
+        index:0,
+      },
+      {
+        icon: <RiTeamFill {...icon} />,
+        name: "Test",
+        path: "/test",
+        element: <Test/>,
       },
     ],
   },

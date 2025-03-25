@@ -1,17 +1,21 @@
 import { useDeleteDoctorMutation, useGetAllTeamQuery } from '@/Rtk/teamApi';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import TableComponent from '../helper/TableComponent';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { io } from "socket.io-client";
 
 const Team = () => {
-    const { data, isLoading } = useGetAllTeamQuery();
+    const { data, isLoading,refetch } = useGetAllTeamQuery();
     const navigate = useNavigate()
     const [deleteTeam] = useDeleteDoctorMutation()
     const filterDoctor = Array.isArray(data) && data.filter((data) => data.isDoctor == true)
     const filterNotDoctor = Array.isArray(data) && data.filter((data) => !data.isDoctor)
     const combinedArray = Array.isArray(filterDoctor) && Array.isArray(filterNotDoctor) && [...filterDoctor, ...filterNotDoctor];
+
+     const socket = io("http://localhost:5000");
+      
 
 
 
@@ -102,9 +106,25 @@ const Team = () => {
 
     }
 
+    const handleTeam = async () => {
+        console.log("mai aaya hu");
+        await refetch();
+    };
+
     const handleEdit=async(data)=>{
        navigate("/dashboard/team/add",{state:data})    
     }
+
+      useEffect(() => {
+        socket.on("ham-aa-gaye", () => {
+          console.log("mai pagal ho gaya hu ");
+          handleTeam()
+        });
+    
+        return () => {
+          socket.off("ham-aa-gaye")
+        };
+      }, []);
 
 
     return (

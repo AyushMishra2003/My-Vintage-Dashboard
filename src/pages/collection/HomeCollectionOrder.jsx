@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useGetAllHomeCollectionQuery } from "@/Rtk/orderApi";
 import { IoMdEye } from "react-icons/io";
 import { Link } from "react-router-dom";
+import io from "socket.io-client";
 
 const HomeCollectionOrder = () => {
-    const { data, isLoading } = useGetAllHomeCollectionQuery();
+    const { data, isLoading,refetch } = useGetAllHomeCollectionQuery();
 
-  
+     const socket = io("https://dbsanya.drmanasaggarwal.com");
 
-    const [selectedStatus, setSelectedStatus] = useState("pending");
+
+    const [selectedStatus, setSelectedStatus] = useState("confirmed");
     const [filterDays, setFilterDays] = useState(1);
     const [reportFilter, setReportFilter] = useState("");
     const [filteredOrders, setFilteredOrders] = useState([]);
@@ -24,27 +26,38 @@ const HomeCollectionOrder = () => {
         notReady: 0,
     });
 
+    const handleFetchData=async()=>{
+        await refetch();
+    }
+
     useEffect(() => {
         if (!data) return;
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        let orders = data.filter(order => {
-            const orderDate = new Date(order.bookingDate);
-            orderDate.setHours(0, 0, 0, 0);
-            const daysDiff = Math.floor((today - orderDate) / (1000 * 60 * 60 * 24));
+        let orders=data
 
-            return (
-                order.bookingStatus === selectedStatus &&
-                daysDiff < filterDays &&
-                (reportFilter ? order.reportStatus === reportFilter : true)
-            );
-        });
+        // let orders = data.filter(order => {
+        //     const orderDate = new Date(order.bookingDate);
+        //     orderDate.setHours(0, 0, 0, 0);
+        //     const daysDiff = Math.floor((today - orderDate) / (1000 * 60 * 60 * 24));
 
-        orders.reverse(); // Latest order first
+        //     return (
+        //         order.bookingStatus === selectedStatus &&
+        //         daysDiff < filterDays &&
+        //         (reportFilter ? order.reportStatus === reportFilter : true)
+        //     );
+        // });
 
-        setFilteredOrders(orders);
+        // orders.reverse(); // Latest order first
+          
+        const reversedOrders = [...orders].reverse(); 
+
+        
+        // orders.reverse()
+
+        setFilteredOrders(reversedOrders);
         setCurrentPage(1);
 
         let summaryData = {
@@ -60,12 +73,28 @@ const HomeCollectionOrder = () => {
         setSummary(summaryData);
     }, [data, selectedStatus, filterDays, reportFilter]);
 
+      useEffect(() => {
+        socket.on("orderPlaced", () => { 
+            handleFetchData()
+        });
+        
+        return () => {
+          socket.off("orderPlaced");
+        };
+      }, []);
+
     const indexOfLastOrder = currentPage * itemsPerPage;
     const indexOfFirstOrder = indexOfLastOrder - itemsPerPage;
     const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
     const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
 
     if (isLoading) return <p className="text-center text-gray-600">Loading...</p>;
+
+
+    console.log(currentOrders);
+    console.log(data);
+    
+    
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">

@@ -1,15 +1,14 @@
 
 import React from 'react'
 import TableComponent from '../helper/TableComponent';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useGetCollectionSalesQuery } from '@/Rtk/collectionApi';
 
 const CollectionSales = () => {
     const { data, isLoading } = useGetCollectionSalesQuery()
 
-    const navigate=useNavigate()
-
+    const navigate = useNavigate()
 
     const columns = [
         { header: "Name", accessor: "name" },
@@ -38,12 +37,19 @@ const CollectionSales = () => {
                 >
                     <FaTrash size={18} />
                 </button>
+                <button
+                    onClick={() => navigate("/dashboard/home-collection/sales/detail", { state: { ...test } })}
+
+                    className="text-green-600 hover:text-red-800"
+                >
+                    <FaEye size={18} />
+                </button>
             </div>
         ),
     })) || [];
 
 
-    
+
 
 
     return (
@@ -52,7 +58,15 @@ const CollectionSales = () => {
                 <h2 className="text-2xl font-semibold text-black">{"Home-Collection Sales"}</h2>
                 <button
                     className="bg-[#212121] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-                onClick={() => navigate("/dashboard/home-collection/add")}
+                    onClick={() => navigate("/dashboard/home-collection/order")}
+
+
+                >
+                    View All Home Collection Order
+                </button>
+                <button
+                    className="bg-[#212121] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+                    onClick={() => navigate("/dashboard/home-collection/add")}
 
 
                 >

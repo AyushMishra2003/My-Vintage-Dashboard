@@ -33,7 +33,7 @@ import BookingCharts from "./CardDesgin/BookingChart";
 import HomeCollectionOrders from "./CardDesgin/HomeCollectionOrder";
 
 
-const socket = io("http://localhost:5000"); // 🔥 Ensure backend URL is correct
+const socket = io("https://dbsanya.drmanasaggarwal.com"); // 
 
 const DataCard = ({ title, count, icon, percentage, trend }) => {
   return (
@@ -54,10 +54,15 @@ const DataCard = ({ title, count, icon, percentage, trend }) => {
 export function Home() {
 
 
-  const { data: initialData, isLoading } = useGetAllTotalOrderQuery();
+  const { data: initialData, isLoading,refetch } = useGetAllTotalOrderQuery();
   const [orders, setOrders] = useState(initialData || []);
+ const socket = io("https://dbsanya.drmanasaggarwal.com");
 
+ 
+ const handleTotalOrderQuery = async () => {
 
+  await refetch();
+};
 
   useEffect(() => {
     // Load initial orders
@@ -68,13 +73,17 @@ export function Home() {
       console.log("🟢 Connected to Socket.io server:", socket.id);
     });
 
-    // ✅ Listen for order updates
-    socket.on("todayOrdersSummary", (newOrder) => {
-      setOrders(newOrder)
+    socket.on("ham-aa-gaye", () => {
+      console.log("ham aaye ki nahi babu:", socket.id);
     });
 
+    socket.on("orderPlaced", () => { 
+      handleTotalOrderQuery()
+    });
+
+
     return () => {
-      socket.off("orderUpdated");
+      socket.off("orderPlaced");
     };
   }, [initialData]);
 

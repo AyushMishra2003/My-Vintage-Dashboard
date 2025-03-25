@@ -47,6 +47,41 @@ export const orderApi = createApi({
             providesTags: ["order"],  // ✅ Caching Enable
         }),
 
+        getOrderDetail: builder.query({
+            query: (id) => ({
+                url: `/order/${id}`,
+                method: "GET",
+            }),
+            providesTags: ["order"],  // ✅ Caching Enable
+        }),
+
+
+        orderReport: builder.mutation({
+            query: ({formData,id}) => {
+                return {
+                    url: `/order/report/${id}`,
+                    method: "POST",
+                    data: formData, 
+                    formData: true,
+                };
+            },
+            invalidatesTags: ["order"],
+        }),
+
+        orderStatus: builder.mutation({
+            query: ({data,id}) => {
+                console.log(data,id);
+                
+                return {
+                    url: `/order/change-status/${id}`,
+                    method: "POST",
+                    data
+                
+                };
+            },
+            invalidatesTags: ["order"],
+        }),
+
       
     }),
 });
@@ -56,5 +91,8 @@ export const {
     useGetAllOrderQuery,
     useGetAllTotalOrderQuery,
     useGetAllLatestQuery,
-    useGetAllHomeCollectionQuery
+    useGetAllHomeCollectionQuery,
+    useGetOrderDetailQuery,
+    useOrderReportMutation,
+    useOrderStatusMutation
 } = orderApi;

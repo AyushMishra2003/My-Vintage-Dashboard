@@ -3,10 +3,12 @@ import axios from "axios";
 
 // ✅ Axios Instance 
 export const axiosInstance = axios.create({
+    // baseURL:"https://dbsanya.drmanasaggarwal.com/api/v1",
     baseURL: "http://localhost:5000/api/v1",
     headers: {
         "Content-Type": "application/json",
     },
+    withCredentials:true
 });
 
 // ✅ Custom Axios Base Query for RTK Query
@@ -28,7 +30,7 @@ const axiosBaseQuery = async ({ url, method, data }) => {
             toast.success(response.data.message);
         }
 
-        // ✅ GET API के लिए `data.data`, बाकी के लिए पूरा `data`
+
         return { data: method === "GET" ? response?.data?.data : response?.data };
         
     } catch (error) {

@@ -43,6 +43,16 @@ export const testApi = createApi({
             }),
             invalidatesTags: ["test"], // ✅ Cache Refresh
         }),
+
+        socketTesting: builder.mutation({
+            query: (data) => ({
+                url: `/doctor/testing`,
+                method: "POST",
+                data
+            }),
+            
+        }),
+
     }),
 });
 
@@ -52,4 +62,5 @@ export const {
     useAddTestMutation,
     useEditTestMutation,
     useDeleteTestMutation,
+    useSocketTestingMutation
 } = testApi;

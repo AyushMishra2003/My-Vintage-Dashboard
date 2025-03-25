@@ -45,6 +45,15 @@ export const collectionApi = createApi({
             providesTags: ["collection"],  // ✅ Caching Enable
         }),
 
+        
+        getHomeCollectionSalesDetail: builder.query({
+            query: (id) => ({
+                url: `/collection/detail/${id}`,
+                method: "GET",
+            }),
+            providesTags: ["collection"],  // ✅ Caching Enable
+        }),
+
     }),
 });
 
@@ -53,5 +62,6 @@ export const {
     useAddCollectionSalesMutation, // ✅ Correct,
      useGetCollectionSalesQuery,
      useAssignedCollectionSalesMutation,
-     useGetHomeCollectionDetailQuery
+     useGetHomeCollectionDetailQuery,
+     useGetHomeCollectionSalesDetailQuery
 } = collectionApi;

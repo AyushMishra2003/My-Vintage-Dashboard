@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useGetAllOrderQuery } from "@/Rtk/orderApi";
 import io from "socket.io-client";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import TableComponent from "../helper/TableComponent";
+import { useNavigate } from "react-router-dom";
 
-const socket = io("http://localhost:5000"); // 🔥 Ensure backend URL is correct
+// const socket = io("http://localhost:5000"); 
 
 const Order = () => {
-    const { data: initialData, isLoading } = useGetAllOrderQuery();
+    const { data: initialData, isLoading,refetch } = useGetAllOrderQuery();
     const [orders, setOrders] = useState(initialData || []);
-
-    console.log(initialData);
+    const navigate=useNavigate()
+     const socket = io("https://dbsanya.drmanasaggarwal.com");
     
 
     useEffect(() => {
@@ -68,9 +69,39 @@ const Order = () => {
                 >
                     <FaTrash size={18} />
                 </button>
+                <button
+                  onClick={() => navigate("/dashboard/order/detail", { state: { ...test } })}
+                    className="text-green-600 hover:text-red-800"
+                >
+                    <FaEye size={18} />
+                </button>
             </div>
         ),
     }));
+
+    const handleFetchData=async()=>{
+        await refetch();
+    }
+
+
+      useEffect(() => {    
+        // ✅ Debugging socket connection
+        socket.on("connect", () => {
+          console.log("🟢 Connected to Socket.io server:", socket.id);
+        });
+    
+        socket.on("orderPlaced", () => { 
+            handleFetchData()
+        });
+    
+    
+        return () => {
+          socket.off("orderPlaced");
+        };
+      }, []);
+
+
+    
     
     
 
