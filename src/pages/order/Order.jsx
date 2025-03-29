@@ -11,7 +11,7 @@ const Order = () => {
     const { data: initialData, isLoading,refetch } = useGetAllOrderQuery();
     const [orders, setOrders] = useState(initialData || []);
     const navigate=useNavigate()
-     const socket = io("https://dbsanya.drmanasaggarwal.com");
+     const socket = io("http://localhost:5000");
     
 
     useEffect(() => {

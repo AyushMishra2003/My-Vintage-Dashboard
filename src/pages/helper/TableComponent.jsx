@@ -15,15 +15,7 @@ const TableComponent = ({ columns, data, title, itemsPerPage = 10 }) => {
 
   return (
     <div className="w-full p-4 border rounded-lg shadow-md bg-white">
-      {/* <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-semibold text-gray-700">{title}</h2>
-        <button
-          className="bg-[#212121] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-          onClick={() => setShow(true)}
-        >
-          + Add Scan Test
-        </button>
-      </div> */}
+
 
       {!show ? (
         <div className="overflow-x-auto">

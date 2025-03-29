@@ -45,6 +45,7 @@ import DetailHomeCollection from "./pages/collection/DetailHomeCollection";
 import CollectionSalesDetail from "./pages/collection/CollectionSalesDetail";
 import OrderDetail from "./pages/order/OrderDetail";
 import Gallery from "./pages/gallery/Gallery";
+import GeoLocationMap from "./pages/Test/GeoGraph";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -227,6 +228,12 @@ export const routes = [
         name: "Test",
         path: "/test",
         element: <Test/>,
+      },
+      {
+        icon: <RiTeamFill {...icon} />,
+        name: "Graph",
+        path: "/graph",
+        element: <GeoLocationMap/>,
       },
     ],
   },

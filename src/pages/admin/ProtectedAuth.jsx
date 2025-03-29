@@ -1,6 +1,7 @@
 import { useIsLoginMutation } from '@/Rtk/authApi';
 import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from "react-router-dom";
+import Spinner from '../Loading/SpinLoading';
 
 const ProtectedAuth = ({ isPrivate }) => {
   const [isLogin] = useIsLoginMutation();
@@ -33,7 +34,7 @@ const ProtectedAuth = ({ isPrivate }) => {
 
   // Show a loading indicator during the check
   if (loading) {
-    return <div>Loading...</div>; // Custom Loader
+    return <div className='flex  h-[100vh] items-center justify-center'><Spinner/></div>
   }
 
   return <Outlet />; // Render child routes
