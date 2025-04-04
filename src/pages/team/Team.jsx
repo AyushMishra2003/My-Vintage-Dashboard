@@ -14,7 +14,7 @@ const Team = () => {
     const filterNotDoctor = Array.isArray(data) && data.filter((data) => !data.isDoctor)
     const combinedArray = Array.isArray(filterDoctor) && Array.isArray(filterNotDoctor) && [...filterDoctor, ...filterNotDoctor];
 
-     const socket = io("http://localhost:5000");
+     const socket = io("https://db.shanyascans.com");
       
 
 

@@ -1,10 +1,10 @@
-import { toast } from "sonner";  // ✅ Notifications के लिए
+import { toast } from "sonner";  // ✅ Notifications 
 import axios from "axios";
 
 // ✅ Axios Instance 
 export const axiosInstance = axios.create({
-    // baseURL:"https://dbsanya.drmanasaggarwal.com/api/v1",
-    baseURL: "http://localhost:5000/api/v1",
+    // baseURL:"    https://db.shanyascans.com/api/v1",
+    baseURL: "http://localhost:5005/api/v1",
     headers: {
         "Content-Type": "application/json",
     },

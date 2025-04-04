@@ -8,8 +8,6 @@ const DetailHomeCollection = () => {
 
     const { data: detail, isLoading: detailLoading } = useGetHomeCollectionDetailQuery(state?._id)
 
-    console.log(detail);
-
 
     // Local state for editable fields
     // const [detail, setdetail] = useState(detail || {});
@@ -49,12 +47,12 @@ const DetailHomeCollection = () => {
         setAssignedTo(e.target.value);
     };
 
-    console.log(assignedTo);
+
 
 
     const handleAssigned = async () => {
         const filterData = data.find((val) => val.name === assignedTo);
-        console.log(filterData);
+
 
         const data1 = {
             salesId: filterData._id,
@@ -63,7 +61,11 @@ const DetailHomeCollection = () => {
         console.log(data1);
 
         const response = await assignedCollectionSales(data1)
-        console.log(response);
+
+
+
+        setAssignedTo("")
+        setAssignedId("")
 
 
 

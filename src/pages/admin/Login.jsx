@@ -11,8 +11,8 @@ import { useLoginMutation } from '@/Rtk/authApi';
 
 const Login = () => {
 
-  const [email, setEmail] = useState('shanyascan@gmail.com');
-  const [password, setPassword] = useState('shanyascans005@gmail.com');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();

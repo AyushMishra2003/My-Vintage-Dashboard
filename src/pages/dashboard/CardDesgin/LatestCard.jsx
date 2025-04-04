@@ -10,7 +10,7 @@ const LatestOrders = () => {
   const orders = data?.slice(0, visibleCount) || []; // Ensure this is not conditional
 
   useEffect(() => {
-    const socket = io("https://dbsanya.drmanasaggarwal.com");
+    const socket = io("https://db.shanyascans.com");
 
     socket.on("connect", () => {
       console.log("🟢 Connected to Socket.io server:", socket.id);
@@ -35,7 +35,7 @@ const LatestOrders = () => {
 
   return (
     <div className="bg-white shadow-md rounded-lg p-5 w-full border border-gray-200">
-      <h2 className="text-lg font-semibold text-gray-800">LATEST ORDERS</h2>
+      <h2 className="text-lg font-semibold text-gray-800">LATEST ORDERS (1HOUR)</h2>
 
       <div className="mt-4 relative">
         {orders.map((order, index) => (

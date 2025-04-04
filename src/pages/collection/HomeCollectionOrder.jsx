@@ -7,7 +7,7 @@ import io from "socket.io-client";
 const HomeCollectionOrder = () => {
     const { data, isLoading,refetch } = useGetAllHomeCollectionQuery();
 
-     const socket = io("https://dbsanya.drmanasaggarwal.com");
+     const socket = io("https://db.shanyascans.com");
 
 
     const [selectedStatus, setSelectedStatus] = useState("confirmed");

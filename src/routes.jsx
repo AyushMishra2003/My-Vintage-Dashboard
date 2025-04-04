@@ -229,12 +229,12 @@ export const routes = [
         path: "/test",
         element: <Test/>,
       },
-      {
-        icon: <RiTeamFill {...icon} />,
-        name: "Graph",
-        path: "/graph",
-        element: <GeoLocationMap/>,
-      },
+      // {
+      //   icon: <RiTeamFill {...icon} />,
+      //   name: "Graph",
+      //   path: "/graph",
+      //   element: <GeoLocationMap/>,
+      // },
     ],
   },
   // {

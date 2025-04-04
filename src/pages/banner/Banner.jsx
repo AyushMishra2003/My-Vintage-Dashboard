@@ -85,6 +85,7 @@ const Banner = () => {
         formData.append("name", "banner")
         formData.append("types", selectedType)
         formData.append("url", selectedUrlIndex)
+        formData.append("index", selectedUrlIndex)
         formData.append("photo", photo)
 
 

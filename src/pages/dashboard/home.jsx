@@ -33,7 +33,7 @@ import BookingCharts from "./CardDesgin/BookingChart";
 import HomeCollectionOrders from "./CardDesgin/HomeCollectionOrder";
 
 
-const socket = io("https://dbsanya.drmanasaggarwal.com"); // 
+const socket = io("https://db.shanyascans.com"); // 
 
 const DataCard = ({ title, count, icon, percentage, trend }) => {
   return (
@@ -56,8 +56,8 @@ export function Home() {
 
   const { data: initialData, isLoading,refetch } = useGetAllTotalOrderQuery();
   const [orders, setOrders] = useState(initialData || []);
- const socket = io("https://dbsanya.drmanasaggarwal.com");
-
+ const socket = io("https://db.shanyascans.com");
+//  const socket = io("https://dbsanya.drmanasaggarwal.com");
  
  const handleTotalOrderQuery = async () => {
 

@@ -82,6 +82,17 @@ export const orderApi = createApi({
             invalidatesTags: ["order"],
         }),
 
+
+
+        getLatestHomeCollectionOrder:builder.query({
+            query: () => ({
+                url: `/order/latest/home-collection`,
+                method: "GET",
+            }),
+            providesTags: ["order"],  // ✅ Caching Enable
+        }),
+
+
       
     }),
 });
@@ -94,5 +105,6 @@ export const {
     useGetAllHomeCollectionQuery,
     useGetOrderDetailQuery,
     useOrderReportMutation,
-    useOrderStatusMutation
+    useOrderStatusMutation,
+    useGetLatestHomeCollectionOrderQuery
 } = orderApi;
