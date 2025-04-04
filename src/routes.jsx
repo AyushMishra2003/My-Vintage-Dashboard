@@ -25,7 +25,7 @@ import Banner from "./pages/banner/Banner";
 import LabTestTag from "./pages/pathology/LabTestTag";
 import LabTest from "./pages/pathology/LabTest";
 import Package from "./pages/packages/Package";
-import PackageConcern from "./pages/packages/PackageConcern";
+
 import Order from "./pages/order/Order";
 import Carrer from "./pages/carrer/Carrer";
 import Blog from "./pages/Blogs/Blog";
@@ -46,6 +46,9 @@ import CollectionSalesDetail from "./pages/collection/CollectionSalesDetail";
 import OrderDetail from "./pages/order/OrderDetail";
 import Gallery from "./pages/gallery/Gallery";
 import GeoLocationMap from "./pages/Test/GeoGraph";
+import ThemeCategoryTag from "./pages/packages/ThemeCategory";
+import BrandCategoryTag from "./pages/BrandTag/BrandTagCategory";
+
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -63,72 +66,85 @@ export const routes = [
       },
 
       {
-        icon: <FaDiagnoses {...icon} />,
-        name: "Scan List",
-        path: "/scan",
-        element: <ViewScan/>,
-      },
-      {
-        icon: <TableCellsIcon {...icon} />,
-        name: "Scan Test",
-        index:1,
-        path: "/test/scan/:slug",
-        element: <ScanTest/>,
-      },
-      {
-        icon: <TableCellsIcon {...icon} />,
-        name: "Scan Test",
-        index:1,
-        path: "/test/scan/add/:slug",
-        element: <AddScanTest/>,
-      },
-      
-      
-      {
         icon: <ImLab {...icon} />,
-        name: "Pathology List",
-        path: "/pathology",
-        element: <LabTest/>,
-      },
-
-      {
-        icon: <CiViewList {...icon} />,
-        name: "HomeCollection",
-        path: "/home-collection",
-        element: <CollectionSales/>,
-      },
-      {
-        icon: <MdHealthAndSafety {...icon} />,
-        name:  "Health Package",
-        path: "/package",
-        element: <Package/>,
-      },
-      {
-        icon: <MdHealthAndSafety {...icon} />,
-        name:  "Add Packages",
-        path: "/package/add",
-        element: <AddPackage/>,
-        index:1
-      },
-      {
-        icon: <ImLab {...icon} />,
-        name: "Pathology Tag",
+        name: "Product Tag",
         path: "/lab/tag",
         element: <LabTestTag/>,
       },
-      {
-        icon: <ImLab {...icon} />,
-        name: "Add Pathology",
-        path: "/pathology/add",
-        element: <AddLabTest/>,
-        index:1
-      },
+
+
       {
         icon: <IoPricetagsSharp {...icon} />,
-        name: "Health Concern Tag",
-        path: "/health-concern/package",
-        element: <PackageConcern/>
+        name: "Brand Tag",
+        path: "/brand/tag",
+        element: <BrandCategoryTag/>
       },
+
+      {
+        icon: <IoPricetagsSharp {...icon} />,
+        name: "Theme Tag",
+        path: "/theme/tag",
+        element: <ThemeCategoryTag/>
+      },
+
+      // {
+      //   icon: <FaDiagnoses {...icon} />,
+      //   name: "Scan List",
+      //   path: "/scan",
+      //   element: <ViewScan/>,
+      // },
+      // {
+      //   icon: <TableCellsIcon {...icon} />,
+      //   name: "Scan Test",
+      //   index:1,
+      //   path: "/test/scan/:slug",
+      //   element: <ScanTest/>,
+      // },
+      // {
+      //   icon: <TableCellsIcon {...icon} />,
+      //   name: "Scan Test",
+      //   index:1,
+      //   path: "/test/scan/add/:slug",
+      //   element: <AddScanTest/>,
+      // },
+      
+      
+      // {
+      //   icon: <ImLab {...icon} />,
+      //   name: "Pathology List",
+      //   path: "/pathology",
+      //   element: <LabTest/>,
+      // },
+
+      // {
+      //   icon: <CiViewList {...icon} />,
+      //   name: "HomeCollection",
+      //   path: "/home-collection",
+      //   element: <CollectionSales/>,
+      // },
+      // {
+      //   icon: <MdHealthAndSafety {...icon} />,
+      //   name:  "Health Package",
+      //   path: "/package",
+      //   element: <Package/>,
+      // },
+      // {
+      //   icon: <MdHealthAndSafety {...icon} />,
+      //   name:  "Add Packages",
+      //   path: "/package/add",
+      //   element: <AddPackage/>,
+      //   index:1
+      // },
+
+      // {
+      //   icon: <ImLab {...icon} />,
+      //   name: "Add Pathology",
+      //   path: "/pathology/add",
+      //   element: <AddLabTest/>,
+      //   index:1
+      // },
+
+
       
       {
         icon: <IoMdImages {...icon} />,
@@ -136,25 +152,25 @@ export const routes = [
         path: "/banner",
         element: <Banner/>,
       },
-      {
-        icon: <RiTeamFill {...icon} />,
-        name: "Team",
-        path: "/team",
-        element: <Team/>,
-      },
-      {
-        icon: <RiTeamFill {...icon} />,
-        name: "Add Team",
-        path: "/team/add",
-        element: <AddTeam/>,
-        index:1
-      },
-      {
-        icon: <LuCopyright {...icon} />,
-        name: "Carrer",
-        path: "/carrer",
-        element: <Carrer/>,
-      },
+      // {
+      //   icon: <RiTeamFill {...icon} />,
+      //   name: "Team",
+      //   path: "/team",
+      //   element: <Team/>,
+      // },
+      // {
+      //   icon: <RiTeamFill {...icon} />,
+      //   name: "Add Team",
+      //   path: "/team/add",
+      //   element: <AddTeam/>,
+      //   index:1
+      // },
+      // {
+      //   icon: <LuCopyright {...icon} />,
+      //   name: "Carrer",
+      //   path: "/carrer",
+      //   element: <Carrer/>,
+      // },
       {
         icon: <GoListUnordered {...icon} />,
         name: "All-Order",
@@ -188,20 +204,20 @@ export const routes = [
         element: <Inquiry/>,
       },
 
-      {
-        icon: <CiViewList {...icon} />,
-        name: "HomeCollection",
-        path: "/home-collection/add",
-        element: <AddCollectionSales/>,
-        index:1,
-      },
-      {
-        icon: <CiViewList {...icon} />,
-        name: "HomeCollection Order",
-        path: "/home-collection/order",
-        element: <HomeCollectionOrder/>,
-        index:1,
-      },
+      // {
+      //   icon: <CiViewList {...icon} />,
+      //   name: "HomeCollection",
+      //   path: "/home-collection/add",
+      //   element: <AddCollectionSales/>,
+      //   index:1,
+      // },
+      // {
+      //   icon: <CiViewList {...icon} />,
+      //   name: "HomeCollection Order",
+      //   path: "/home-collection/order",
+      //   element: <HomeCollectionOrder/>,
+      //   index:1,
+      // },
       {
         icon: <CiViewList {...icon} />,
         name: "HomeCollection Detail",
@@ -223,12 +239,12 @@ export const routes = [
         element:<Gallery/>,
         index:0,
       },
-      {
-        icon: <RiTeamFill {...icon} />,
-        name: "Test",
-        path: "/test",
-        element: <Test/>,
-      },
+      // {
+      //   icon: <RiTeamFill {...icon} />,
+      //   name: "Test",
+      //   path: "/test",
+      //   element: <Test/>,
+      // },
       // {
       //   icon: <RiTeamFill {...icon} />,
       //   name: "Graph",

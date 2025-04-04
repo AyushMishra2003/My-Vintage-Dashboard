@@ -16,7 +16,7 @@ export function Footer({ brandName, brandLink, routes }) {
             target="_blank"
             className="transition-colors hover:text-blue-500 font-bold"
           >
-            {"Code Crafter Web Solution"}
+            {"Ayush Mishra Developer"}
           </a>{" "}
          
         </Typography>

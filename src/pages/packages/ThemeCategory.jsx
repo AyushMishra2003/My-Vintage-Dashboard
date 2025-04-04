@@ -1,4 +1,4 @@
-import { useAddPackageTagMutation, useDeletePackageTagMutation, useEditPackageTagMutation, useGetAllPackageQuery, useGetAllPackageTagQuery } from '@/Rtk/packageApi'
+import { useAddThemeTagMutation,  useDeleteThemeTagMutation,  useEditThemeTagMutation, useGetAllThemeTagQuery } from '@/Rtk/packageApi'
 import React, { useState } from 'react'
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import TableComponent from '../helper/TableComponent';
@@ -8,19 +8,20 @@ import Spinner from '../Loading/SpinLoading';
 import Swal from 'sweetalert2';
 
 
-const PackageConcern = () => {
+const ThemeCategoryTag = () => {
 
-    const { data, isLoading } = useGetAllPackageTagQuery()
+    const { data, isLoading } = useGetAllThemeTagQuery()
 
-    const { data:allPackage, isLoading: isPackage } = useGetAllPackageQuery()
-    const [addPackageTag, { isLoading: isAddLoading, isError, isSuccess }] = useAddPackageTagMutation();
-    const [deletePackageTag, { isLoading: isDeleteLoading, isError: isDelete, isSuccess: isDeleteSuccess }] = useDeletePackageTagMutation();
-    const [editPackageTag] = useEditPackageTagMutation();
+
+    const [deleteThemeTag, { isLoading: isDeleteLoading, isError: isDelete, isSuccess: isDeleteSuccess }] =   useDeleteThemeTagMutation()
+
+    const [addThemeCategoryTag]= useAddThemeTagMutation()
+    const [editThemeTag] = useEditThemeTagMutation()
     const [currentTag, setCurrentTag] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [spinLoading, setSpinLoading] = useState(false)
     const [text, setText] = useState("")
-    const [pathologyId, setPathologyId] = useState("")
+    const [themeId, setThemeId] = useState("")
     const [photo, setPhoto] = useState(null);
     const dispatch = useDispatch()
 
@@ -30,14 +31,17 @@ const PackageConcern = () => {
         { header: "Action", accessor: "action", type: "action" }
     ];
 
+   
+    
+
     const tableData = data?.map((test) => ({
-        tag: test?.packageTagName
+        tag: test?.themeName
             || "N/A",
         // url: test.url || "N/A",
-        photo: test.icon ? (
+        photo: test.photo ? (
             <img
-                src={test.icon.secure_url}
-                alt="Banner"
+                src={test.photo.secure_url}
+                alt={test?.themeName}
                 className="w-16 h-16 object-cover rounded-md border border-gray-300"
             />
         ) : (
@@ -66,16 +70,16 @@ const PackageConcern = () => {
         e.preventDefault();
         const formData = new FormData()
         setSpinLoading(true)
-        formData.append("packageTagName", text)
-        formData.append("icon", photo)
-        formData.append("slug", pathologyId)
+        formData.append("themeName", text)
+        formData.append("photo", photo)
+   
          
         let response
 
         if (currentTag) {
-            response = await editPackageTag({ formData, id:currentTag._id }).unwrap()
+            response = await editThemeTag({ formData, id:currentTag._id }).unwrap()
         } else {
-            response = await addPackageTag({formData, pathologyId }).unwrap(); // unwrap()
+            response = await addThemeCategoryTag({formData}).unwrap(); // unwrap()
         }
 
      
@@ -85,7 +89,7 @@ const PackageConcern = () => {
             setCurrentTag(null)
             setText("")
             setPhoto("")
-            setPathologyId("")
+            setThemeId("")
             setIsModalOpen(false)
         }
         setSpinLoading(false)
@@ -112,7 +116,7 @@ const PackageConcern = () => {
             });
 
             if (result?.isConfirmed) {
-                const response = await deletePackageTag(id).unwrap(); // Await the mutation
+                const response = await deleteThemeTag(id).unwrap(); // Await the mutation
 
 
                 if (response?.success) {
@@ -132,10 +136,12 @@ const PackageConcern = () => {
     }
 
     const handleEditTag = (data) => {
+        console.log("handle tag is ",data);
+        
         setCurrentTag(data)
-        setText(data?.packageTagName)
-        setPhoto(data?.icon?.secure_url)
-        setPathologyId(data?.packageSlugName        )
+        setText(data?.themeName)
+        setPhoto(data?.photo?.secure_url)
+        // setThemeId(data?.packageSlugName        )
         setIsModalOpen(true)
 
     }
@@ -144,7 +150,7 @@ const PackageConcern = () => {
         setCurrentTag(null)
         setText("")
         setPhoto("")
-        setPathologyId("")
+        setThemeId("")
         setIsModalOpen(false)
     }
       
@@ -152,12 +158,12 @@ const PackageConcern = () => {
     return (
         <div>
             <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-semibold text-black">{"Health-Package Tag"}</h2>
+                <h2 className="text-2xl font-semibold text-black">{"Theme Tag"}</h2>
                 <button
                     className="bg-[#212121] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
                 onClick={() => setIsModalOpen(true)}
                 >
-                    + Add Health Concern
+                    + Add Theme Tag
                 </button>
             </div>
             {isLoading ? <p>Loading...</p> : <TableComponent title="Package List" columns={columns} data={tableData} itemsPerPage={10} />}
@@ -165,13 +171,13 @@ const PackageConcern = () => {
             {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-                        <h2 className="text-xl font-semibold mb-4">{currentTag ? "Edit Lab Tag" : "Add Lab Tag"}</h2>
+                        <h2 className="text-xl font-semibold mb-4">{currentTag ? "Edit Theme Tag" : "Add Theme Tag"}</h2>
 
                         {/* Edit Form */}
                         <form onSubmit={handleSubmit} className="space-y-4">
                             {/* Dropdown for Banner Type */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">Enter Health Concern Tag Name</label>
+                                <label className="block text-sm font-medium text-gray-700">Enter Tag Name</label>
                                 <input type="text" value={text} className='w-full py-1 rounded  border border-gray-700' onChange={(e) => setText(e.target.value)} />
                             </div>
 
@@ -183,21 +189,7 @@ const PackageConcern = () => {
                                 <input type="file" onChange={handlePhotoChange} className="w-full p-2 border rounded-md" />
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Select Package</label>
-                                <select
-                                    value={pathologyId}
-                                    onChange={(e) => setPathologyId(e.target.value)}
-                                    className="w-full px-2 py-1 border rounded-md border-gray-700"
-                                >
-                                    <option value="">Select Package</option>
-                                    {allPackage?.map((item) => (
-                                        <option key={item._id} value={item.slug}>
-                                            {item.packageName}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
+                
 
                             {/* Submit & Cancel Buttons */}
                             <div className="flex justify-end gap-2">
@@ -226,4 +218,4 @@ const PackageConcern = () => {
     )
 }
 
-export default PackageConcern
+export default ThemeCategoryTag

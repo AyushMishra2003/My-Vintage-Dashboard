@@ -4,7 +4,7 @@ import axiosBaseQuery from "./axiosBaseQuery";
 export const packageApi = createApi({
     reducerPath: "packageApi",   // ✅ Redux Store in  Reducer Name
     baseQuery: axiosBaseQuery, // ✅ Custom Axios Query
-    tagTypes: ["package"],  // ✅ Caching tag
+    tagTypes: ["theme"],  // ✅ Caching tag
     endpoints: (builder) => ({
         // ✅ GET All Tests (Fetch)
         getAllPackage: builder.query({
@@ -12,38 +12,38 @@ export const packageApi = createApi({
                 url: "/package",
                 method: "GET",
             }),
-            providesTags: ["package"],  // ✅ Caching Enable
+            providesTags: ["theme"],  // ✅ Caching Enable
         }),
         
 
-        getAllPackageTag: builder.query({
+        getAllThemeTag: builder.query({
             query: () => ({
-                url: "/package/tag",
+                url: "/theme",
                 method: "GET",
             }),
-            providesTags: ["package"],  // ✅ Caching Enable
+            providesTags: ["theme"],  // ✅ Caching Enable
         }),
 
-        addPackageTag: builder.mutation({
+        addThemeTag: builder.mutation({
             query: ({formData,pathologyId:slug}) => {
            
                 return {
-                    url: `/package/tag/${slug}`,
+                    url: `/theme`,
                     method: "POST",
                     data: formData, // ✅ Change from `body` to `data`
                     formData: true, // ✅ Ensure FormData is properly handled
                 };
             },
-            invalidatesTags: ["package"],
+            invalidatesTags: ["theme"],
         }),
 
          // ✅ DELETE Test (DELETE)
-         deletePackageTag: builder.mutation({
+         deleteThemeTag: builder.mutation({
             query: (id) => ({
-                url: `/package/tag/${id}`,
+                url: `/theme/${id}`,
                 method: "DELETE",
             }),
-            invalidatesTags: ["package"], // ✅ Cache Refresh
+            invalidatesTags: ["theme"], // ✅ Cache Refresh
         }),
 
         // ✅ ADD New Test (POST)
@@ -57,18 +57,18 @@ export const packageApi = createApi({
                     formData: true, // ✅ Ensure FormData is properly handled
                 };
             },
-            invalidatesTags: ["package"],
+            invalidatesTags: ["theme"],
         }),
         
         // ✅ EDIT Test (PUT)
-        editPackageTag: builder.mutation({
+        editThemeTag: builder.mutation({
             query: ({formData,id}) => ({
-                url: `/package/tag/${id}`,
+                url: `/theme/${id}`,
                 method: "PUT",
                 data: formData, // ✅ Change from `body` to `data`
                 formData: true, // ✅ Ensure FormData is properly handled
             }),
-            invalidatesTags: ["package"], // ✅ Cache Refresh
+            invalidatesTags: ["theme"], // ✅ Cache Refresh
         }),
 
         updatePackage: builder.mutation({
@@ -78,7 +78,7 @@ export const packageApi = createApi({
                 data: formData, // ✅ Change from `body` to `data`
                 formData: true, // ✅ Ensure FormData is properly handled
             }),
-            invalidatesTags: ["package"], // ✅ Cache Refresh
+            invalidatesTags: ["theme"], // ✅ Cache Refresh
         }),
 
         deletePackage: builder.mutation({
@@ -86,7 +86,7 @@ export const packageApi = createApi({
                 url: `/package/detail/${id}`,
                 method: "DELETE",
             }),
-            invalidatesTags: ["package"], // ✅ Cache Refresh
+            invalidatesTags: ["theme"], // ✅ Cache Refresh
         }),
 
        
@@ -96,11 +96,11 @@ export const packageApi = createApi({
 // ✅ Hooks Export (Use in Components)
 export const {
     useGetAllPackageQuery,
-    useGetAllPackageTagQuery,
-    useAddPackageTagMutation,
+    useGetAllThemeTagQuery,
+    useAddThemeTagMutation,
     useAddPackageMutation,
-    useEditPackageTagMutation,
-    useDeletePackageTagMutation,
+     useEditThemeTagMutation,
+    useDeleteThemeTagMutation,
     useDeletePackageMutation,
     useUpdatePackageMutation
 } = packageApi;

@@ -6,7 +6,7 @@ export const labTestApi = createApi({
     baseQuery: axiosBaseQuery, // ✅ Custom Axios Query
     tagTypes: ["lab"],  // ✅ Caching tag
     endpoints: (builder) => ({
-        // ✅ GET All Tests (Fetch)
+
         getAllLabTestTag: builder.query({
             query: () => ({
                 url: "/pathology/tag",

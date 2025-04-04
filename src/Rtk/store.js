@@ -13,6 +13,7 @@ import { inquiryApi } from "./inquiryApi";
 import { collectionApi } from "./collectionApi";
 import { authApi } from "./authApi";
 import { galleryApi } from "./galleryApi";
+import { BrandApi } from "./brandTagApi";
 
 export const store = configureStore({
     reducer: {
@@ -29,8 +30,9 @@ export const store = configureStore({
         [inquiryApi.reducerPath]:inquiryApi.reducer,
         [collectionApi.reducerPath]:collectionApi.reducer,
         [authApi.reducerPath]:authApi.reducer,
-        [galleryApi.reducerPath]:galleryApi.reducer
+        [galleryApi.reducerPath]:galleryApi.reducer,
+        [BrandApi.reducerPath]:BrandApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(testApi.middleware, scanApi.middleware,scanTestApi.middleware, bannerApi.middleware, labTestApi.middleware,packageApi.middleware,orderApi.middleware,carrerApi.middleware,blogApi.middleware,teamApi.middleware,inquiryApi.middleware,collectionApi.middleware,authApi.middleware,galleryApi.middleware),
+        getDefaultMiddleware().concat(testApi.middleware, scanApi.middleware,scanTestApi.middleware, bannerApi.middleware, labTestApi.middleware,packageApi.middleware,orderApi.middleware,carrerApi.middleware,blogApi.middleware,teamApi.middleware,inquiryApi.middleware,collectionApi.middleware,authApi.middleware,galleryApi.middleware,BrandApi.middleware),
 });

@@ -44,7 +44,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
           color={sidenavType === "dark" ? "white" : "blue-gray"}
 
         >
-          {"Shanya Scans & Theranostics"}
+          {"My Vintage Craft"}
         </Typography>
       </Link>
       <div className="mx-4">
