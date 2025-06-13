@@ -21,7 +21,7 @@ const TableComponent = ({ columns, data, title, itemsPerPage = 10 }) => {
         <div className="overflow-x-auto">
           <table className="w-full border-collapse border border-gray-300 shadow-md rounded-lg overflow-hidden">
             <thead>
-              <tr className="bg-[#212121] text-white">
+              <tr className="bg-[#06425F] text-white">
                 <th className="border border-gray-300 p-2 text-center w-16">S.No.</th>
                 {columns.map((col, index) => (
                   <th key={index} className="border border-gray-300 p-3 text-left">{col.header}</th>

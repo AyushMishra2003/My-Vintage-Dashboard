@@ -9,7 +9,7 @@ export const labTestApi = createApi({
 
         getAllLabTestTag: builder.query({
             query: () => ({
-                url: "/pathology/tag",
+                url: "/product/category",
                 method: "GET",
             }),
             providesTags: ["lab"],  // ✅ Caching Enable
@@ -17,22 +17,25 @@ export const labTestApi = createApi({
 
         getAllLabTest: builder.query({
             query: () => ({
-                url: "/pathology",
+                url: "/product/category",
                 method: "GET",
             }),
             providesTags: ["lab"],  // ✅ Caching Enable
         }),
-        
+
+
+
+
 
         // ✅ ADD New Banner (POST)
         addLabTestTag: builder.mutation({
-            query: ({formData,pathologyId:slug}) => {
-           
+            query: (data) => {
+
                 return {
-                    url: `/pathology/tag/${slug}`,
+                    url: `/product/category`,
                     method: "POST",
-                    data: formData, // ✅ Change from `body` to `data`
-                    formData: true, // ✅ Ensure FormData is properly handled
+                    data
+
                 };
             },
             invalidatesTags: ["lab"],
@@ -40,7 +43,7 @@ export const labTestApi = createApi({
 
 
         addLabTest: builder.mutation({
-            query: ({data}) => ({
+            query: ({ data }) => ({
                 url: `/pathology`,
                 method: "POST",
                 data
@@ -48,26 +51,54 @@ export const labTestApi = createApi({
             invalidatesTags: ["lab"],
         }),
 
+
+        getAllSubCategory: builder.query({
+            query: (category) => ({
+                url: `/product/category/subcategory/${category}`,
+                method: "GET",
+
+            }),
+            providesTags: ["lab"],  // ✅ Caching Enable
+        }),
+
+
+        addSubProductCategory: builder.mutation({
+            query: ({ data, name }) => {
+
+                return {
+                    url: `/product/category/subcategory/${name}`,
+                    method: "POST",
+                    data
+
+                };
+            },
+            invalidatesTags: ["lab"],
+        }),
+
         editLabTest: builder.mutation({
-            query: ({ data,id:id }) => ({
-                url: `/pathology/${id}`,
+            query: ({ data, name }) =>
+                    console.log("mishra is",data,name)
+                    (
+            
+                
+                {
+                url: `/product/category/${name}`,
                 method: "PUT",
                 data
             }),
             invalidatesTags: ["lab"], // ✅ Cache Refresh
         }),
-        
-        
-        
-        
+
+
+
+
 
         // ✅ EDIT Test (PUT)
         editLabTag: builder.mutation({
-            query: ({ formData,pathologyId:id }) => ({
-                url: `/pathology/tag/${id}`,
+            query: ({ data, name }) => ({
+                url: `/product/category/sub/${name}`,
                 method: "PUT",
-                data: formData, // ✅ Change from `body` to `data`
-                formData: true, // ✅ Ensure FormData is properly handled
+                data
             }),
             invalidatesTags: ["lab"], // ✅ Cache Refresh
         }),
@@ -75,16 +106,17 @@ export const labTestApi = createApi({
         // ✅ DELETE Banner (DELETE)
         deleteLabTag: builder.mutation({
             query: (id) => ({
-                url: `/pathology/tag/${id}`,
+                url: `/product/category/${id}`,
                 method: "DELETE",
             }),
             invalidatesTags: ["lab"], // ✅ Cache Refresh
         }),
 
         deleteLabTest: builder.mutation({
-            query: (id) => ({
-                url: `/pathology/${id}`,
+            query: ({data,name}) => ({
+                url: `/product/category/sub/${name}`,
                 method: "DELETE",
+                data
             }),
             invalidatesTags: ["lab"], // ✅ Cache Refresh
         }),
@@ -101,5 +133,7 @@ export const {
     useEditLabTagMutation,
     useEditLabTestMutation,
     useDeleteLabTagMutation,
-    useDeleteLabTestMutation
+    useDeleteLabTestMutation,
+    useGetAllSubCategoryQuery,
+    useAddSubProductCategoryMutation
 } = labTestApi;

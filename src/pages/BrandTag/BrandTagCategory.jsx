@@ -34,14 +34,6 @@ const BrandCategoryTag = () => {
 
 
 
-    console.log(data);
-    
-
-    
-
-   
-    
-
     const tableData = data?.map((test) => ({
         tag: test?.brandName
             || "N/A",
@@ -77,7 +69,7 @@ const BrandCategoryTag = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // const formData = new FormData()
-        // setSpinLoading(true)
+        setSpinLoading(true)
         // formData.append("themeName", text)
         // formData.append("photo", photo)
 
@@ -108,8 +100,6 @@ const BrandCategoryTag = () => {
         setSpinLoading(false)
 
     }
-    
-
     
 
     const handlePhotoChange = (e) => {
@@ -204,7 +194,7 @@ const BrandCategoryTag = () => {
                 
 
                             {/* Submit & Cancel Buttons */}
-                            <div className="flex justify-end gap-2">
+                            <div className="flex justify-end gap-2  border border-red-500">
                                 <button
                                     type="button"
                                     className="px-4 py-2 bg-gray-400 text-white rounded-md"

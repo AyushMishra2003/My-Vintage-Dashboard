@@ -1,5 +1,5 @@
 
-import { useAddLabTestTagMutation, useDeleteLabTagMutation, useEditLabTagMutation, useGetAllLabTestQuery, useGetAllLabTestTagQuery } from '@/Rtk/labTestTag';
+import { useAddLabTestTagMutation, useAddSubProductCategoryMutation, useDeleteLabTagMutation, useDeleteLabTestMutation, useEditLabTagMutation, useGetAllLabTestQuery, useGetAllLabTestTagQuery, useGetAllSubCategoryQuery } from '@/Rtk/labTestTag';
 import React, { useState } from 'react'
 import { FaAddressBook, FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 import TableComponent from '../helper/TableComponent';
@@ -7,22 +7,27 @@ import { icon } from '@fortawesome/fontawesome-svg-core';
 import { useDispatch } from 'react-redux';
 import Spinner from '../Loading/SpinLoading';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const LabTestTag = () => {
-    const { data, isLoading } = useGetAllLabTestTagQuery()
-    const { data: pathology, isLoading: isPathology } = useGetAllLabTestQuery()
-    const [addLabTestTag, { isLoading: isAddLoading, isError, isSuccess }] = useAddLabTestTagMutation();
-    const [deleteLabTestTag, { isLoading: isDeleteLoading, isError: isDelete, isSuccess: isDeleteSuccess }] = useDeleteLabTagMutation();
+const ProductSubCategory = () => {
+        const {name}=useParams()
+    const { data, isLoading } = useGetAllSubCategoryQuery(name)
+    const { data: pathology, isLoading: isPathology } = useGetAllSubCategoryQuery(name)
+    const [addLabTestTag, { isLoading: isAddLoading, isError, isSuccess }] = useAddSubProductCategoryMutation();
+    const [deleteLabTestTag, { isLoading: isDeleteLoading, isError: isDelete, isSuccess: isDeleteSuccess }] = useDeleteLabTestMutation();
     const [editLabTestTag] = useEditLabTagMutation();
     const [currentTag, setCurrentTag] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [spinLoading, setSpinLoading] = useState(false)
     const [text, setText] = useState("")
+    const [oldText, setOldText] = useState("")
     const [pathologyId, setPathologyId] = useState("")
     const [photo, setPhoto] = useState(null);
     const dispatch = useDispatch()
     const navigate=useNavigate()
+
+
+
 
     const columns = [
         { header: "name", accessor: "type" },
@@ -30,12 +35,20 @@ const LabTestTag = () => {
         { header: "Action", accessor: "action", type: "action" }
     ];
 
+
+
+    
+
+ 
+    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData()
 
         const data={
-             "category": text,
+             "subCategory": text,
+             "oldSubCategory":oldText
         }
         setSpinLoading(true)
         // formData.append("category", text)
@@ -43,13 +56,16 @@ const LabTestTag = () => {
         // formData.append("slug",pathologyId)
         let response
 
-        console.log(pathologyId);
+   
+        
+      
         
 
+
         if(currentTag){
-             response=await editLabTestTag({data,pathologyId}).unwrap()
+             response=await editLabTestTag({data,name}).unwrap()
         }else{
-             response = await addLabTestTag(data).unwrap(); // unwrap()
+             response = await addLabTestTag({data,name}).unwrap(); // unwrap()
         }
 
         
@@ -73,7 +89,7 @@ const LabTestTag = () => {
         setPhoto(e.target.files[0]);
     };
 
-    const handleDeleteTag = async (id) => {
+    const handleDeleteTag = async (test) => {
         try {
             const result = await Swal.fire({
                 title: "Are you sure?",
@@ -85,8 +101,12 @@ const LabTestTag = () => {
                 confirmButtonText: "Yes, delete it!",
             });
 
+            const data={
+                "subCategory": test
+            }
+
             if (result?.isConfirmed) {
-                const response = await deleteLabTestTag(id).unwrap(); // Await the mutation
+                const response = await deleteLabTestTag({data,name}).unwrap(); // Await the mutation
 
 
                 if (response?.success) {
@@ -106,9 +126,12 @@ const LabTestTag = () => {
     }
 
     const handleEditTag=(data)=>{
+  
         setCurrentTag(data)
-        setText(data?.category)
-        setPathologyId(data?._id)
+       
+        setText(data)
+        setOldText(data)
+    
         // setPhoto(data?.icon?.secure_url)
         // setPathologyId(data?.labSlugName)
         setIsModalOpen(true)
@@ -124,8 +147,11 @@ const LabTestTag = () => {
     }
 
 
+    
+
+
     const tableData = data?.map((test) => ({
-        type: test?.category || "N/A",
+        type: test || "N/A",
         // url: test.url || "N/A",
         // photo: test.icon ? (
         //     <img
@@ -145,7 +171,7 @@ const LabTestTag = () => {
                     <FaEdit size={18} />
                 </button>
                 <button
-                    onClick={() => handleDeleteTag(test._id)}
+                    onClick={() => handleDeleteTag(test)}
                     className="text-red-600 hover:text-red-800"
                 >
                     <FaTrash size={18} />
@@ -247,4 +273,4 @@ const LabTestTag = () => {
     )
 }
 
-export default LabTestTag
+export default ProductSubCategory

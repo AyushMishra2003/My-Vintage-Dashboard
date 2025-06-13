@@ -112,14 +112,14 @@ const Banner = () => {
 
 
     const columns = [
-        { header: "Type", accessor: "type" },
+        // { header: "Type", accessor: "type" },
         // { header: "URL", accessor: "url" },
         { header: "Photo", accessor: "photo" },
         { header: "Action", accessor: "action", type: "action" }
     ];
 
     const tableData = data?.map((test) => ({
-        type: test.types === "banner2" ? "Slider-Banner" : "Home-Banner" || "N/A",
+        // type: test.types === "banner2" ? "Slider-Banner" : "Home-Banner" || "N/A",
         // url: test.url || "N/A",
         photo: test.photo ? (
             <img
@@ -181,7 +181,7 @@ const Banner = () => {
                         {/* Edit Form */}
                         <form onSubmit={handleSubmit} className="space-y-4">
                             {/* Dropdown for Banner Type */}
-                            <div>
+                            {/* <div>
                                 <label className="block text-sm font-medium text-gray-700">Banner Type</label>
                                 <select
                                     value={selectedType}
@@ -191,10 +191,10 @@ const Banner = () => {
                                     <option value="banner1">Banner (Type 1)</option>
                                     <option value="banner2">Slider (Type 2)</option>
                                 </select>
-                            </div>
+                            </div> */}
 
                             {/* Dropdown for URL Selection */}
-                            <div>
+                            {/* <div>
                                 <label className="block text-sm font-medium text-gray-700">Select URL</label>
                                 <select
                                     value={selectedUrl}
@@ -207,7 +207,7 @@ const Banner = () => {
                                         </option>
                                     ))}
                                 </select>
-                            </div>
+                            </div> */}
 
                             {/* File Upload */}
                             <div>

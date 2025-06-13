@@ -14,25 +14,28 @@ import { collectionApi } from "./collectionApi";
 import { authApi } from "./authApi";
 import { galleryApi } from "./galleryApi";
 import { BrandApi } from "./brandTagApi";
+import { productApi } from "./productApi";
+
 
 export const store = configureStore({
     reducer: {
         [testApi.reducerPath]: testApi.reducer, // ✅ API Reducer 
         [scanApi.reducerPath]: scanApi.reducer,
         [scanTestApi.reducerPath]: scanTestApi.reducer,
-        [bannerApi.reducerPath]:bannerApi.reducer,
-        [labTestApi.reducerPath]:labTestApi.reducer,
-        [packageApi.reducerPath]:packageApi.reducer,
-        [orderApi.reducerPath]:orderApi.reducer,
-        [carrerApi.reducerPath]:carrerApi.reducer,
-        [blogApi.reducerPath]:blogApi.reducer,
-        [teamApi.reducerPath]:teamApi.reducer,
-        [inquiryApi.reducerPath]:inquiryApi.reducer,
-        [collectionApi.reducerPath]:collectionApi.reducer,
-        [authApi.reducerPath]:authApi.reducer,
-        [galleryApi.reducerPath]:galleryApi.reducer,
-        [BrandApi.reducerPath]:BrandApi.reducer
+        [bannerApi.reducerPath]: bannerApi.reducer,
+        [labTestApi.reducerPath]: labTestApi.reducer,
+        [packageApi.reducerPath]: packageApi.reducer,
+        [orderApi.reducerPath]: orderApi.reducer,
+        [carrerApi.reducerPath]: carrerApi.reducer,
+        [blogApi.reducerPath]: blogApi.reducer,
+        [teamApi.reducerPath]: teamApi.reducer,
+        [inquiryApi.reducerPath]: inquiryApi.reducer,
+        [collectionApi.reducerPath]: collectionApi.reducer,
+        [authApi.reducerPath]: authApi.reducer,
+        [galleryApi.reducerPath]: galleryApi.reducer,
+        [BrandApi.reducerPath]: BrandApi.reducer,
+        [productApi.reducerPath]: productApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(testApi.middleware, scanApi.middleware,scanTestApi.middleware, bannerApi.middleware, labTestApi.middleware,packageApi.middleware,orderApi.middleware,carrerApi.middleware,blogApi.middleware,teamApi.middleware,inquiryApi.middleware,collectionApi.middleware,authApi.middleware,galleryApi.middleware,BrandApi.middleware),
+        getDefaultMiddleware().concat(testApi.middleware, scanApi.middleware, scanTestApi.middleware, bannerApi.middleware, labTestApi.middleware, packageApi.middleware, orderApi.middleware, carrerApi.middleware, blogApi.middleware, teamApi.middleware, inquiryApi.middleware, collectionApi.middleware, authApi.middleware, galleryApi.middleware, BrandApi.middleware,productApi.middleware),
 });

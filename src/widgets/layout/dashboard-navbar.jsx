@@ -33,33 +33,37 @@ export function DashboardNavbar() {
   const { fixedNavbar, openSidenav } = controller;
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
-  const dispatch1=useDispatch()
-  const navigate=useNavigate()
+  const dispatch1 = useDispatch();
+  const navigate = useNavigate();
 
-  const [logout]=useLogoutMutation()
+  const [logout] = useLogoutMutation();
 
-
-  const handleLogout=async()=>{
-      const response=await logout()
-      console.log(response);
-      if(response?.data?.success){
-         navigate("/login")
-      }
-      
-  }
+  const handleLogout = async () => {
+    const response = await logout();
+    console.log(response);
+    if (response?.data?.success) {
+      navigate("/login");
+    }
+  };
 
   return (
     <Navbar
-      color={fixedNavbar ? "white" : "transparent"}
-      className={`rounded-xl transition-all ${
+      className={`transition-all duration-300 mb-4 ${
         fixedNavbar
-          ? "sticky top-4 z-40 py-3 shadow-md shadow-blue-gray-500/5"
-          : "px-0 py-1"
-      }`}
+          ? "sticky top-0 z-40 py-4 shadow-xl"
+          : "py-3"
+      } bg-gradient-to-r from-[#06425F] to-[#0a5a73] border-0 w-full`}
+      style={{
+        background: 'linear-gradient(135deg, #06425F 0%, #0a5a73 50%, #0e6e87 100%)',
+        boxShadow: '0 4px 20px rgba(6, 66, 95, 0.4), 0 2px 8px rgba(6, 66, 95, 0.3)',
+        borderRadius: '0',
+        margin: '0',
+        maxWidth: '100%'
+      }}
       fullWidth
-      blurred={fixedNavbar}
+      blurred={false}
     >
-      <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center">
+      <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center px-6 mb-4">
         <div className="capitalize">
           <Breadcrumbs
             className={`bg-transparent p-0 transition-all ${
@@ -69,62 +73,81 @@ export function DashboardNavbar() {
             <Link to={`/${layout}`}>
               <Typography
                 variant="small"
-                color="blue-gray"
-                className="font-normal opacity-50 transition-all hover:text-blue-500 hover:opacity-100"
+                className="font-normal text-blue-100 opacity-70 transition-all hover:text-white hover:opacity-100"
               >
                 {layout}
               </Typography>
             </Link>
             <Typography
               variant="small"
-              color="blue-gray"
-              className="font-normal"
+              className="font-normal text-white"
             >
               {page}
             </Typography>
           </Breadcrumbs>
-          <Typography variant="h6" color="blue-gray">
+          <Typography variant="h6" className="text-white font-semibold">
             {page}
           </Typography>
         </div>
+        
         <div className="flex items-center">
-          <div className="mr-auto md:mr-4 md:w-56">
-            <Input label="Search" />
+          <div className="mr-auto md:mr-6 md:w-64">
+            <div className="relative">
+              <Input 
+                label="Search" 
+                className="!text-white placeholder:!text-blue-100 !border-white/30 focus:!border-white"
+                labelProps={{
+                  className: "!text-blue-100 peer-focus:!text-white"
+                }}
+                containerProps={{
+                  className: "!min-w-0"
+                }}
+                style={{
+                  color: 'white',
+                  borderColor: 'rgba(255, 255, 255, 0.3)'
+                }}
+              />
+              <div className="absolute inset-0 bg-white/5 rounded-md pointer-events-none"></div>
+            </div>
           </div>
+          
           <IconButton
             variant="text"
-            color="blue-gray"
-            className="grid xl:hidden"
+            className="grid xl:hidden hover:bg-white/10 transition-colors duration-200"
             onClick={() => setOpenSidenav(dispatch, !openSidenav)}
           >
-            <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
+            <Bars3Icon strokeWidth={3} className="h-6 w-6 text-white" />
           </IconButton>
-          <div >
-            {/* <Button
-              variant="text"
-              color="blue-gray"
-              className="hidden items-center gap-1 px-4 xl:flex normal-case"
+          
+          <div className="flex items-center gap-3">
+            <button 
+              className="px-8 py-2.5 rounded-lg text-[#06425F] bg-white hover:bg-blue-50 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 border border-white/20" 
+              onClick={() => handleLogout()}
             >
-              <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-              Sign In 123
-            </Button> */}
-            <button className=" px-6 py-1 rounded-md  text-white bg-gray-600 " onClick={()=>handleLogout()}>Logout</button>
+              Logout
+            </button>
             <IconButton
               variant="text"
-              color="blue-gray"
-              className="grid xl:hidden"
+              className="grid xl:hidden hover:bg-white/10 transition-colors duration-200"
             >
-              <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+              <UserCircleIcon className="h-6 w-6 text-white" />
             </IconButton>
           </div>
+          
           <Menu>
             <MenuHandler>
-              <IconButton variant="text" color="blue-gray">
-                <BellIcon className="h-5 w-5 text-blue-gray-500" />
+              <IconButton 
+                variant="text" 
+                className="hover:bg-white/10 transition-colors duration-200 relative"
+              >
+                <BellIcon className="h-5 w-5 text-white" />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                  3
+                </span>
               </IconButton>
             </MenuHandler>
-            <MenuList className="w-max border-0">
-              <MenuItem className="flex items-center gap-3">
+            <MenuList className="w-max border-0 shadow-xl">
+              <MenuItem className="flex items-center gap-3 hover:bg-blue-50 transition-colors duration-200">
                 <Avatar
                   src="https://demos.creative-tim.com/material-dashboard/assets/img/team-2.jpg"
                   alt="item-1"
@@ -148,7 +171,7 @@ export function DashboardNavbar() {
                   </Typography>
                 </div>
               </MenuItem>
-              <MenuItem className="flex items-center gap-4">
+              <MenuItem className="flex items-center gap-4 hover:bg-blue-50 transition-colors duration-200">
                 <Avatar
                   src="https://demos.creative-tim.com/material-dashboard/assets/img/small-logos/logo-spotify.svg"
                   alt="item-1"
@@ -172,8 +195,8 @@ export function DashboardNavbar() {
                   </Typography>
                 </div>
               </MenuItem>
-              <MenuItem className="flex items-center gap-4">
-                <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-tr from-blue-gray-800 to-blue-gray-900">
+              <MenuItem className="flex items-center gap-4 hover:bg-blue-50 transition-colors duration-200">
+                <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-tr from-[#06425F] to-[#0a5a73]">
                   <CreditCardIcon className="h-4 w-4 text-white" />
                 </div>
                 <div>
@@ -195,13 +218,6 @@ export function DashboardNavbar() {
               </MenuItem>
             </MenuList>
           </Menu>
-          {/* <IconButton
-            variant="text"
-            color="blue-gray"
-            onClick={() => setOpenConfigurator(dispatch, true)}
-          >
-            <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
-          </IconButton> */}
         </div>
       </div>
     </Navbar>

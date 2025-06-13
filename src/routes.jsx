@@ -48,6 +48,8 @@ import Gallery from "./pages/gallery/Gallery";
 import GeoLocationMap from "./pages/Test/GeoGraph";
 import ThemeCategoryTag from "./pages/packages/ThemeCategory";
 import BrandCategoryTag from "./pages/BrandTag/BrandTagCategory";
+import ProductSubCategory from "./pages/pathology/ProductSubCategory";
+import Product from "./pages/products/Product";
 
 
 const icon = {
@@ -68,8 +70,16 @@ export const routes = [
       {
         icon: <ImLab {...icon} />,
         name: "Product Tag",
-        path: "/lab/tag",
-        element: <LabTestTag/>,
+        path: "/product/tag",
+        element: <LabTestTag />,
+      },
+
+      {
+        icon: <TableCellsIcon {...icon} />,
+        name: "Scan Test",
+        index: 1,
+        path: "/product/tag/:name",
+        element: <ProductSubCategory/>,
       },
 
 
@@ -77,14 +87,14 @@ export const routes = [
         icon: <IoPricetagsSharp {...icon} />,
         name: "Brand Tag",
         path: "/brand/tag",
-        element: <BrandCategoryTag/>
+        element: <BrandCategoryTag />
       },
 
       {
         icon: <IoPricetagsSharp {...icon} />,
         name: "Theme Tag",
         path: "/theme/tag",
-        element: <ThemeCategoryTag/>
+        element: <ThemeCategoryTag />
       },
 
       // {
@@ -100,15 +110,9 @@ export const routes = [
       //   path: "/test/scan/:slug",
       //   element: <ScanTest/>,
       // },
-      // {
-      //   icon: <TableCellsIcon {...icon} />,
-      //   name: "Scan Test",
-      //   index:1,
-      //   path: "/test/scan/add/:slug",
-      //   element: <AddScanTest/>,
-      // },
-      
-      
+
+
+
       // {
       //   icon: <ImLab {...icon} />,
       //   name: "Pathology List",
@@ -144,13 +148,18 @@ export const routes = [
       //   index:1
       // },
 
+             {
+        icon: <IoMdImages {...icon} />,
+        name: "Product",
+        path: "/products",
+        element: <Product/>,
+      },
 
-      
       {
         icon: <IoMdImages {...icon} />,
         name: "Banner",
         path: "/banner",
-        element: <Banner/>,
+        element: <Banner />,
       },
       // {
       //   icon: <RiTeamFill {...icon} />,
@@ -175,33 +184,33 @@ export const routes = [
         icon: <GoListUnordered {...icon} />,
         name: "All-Order",
         path: "/order",
-        element: <Order/>,
+        element: <Order />,
       },
       {
         icon: <GoListUnordered {...icon} />,
         name: "Order Detail",
         path: "/order/detail",
-        element: <OrderDetail/>,
-        index:1
+        element: <OrderDetail />,
+        index: 1
       },
       {
         icon: <FaBloggerB {...icon} />,
         name: "Blog",
         path: "/blog",
-        element: <Blog/>,
+        element: <Blog />,
       },
       {
         icon: <FaBloggerB {...icon} />,
         name: "Add Blog",
         path: "/add/blog",
-        index:1,
-        element: <BlogAdd/>,
+        index: 1,
+        element: <BlogAdd />,
       },
       {
         icon: <CiViewList {...icon} />,
         name: "Inquiry",
         path: "/inquiry",
-        element: <Inquiry/>,
+        element: <Inquiry />,
       },
 
       // {
@@ -222,8 +231,8 @@ export const routes = [
         icon: <CiViewList {...icon} />,
         name: "HomeCollection Detail",
         path: "/home-collection/detail",
-        element: <DetailHomeCollection/>,
-        index:1,
+        element: <DetailHomeCollection />,
+        index: 1,
       },
       // {
       //   icon: <CiViewList {...icon} />,
@@ -236,8 +245,8 @@ export const routes = [
         icon: <MdPhoto {...icon} />,
         name: "Gallery",
         path: "/gallery",
-        element:<Gallery/>,
-        index:0,
+        element: <Gallery />,
+        index: 0,
       },
       // {
       //   icon: <RiTeamFill {...icon} />,
