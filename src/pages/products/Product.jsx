@@ -7,6 +7,7 @@ import { useGetAllThemeTagQuery } from '@/Rtk/packageApi';
 import { useGetAllLabTestTagQuery } from '@/Rtk/labTestTag';
 import { useAddProductMutation } from '@/Rtk/productApi';
 import { data } from 'autoprefixer';
+import { X } from 'lucide-react'; // Or use any close icon you prefer
 
 const Product = () => {
     const [formData, setFormData] = useState({
@@ -28,6 +29,7 @@ const Product = () => {
     const [addProduct, { isLoading, isError, isSuccess }] = useAddProductMutation();
 
     const [mainPhoto, setMainPhoto] = useState(null);
+    const [preview, setPreview] = useState(null);
     const [photos, setPhotos] = useState([]);
     const [categoryOptions, setCategoryOptions] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
@@ -94,6 +96,36 @@ const Product = () => {
 
 
 
+    const handlePhotoChange = (e) => {
+        const files = Array.from(e.target.files);
+        const newPhotos = files.map(file => ({
+            file,
+            preview: URL.createObjectURL(file)
+        }));
+        setPhotos(prev => [...prev, ...newPhotos]);
+    };
+
+    const removePhoto = (index) => {
+        const updatedPhotos = [...photos];
+        updatedPhotos.splice(index, 1);
+        setPhotos(updatedPhotos);
+    };
+
+
+    const handleMainPhotoChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setMainPhoto(file);
+            setPreview(URL.createObjectURL(file));
+        }
+    };
+
+    const removeMainPhoto = () => {
+        setMainPhoto(null);
+        setPreview(null);
+    };
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -118,7 +150,6 @@ const Product = () => {
     };
 
 
-    console.log("form data is ", formData);
 
 
 
@@ -152,7 +183,7 @@ const Product = () => {
                         <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-[#06425F]"></div>
                     )}
                 </button>
-                
+
                 <button
                     onClick={() => setStep("two")}
                     className={`
@@ -206,12 +237,58 @@ const Product = () => {
 
                                 <div>
                                     <label className="block mb-1 font-medium">Main Photo</label>
-                                    <input type="file" accept="image/*" onChange={(e) => setMainPhoto(e.target.files[0])} className="w-full border p-2 rounded" required />
+                                    {mainPhoto ? (
+                                        <div className="relative w-32 h-32 mb-4">
+                                            <img
+                                                src={preview}
+                                                alt="Main Preview"
+                                                className="w-full h-full object-cover rounded"
+                                            />
+                                            <button
+                                                onClick={removeMainPhoto}
+                                                className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1"
+                                            >
+                                                <X size={16} />
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleMainPhotoChange}
+                                            className="w-full border p-2 rounded"
+                                            required
+                                        />
+                                    )}
                                 </div>
 
                                 <div>
                                     <label className="block mb-1 font-medium">Multiple Photos</label>
-                                    <input type="file" accept="image/*" multiple onChange={(e) => setPhotos([...e.target.files])} className="w-full border p-2 rounded" />
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        onChange={handlePhotoChange}
+                                        className="w-full border p-2 rounded mb-4"
+                                    />
+
+                                    <div className="flex flex-wrap gap-4">
+                                        {photos.map((photo, index) => (
+                                            <div key={index} className="relative w-24 h-24">
+                                                <img
+                                                    src={photo.preview}
+                                                    alt="preview"
+                                                    className="w-full h-full object-cover rounded"
+                                                />
+                                                <button
+                                                    onClick={() => removePhoto(index)}
+                                                    className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1"
+                                                >
+                                                    <X size={16} />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
 
                                 <div>
@@ -297,15 +374,11 @@ const Product = () => {
                                         </div>
                                     )}
 
-
-
-
-
                             </div>
                         </div>
 
                         <div className="text-center mt-4">
-                            <button onClick={() => setStep("two")} className="bg-indigo-600 text-white px-6 py-2 rounded shadow hover:bg-indigo-700">
+                            <button onClick={() => setStep("two")} className="bg-[#06425F] text-white px-6 py-2 rounded shadow hover:bg-indigo-700">
                                 Next
                             </button>
                         </div>
@@ -362,7 +435,7 @@ const Product = () => {
 
 
                         <div className="text-center">
-                            <button type="submit" className="bg-indigo-600 text-white px-6 py-2 rounded shadow hover:bg-indigo-700">
+                            <button type="submit" className="bg-[#06425F] text-white px-6 py-2 rounded shadow hover:bg-indigo-700">
                                 Submit Product
                             </button>
                         </div>
