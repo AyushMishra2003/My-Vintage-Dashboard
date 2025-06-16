@@ -64,28 +64,28 @@ export function Home() {
   await refetch();
 };
 
-  useEffect(() => {
-    // Load initial orders
-    setOrders(initialData);
+  // useEffect(() => {
+  //   // Load initial orders
+  //   setOrders(initialData);
 
-    // ✅ Debugging socket connection
-    socket.on("connect", () => {
-      console.log("🟢 Connected to Socket.io server:", socket.id);
-    });
+  //   // ✅ Debugging socket connection
+  //   socket.on("connect", () => {
+  //     console.log("🟢 Connected to Socket.io server:", socket.id);
+  //   });
 
-    socket.on("ham-aa-gaye", () => {
-      console.log("ham aaye ki nahi babu:", socket.id);
-    });
+  //   socket.on("ham-aa-gaye", () => {
+  //     console.log("ham aaye ki nahi babu:", socket.id);
+  //   });
 
-    socket.on("orderPlaced", () => { 
-      handleTotalOrderQuery()
-    });
+  //   socket.on("orderPlaced", () => { 
+  //     handleTotalOrderQuery()
+  //   });
 
 
-    return () => {
-      socket.off("orderPlaced");
-    };
-  }, [initialData]);
+  //   return () => {
+  //     socket.off("orderPlaced");
+  //   };
+  // }, [initialData]);
 
 
 
@@ -94,7 +94,7 @@ export function Home() {
 
 
   return (
-    <div className="mt-12">
+    <div className="">
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
         {orders &&
           Array.isArray(orders) &&

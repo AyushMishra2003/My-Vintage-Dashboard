@@ -6,28 +6,28 @@ const BookingChart = () => {
   console.log(data);
 
   const monthlyData = [
-    { name: "Jan", pathology: 200, scan: 150 },
-    { name: "Feb", pathology: 300, scan: 220 },
-    { name: "Mar", pathology: 250, scan: 180 },
-    { name: "Apr", pathology: 400, scan: 300 },
-    { name: "May", pathology: 350, scan: 250 },
-    { name: "Jun", pathology: 500, scan: 400 },
-    { name: "Jul", pathology: 450, scan: 350 },
-    { name: "Aug", pathology: 600, scan: 500 },
-    { name: "Sep", pathology: 480, scan: 390 },
-    { name: "Oct", pathology: 420, scan: 350 },
-    { name: "Nov", pathology: 550, scan: 470 },
-    { name: "Dec", pathology: 600, scan: 520 },
+    { name: "Jan", data1: 200, data2: 150 },
+    { name: "Feb", data1: 300, data2: 220 },
+    { name: "Mar", data1: 250, data2: 180 },
+    { name: "Apr", data1: 400, data2: 300 },
+    { name: "May", data1: 350, data2: 250 },
+    { name: "Jun", data1: 500, data2: 400 },
+    { name: "Jul", data1: 450, data2: 350 },
+    { name: "Aug", data1: 600, data2: 500 },
+    { name: "Sep", data1: 480, data2: 390 },
+    { name: "Oct", data1: 420, data2: 350 },
+    { name: "Nov", data1: 550, data2: 470 },
+    { name: "Dec", data1: 600, data2: 520 },
   ];
 
   const weeklyData = [
-    { name: "Mon", pathology: 40, scan: 30 },
-    { name: "Tue", pathology: 20, scan: 15 },
-    { name: "Wed", pathology: 30, scan: 25 },
-    { name: "Thu", pathology: 50, scan: 40 },
-    { name: "Fri", pathology: 60, scan: 50 },
-    { name: "Sat", pathology: 45, scan: 35 },
-    { name: "Sun", pathology: 50, scan: 40 },
+    { name: "Mon", data1: 40, data2: 30 },
+    { name: "Tue", data1: 20, data2: 15 },
+    { name: "Wed", data1: 30, data2: 25 },
+    { name: "Thu", data1: 50, data2: 40 },
+    { name: "Fri", data1: 60, data2: 50 },
+    { name: "Sat", data1: 45, data2: 35 },
+    { name: "Sun", data1: 50, data2: 40 },
   ];
 
   // Dummy values, replace with real data
@@ -38,7 +38,7 @@ const BookingChart = () => {
   const totalCompleted = 2700;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-2">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-2 ">
       {/* Weekly Booking Chart */}
       <div className="bg-white p-6 shadow-lg rounded-2xl">
         <h2 className="text-xl font-semibold mb-4 text-gray-700">Weekly Bookings</h2>
@@ -48,8 +48,8 @@ const BookingChart = () => {
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="pathology" fill="#4CAF50" name="Pathology" />
-            <Bar dataKey="scan" fill="#2196F3" name="Scan" />
+            <Bar dataKey="data1" fill="#4CAF50" name="data1" />
+            <Bar dataKey="data2" fill="#2196F3" name="data2" />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -63,8 +63,8 @@ const BookingChart = () => {
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Line type="monotone" dataKey="pathology" stroke="#4CAF50" name="Pathology" strokeWidth={3} />
-            <Line type="monotone" dataKey="scan" stroke="#2196F3" name="Scan" strokeWidth={3} />
+            <Line type="monotone" dataKey="data1" stroke="#4CAF50" name="data1" strokeWidth={3} />
+            <Line type="monotone" dataKey="data2" stroke="#2196F3" name="data2" strokeWidth={3} />
           </LineChart>
         </ResponsiveContainer>
       </div>

@@ -5,11 +5,29 @@ import axios from 'axios';
 import { useGetAllBrandNameQuery } from '@/Rtk/brandTagApi';
 import { useGetAllThemeTagQuery } from '@/Rtk/packageApi';
 import { useGetAllLabTestTagQuery } from '@/Rtk/labTestTag';
-import { useAddProductMutation } from '@/Rtk/productApi';
+import { useAddProductMutation, useEditProductMutation, useGetProductDetailQuery } from '@/Rtk/productApi';
 import { data } from 'autoprefixer';
 import { X } from 'lucide-react'; // Or use any close icon you prefer
+import { useNavigate, useParams } from 'react-router-dom';
+import Spinner from '../Loading/SpinLoading';
 
 const Product = () => {
+
+    const { id } = useParams()
+    const { data: brandData, isLoading: isBrandLoading } = useGetAllBrandNameQuery()
+    const { data: themeData, isLoading: isThemeLoading } = useGetAllThemeTagQuery()
+    const { data: productCMainData, isLoading: isProductCMainData } = useGetAllLabTestTagQuery()
+    const { data: productDetailData, isLoading: isProductDetailLoading } = useGetProductDetailQuery(id, {
+        skip: !id,  
+    })
+
+    const [addProduct, { isLoading, isError, isSuccess }] = useAddProductMutation();
+    const [editProduct] = useEditProductMutation();
+
+    const [loading, setLoading] = useState(false)
+
+
+
     const [formData, setFormData] = useState({
         name: '',
         rate: '',
@@ -22,12 +40,6 @@ const Product = () => {
         contact: ''
     });
 
-    const { data: brandData, isLoading: isBrandLoading } = useGetAllBrandNameQuery()
-    const { data: themeData, isLoading: isThemeLoading } = useGetAllThemeTagQuery()
-    const { data: productCMainData, isLoading: isProductCMainData } = useGetAllLabTestTagQuery()
-
-    const [addProduct, { isLoading, isError, isSuccess }] = useAddProductMutation();
-
     const [mainPhoto, setMainPhoto] = useState(null);
     const [preview, setPreview] = useState(null);
     const [photos, setPhotos] = useState([]);
@@ -36,6 +48,8 @@ const Product = () => {
     const [tab, setTab] = useState('description');
     const [step, setStep] = useState("one")
     const [selectedProductCategory, setSelectedProductCategory] = useState(null);
+
+    const navigate = useNavigate()
 
     const [selectCategory, setSelectCategory] = useState(null)
 
@@ -71,10 +85,6 @@ const Product = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target
-
-
-
-
         setFormData(prev => ({
             ...prev,
             [e.target.name]: e.target.value
@@ -127,9 +137,11 @@ const Product = () => {
 
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
         const data = new FormData();
+        setLoading(true);
 
         data.append('name', formData.name);
         data.append('rate', formData.rate);
@@ -143,37 +155,108 @@ const Product = () => {
         if (mainPhoto) data.append('photo', mainPhoto);
         photos.forEach(file => data.append('photos', file));
 
-        console.log('Sending form data...');
+        let response;
 
-        const response = await addProduct(data).unwrap()
-        // await axios.post('/api/product', data);
-    };
+        if (id) {
+            response = await editProduct({ data, id }).unwrap();
+        } else {
+            response = await addProduct(data).unwrap();  // FIXED
+        }
 
+        console.log('Response:', response);
+        setLoading(false);
+
+        if(response?.success){
+              setFormData({
+                name:'',
+                rate:'',
+                discount:'',
+                categoryType:'',
+                categoryId:'',
+                subCategory: '', // If needed, set this from productDetailData
+                description:'',
+                faq: '',
+                contact: ''
+            });
+
+            setPhotos([])
+            setPreview(null)
+            setMainPhoto(null)
+
+            setCategoryOptions([])
+            setSubCategories([])
+            setStep("one")
+            setSelectedProductCategory(null)
+
+        }
+
+    } catch (error) {
+        console.error('Submission failed:', error);
+        setLoading(false);
+    }
+};
+
+
+    // When productDetailData arrives, update formData
+    useEffect(() => {
+        if (productDetailData) {
+            setFormData({
+                name: productDetailData?.title || '',
+                rate: productDetailData?.rate || '',
+                discount: productDetailData?.discount || '',
+                categoryType: productDetailData?.categoryType || '',
+                categoryId: productDetailData?.categoryId || '',
+                subCategory: '', // If needed, set this from productDetailData
+                description: productDetailData?.description || '',
+                faq: productDetailData?.faq || '',
+                contact: productDetailData?.contact || ''
+            });
+
+            // Set main photo + preview
+            if (productDetailData.mainPhoto) {
+                setMainPhoto(null);
+                setPreview(productDetailData?.mainPhoto?.secure_url);
+            }
+
+            // Set multiple photos
+            if (productDetailData.photos) {
+                const existingPhotos = productDetailData?.photos.map(photo => ({
+                    preview: photo?.secure_url,
+                    public_id: photo?.public_id,
+                    isExisting: true
+                }));
+                setPhotos(existingPhotos);
+            }
+        }
+    }, [productDetailData]);
 
 
 
 
 
     return (
-        <div className="max-w-5xl mx-auto px-4 py-6">
-            <h1 className="text-2xl font-bold mb-2 text-center">Add New Product</h1>
+        <div className=" mx-auto px-4 py-2">
+            <div className="flex items-center justify-between mb-2 mt-2">
+                <h1 className="text-2xl font-bold mb-2 text-center">{id ? "Edit New Product" : "Add New Product"}</h1>
+                <button
+                    className="bg-[#06425F] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+                    onClick={() => navigate("/dashboard/products/all")}
+                >
+                    View Product
+                </button>
+            </div>
 
-            <div className="flex gap-6 mb-4">
+
+            <div className="flex gap-6 mb-4 max-w-5xl">
                 <button
                     onClick={() => setStep("one")}
-                    className={`
-      relative px-8 py-3 rounded-lg font-semibold text-lg transition-all duration-300 
-      transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 
-      ${step === "one"
-                            ? 'bg-[#06425F] text-white shadow-[#06425F] focus:ring-[#06425F]'
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-300'
-                        }
-    `}
+                    className={` relative px-8 py-3 rounded-lg font-semibold text-lg transition-all duration-300  transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4  ${step === "one"
+                        ? 'bg-[#06425F] text-white shadow-[#06425F] focus:ring-[#06425F]'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-300'
+                        }`}
                 >
                     <span className="flex items-center gap-2">
-                        <span className={`
-        w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold
-        ${step === "one" ? 'bg-white text-black' : 'bg-white text-black'}
+                        <span className={`   w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold ${step === "one" ? 'bg-white text-black' : 'bg-white text-black'}
       `}>
                             1
                         </span>
@@ -237,7 +320,7 @@ const Product = () => {
 
                                 <div>
                                     <label className="block mb-1 font-medium">Main Photo</label>
-                                    {mainPhoto ? (
+                                    {preview ? (
                                         <div className="relative w-32 h-32 mb-4">
                                             <img
                                                 src={preview}
@@ -397,7 +480,7 @@ const Product = () => {
 
 
                         <div className="bg-gray-50 p-6 rounded-xl shadow border">
-                            <h2 className="text-xl font-semibold text-green-700 mb-4">
+                            <h2 className="text-xl font-semibold text-[#06425F] mb-4">
                                 Step 2: Additional Content
                             </h2>
 
@@ -407,7 +490,7 @@ const Product = () => {
                                     <button
                                         type="button"
                                         key={key}
-                                        className={`px-4 py-2 rounded ${tab === key ? 'bg-green-600 text-white' : 'bg-white border'
+                                        className={`px-4 py-2 rounded ${tab === key ? 'bg-[#06425F] text-white' : 'bg-white border'
                                             }`}
                                         onClick={() => setTab(key)}
                                     >
@@ -434,10 +517,12 @@ const Product = () => {
                         </div>
 
 
-                        <div className="text-center">
-                            <button type="submit" className="bg-[#06425F] text-white px-6 py-2 rounded shadow hover:bg-indigo-700">
-                                Submit Product
-                            </button>
+                        <div className="text-center flex items-center justify-center">
+                            {loading ? <Spinner /> :
+                                <button type="submit" className="bg-[#06425F] text-white mt-4 px-6 py-2 rounded shadow hover:bg-indigo-700">
+                                    {id ? "Edit Product " : "Submit Product"}
+                                </button>
+                            }
                         </div>
 
                     </div>

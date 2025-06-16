@@ -50,6 +50,8 @@ import ThemeCategoryTag from "./pages/packages/ThemeCategory";
 import BrandCategoryTag from "./pages/BrandTag/BrandTagCategory";
 import ProductSubCategory from "./pages/pathology/ProductSubCategory";
 import Product from "./pages/products/Product";
+import AllProduct from "./pages/products/AllProduct";
+import ProductDetail from "./pages/products/ProductDetail";
 
 
 const icon = {
@@ -68,7 +70,7 @@ export const routes = [
       },
 
       {
-        icon: <ImLab {...icon} />,
+        icon: <IoPricetagsSharp {...icon} />,
         name: "Product Tag",
         path: "/product/tag",
         element: <LabTestTag />,
@@ -79,7 +81,7 @@ export const routes = [
         name: "Scan Test",
         index: 1,
         path: "/product/tag/:name",
-        element: <ProductSubCategory/>,
+        element: <ProductSubCategory />,
       },
 
 
@@ -97,63 +99,31 @@ export const routes = [
         element: <ThemeCategoryTag />
       },
 
-      // {
-      //   icon: <FaDiagnoses {...icon} />,
-      //   name: "Scan List",
-      //   path: "/scan",
-      //   element: <ViewScan/>,
-      // },
-      // {
-      //   icon: <TableCellsIcon {...icon} />,
-      //   name: "Scan Test",
-      //   index:1,
-      //   path: "/test/scan/:slug",
-      //   element: <ScanTest/>,
-      // },
 
-
-
-      // {
-      //   icon: <ImLab {...icon} />,
-      //   name: "Pathology List",
-      //   path: "/pathology",
-      //   element: <LabTest/>,
-      // },
-
-      // {
-      //   icon: <CiViewList {...icon} />,
-      //   name: "HomeCollection",
-      //   path: "/home-collection",
-      //   element: <CollectionSales/>,
-      // },
-      // {
-      //   icon: <MdHealthAndSafety {...icon} />,
-      //   name:  "Health Package",
-      //   path: "/package",
-      //   element: <Package/>,
-      // },
-      // {
-      //   icon: <MdHealthAndSafety {...icon} />,
-      //   name:  "Add Packages",
-      //   path: "/package/add",
-      //   element: <AddPackage/>,
-      //   index:1
-      // },
-
-      // {
-      //   icon: <ImLab {...icon} />,
-      //   name: "Add Pathology",
-      //   path: "/pathology/add",
-      //   element: <AddLabTest/>,
-      //   index:1
-      // },
-
-             {
+      {
         icon: <IoMdImages {...icon} />,
         name: "Product",
         path: "/products",
+        element: <Product />,
+      },
+
+         {
+        icon: <IoMdImages {...icon} />,
+        name: "Product",
+        index:1,
+        path: "/products/:id",
         element: <Product/>,
       },
+
+
+      {
+        icon: <IoMdImages {...icon} />,
+        index: 1,
+        name: "Product",
+        path: "/products/all",
+        element: <AllProduct />,
+      },
+
 
       {
         icon: <IoMdImages {...icon} />,
@@ -248,18 +218,7 @@ export const routes = [
         element: <Gallery />,
         index: 0,
       },
-      // {
-      //   icon: <RiTeamFill {...icon} />,
-      //   name: "Test",
-      //   path: "/test",
-      //   element: <Test/>,
-      // },
-      // {
-      //   icon: <RiTeamFill {...icon} />,
-      //   name: "Graph",
-      //   path: "/graph",
-      //   element: <GeoLocationMap/>,
-      // },
+
     ],
   },
   // {

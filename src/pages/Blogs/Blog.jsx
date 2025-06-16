@@ -97,10 +97,10 @@ const Blog = () => {
 
     return (
         <div>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-4 mt-2">
                 <h2 className="text-2xl font-semibold text-black">{"Blog"}</h2>
                 <button
-                    className="bg-[#212121] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+                    className="bg-[#06425F] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
                 // onClick={() => setIsModalOpen(true)}
                 onClick={()=>navigate("/dashboard/add/blog")}
                 >

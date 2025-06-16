@@ -27,7 +27,7 @@ const ThemeCategoryTag = () => {
 
     const columns = [
         { header: "Tag Name", accessor: "tag" },
-        { header: "Photo", accessor: "photo" },
+        // { header: "Photo", accessor: "photo" },
         { header: "Action", accessor: "action", type: "action" }
     ];
 
@@ -38,15 +38,15 @@ const ThemeCategoryTag = () => {
         tag: test?.themeName
             || "N/A",
         // url: test.url || "N/A",
-        photo: test.photo ? (
-            <img
-                src={test.photo.secure_url}
-                alt={test?.themeName}
-                className="w-16 h-16 object-cover rounded-md border border-gray-300"
-            />
-        ) : (
-            "N/A"
-        ),
+        // photo: test.photo ? (
+        //     <img
+        //         src={test.photo.secure_url}
+        //         alt={test?.themeName}
+        //         className="w-16 h-16 object-cover rounded-md border border-gray-300"
+        //     />
+        // ) : (
+        //     "N/A"
+        // ),
         action: (
             <div className="flex gap-3">
                 <button
@@ -157,10 +157,10 @@ const ThemeCategoryTag = () => {
 
     return (
         <div>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-2 mt-2">
                 <h2 className="text-2xl font-semibold text-black">{"Theme Tag"}</h2>
                 <button
-                    className="bg-[#212121] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+                    className="bg-[#06425F] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
                 onClick={() => setIsModalOpen(true)}
                 >
                     + Add Theme Tag

@@ -2,12 +2,28 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import axiosBaseQuery from "./axiosBaseQuery";
 
 export const productApi = createApi({
-    reducerPath: "productApi",   
-    baseQuery: axiosBaseQuery, 
-    tagTypes: ["product"],  
+    reducerPath: "productApi",
+    baseQuery: axiosBaseQuery,
+    tagTypes: ["product"],
     endpoints: (builder) => ({
-       
-        // ✅ ADD New Banner (POST)
+
+        getAllProduct: builder.query({
+            query: ({ page = 1, limit = 10 }) => ({
+                url: `/product?page=${page}&limit=${limit}`,
+                method: "GET",
+            }),
+            providesTags: ["product"], // ✅ Keeps caching support
+        }),
+
+        getProductDetail: builder.query({
+            query: (id) => ({
+                url: `/product/detail/${id}`,
+                method: "GET",
+            }),
+            providesTags: ["product"], // ✅ Keeps caching support
+        }),
+
+        // ✅ ADD New Product (POST)
         addProduct: builder.mutation({
             query: (formData) => {
                 return {
@@ -19,13 +35,29 @@ export const productApi = createApi({
             },
             invalidatesTags: ["product"],
         }),
-        
-        
+
+
+        editProduct: builder.mutation({
+            query: ({data,id}) => {
+                return {
+                    url: `/product/${id}`,
+                    method: "PUT",
+                    data,
+                    formData: true, 
+                };
+            },
+            invalidatesTags: ["product"],
+        }),
+
+
     }),
 });
 
 // ✅ Hooks Export (Use in Components)
 export const {
-   useAddProductMutation
+    useGetAllProductQuery,
+    useAddProductMutation,
+    useGetProductDetailQuery,
+    useEditProductMutation
 
 } = productApi;

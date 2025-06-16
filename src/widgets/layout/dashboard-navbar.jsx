@@ -27,6 +27,7 @@ import {
 } from "@/context";
 import { useDispatch } from "react-redux";
 import { useLogoutMutation } from "@/Rtk/authApi";
+import Swal from "sweetalert2";
 
 export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
@@ -38,21 +39,47 @@ export function DashboardNavbar() {
 
   const [logout] = useLogoutMutation();
 
-  const handleLogout = async () => {
-    const response = await logout();
-    console.log(response);
-    if (response?.data?.success) {
-      navigate("/login");
+  const handleLogout = async() => {
+    // Clear authentication data
+
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (result?.isConfirmed) {
+      localStorage.removeItem("auth");
+          // Redirect to login
+    navigate("/login");
+
+// 
+      // if (response?.success) {
+      //   Swal.fire({
+      //     title: "Deleted!",
+      //     text: "Your item has been deleted.",
+      //     icon: "success",
+      //     timer: 2000,
+      //     showConfirmButton: false,
+      //   });
+      // }
     }
+
+
+
   };
+
 
   return (
     <Navbar
-      className={`transition-all duration-300 mb-4 ${
-        fixedNavbar
-          ? "sticky top-0 z-40 py-4 shadow-xl"
-          : "py-3"
-      } bg-gradient-to-r from-[#06425F] to-[#0a5a73] border-0 w-full`}
+      className={`transition-all duration-300 mb-2 ${fixedNavbar
+          ? "sticky top-0 z-40 py-1 shadow-xl"
+          : "py-2"
+        } bg-gradient-to-r from-[#06425F] to-[#0a5a73] border-0 w-full`}
       style={{
         background: 'linear-gradient(135deg, #06425F 0%, #0a5a73 50%, #0e6e87 100%)',
         boxShadow: '0 4px 20px rgba(6, 66, 95, 0.4), 0 2px 8px rgba(6, 66, 95, 0.3)',
@@ -63,12 +90,11 @@ export function DashboardNavbar() {
       fullWidth
       blurred={false}
     >
-      <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center px-6 mb-4">
+      <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center px-6 mb-0">
         <div className="capitalize">
           <Breadcrumbs
-            className={`bg-transparent p-0 transition-all ${
-              fixedNavbar ? "mt-1" : ""
-            }`}
+            className={`bg-transparent p-0 transition-all ${fixedNavbar ? "mt-1" : ""
+              }`}
           >
             <Link to={`/${layout}`}>
               <Typography
@@ -89,12 +115,12 @@ export function DashboardNavbar() {
             {page}
           </Typography>
         </div>
-        
+
         <div className="flex items-center">
           <div className="mr-auto md:mr-6 md:w-64">
             <div className="relative">
-              <Input 
-                label="Search" 
+              <Input
+                label="Search"
                 className="!text-white placeholder:!text-blue-100 !border-white/30 focus:!border-white"
                 labelProps={{
                   className: "!text-blue-100 peer-focus:!text-white"
@@ -110,7 +136,7 @@ export function DashboardNavbar() {
               <div className="absolute inset-0 bg-white/5 rounded-md pointer-events-none"></div>
             </div>
           </div>
-          
+
           <IconButton
             variant="text"
             className="grid xl:hidden hover:bg-white/10 transition-colors duration-200"
@@ -118,10 +144,10 @@ export function DashboardNavbar() {
           >
             <Bars3Icon strokeWidth={3} className="h-6 w-6 text-white" />
           </IconButton>
-          
+
           <div className="flex items-center gap-3">
-            <button 
-              className="px-8 py-2.5 rounded-lg text-[#06425F] bg-white hover:bg-blue-50 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 border border-white/20" 
+            <button
+              className="px-8 py-2.5 rounded-lg text-[#06425F] bg-white hover:bg-blue-50 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 border border-white/20"
               onClick={() => handleLogout()}
             >
               Logout
@@ -133,11 +159,11 @@ export function DashboardNavbar() {
               <UserCircleIcon className="h-6 w-6 text-white" />
             </IconButton>
           </div>
-          
+
           <Menu>
             <MenuHandler>
-              <IconButton 
-                variant="text" 
+              <IconButton
+                variant="text"
                 className="hover:bg-white/10 transition-colors duration-200 relative"
               >
                 <BellIcon className="h-5 w-5 text-white" />

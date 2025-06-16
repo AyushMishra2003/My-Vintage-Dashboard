@@ -9,13 +9,8 @@ import { useEditBannerMutation } from "@/Rtk/bannerApi";
 
 const BlogAdd = () => {
    
-
     const location=useLocation()
      
-    console.log(location);
-    
-
-
     const {state}=location
     const [title, setTitle] = useState(state?.blogName || "");
     const [blogName, setBlogName] = useState(state?.blogName || "");
@@ -78,15 +73,7 @@ const BlogAdd = () => {
 
     return (
         <div className="p-4 max-w-4xl mx-auto border border-black rounded-md shadow-md ">
-            <h2 className="text-xl font-bold mb-4">  {!state ? "Add Blog" :"Edit Blog"}</h2>
-
-            {/* <label className="block mb-2">Title</label>
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="w-full p-2 border border-black rounded-md mb-4"
-      /> */}
+            <h2 className="text-xl font-bold mb-4 mt-2">  {!state ? "Add Blog" :"Edit Blog"}</h2>
 
             <label className="block mb-2">Blog Name</label>
             <input

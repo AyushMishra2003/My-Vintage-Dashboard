@@ -43,14 +43,14 @@ const HomeCollectionOrders = () => {
 
   return (
     <div className="bg-white shadow-md rounded-lg p-4 w-full max-w-3xl">
-      <h2 className="text-lg font-semibold text-gray-700">Recent Home Collection Orders </h2>
+      <h2 className="text-lg font-semibold text-gray-700">Recent Collection Orders </h2>
       <p className="text-sm text-gray-500 mb-4">Recent orders</p>
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="text-gray-600 border-b">
-              <th className="py-2 px-4">Patient Name</th>
-              <th className="py-2 px-4">Test Name</th>
+              <th className="py-2 px-4">Order Name</th>
+              {/* <th className="py-2 px-4">Test Name</th> */}
               <th className="py-2 px-4">Rate</th>
               <th className="py-2 px-4">Status</th>
             </tr>

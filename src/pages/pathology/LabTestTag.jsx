@@ -168,10 +168,10 @@ const LabTestTag = () => {
 
     return (
         <div>
-            <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-semibold text-gray-700">{"Product Category Tag"}</h2>
+            <div className="flex items-center justify-between mb-2 mt-2">
+                <h2 className="text-2xl font-semibold text-black">{"Product Category Tag"}</h2>
                 <button
-                    className="bg-[#212121] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+                    className="bg-[#06425F] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
                     onClick={() => setIsModalOpen(true)}
                 >
                     + Add Tag

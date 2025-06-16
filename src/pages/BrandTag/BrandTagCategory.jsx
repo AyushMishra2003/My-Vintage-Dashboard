@@ -1,4 +1,4 @@
-import { useAddThemeTagMutation,  useDeleteThemeTagMutation,  useEditThemeTagMutation, useGetAllThemeTagQuery } from '@/Rtk/packageApi'
+import { useAddThemeTagMutation, useDeleteThemeTagMutation, useEditThemeTagMutation, useGetAllThemeTagQuery } from '@/Rtk/packageApi'
 import React, { useState } from 'react'
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import TableComponent from '../helper/TableComponent';
@@ -15,7 +15,7 @@ const BrandCategoryTag = () => {
 
     const [deleteBrandTag, { isLoading: isDeleteLoading, isError: isDelete, isSuccess: isDeleteSuccess }] = useDeleteBrandMutation()
 
-    const [addBrandTag]= useAddBrandMutation()
+    const [addBrandTag] = useAddBrandMutation()
     const [editBrandTag] = useEditBrandMutation()
     const [currentTag, setCurrentTag] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,20 +74,20 @@ const BrandCategoryTag = () => {
         // formData.append("photo", photo)
 
 
-        const data={
-             brandName:text
+        const data = {
+            brandName: text
         }
-   
-         
+
+
         let response
 
         if (currentTag) {
-            response = await editBrandTag({data,id:currentTag?._id}).unwrap()
+            response = await editBrandTag({ data, id: currentTag?._id }).unwrap()
         } else {
             response = await addBrandTag(data).unwrap();
         }
 
-     
+
 
         if (response?.success) {
 
@@ -100,7 +100,7 @@ const BrandCategoryTag = () => {
         setSpinLoading(false)
 
     }
-    
+
 
     const handlePhotoChange = (e) => {
         setPhoto(e.target.files[0]);
@@ -139,7 +139,7 @@ const BrandCategoryTag = () => {
     }
 
     const handleEditTag = (data) => {
-        
+
         setCurrentTag(data)
         setText(data?.brandName)
         setPhoto(data?.photo?.secure_url)
@@ -155,15 +155,15 @@ const BrandCategoryTag = () => {
         setThemeId("")
         setIsModalOpen(false)
     }
-      
+
 
     return (
         <div>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-2 mt-2">
                 <h2 className="text-2xl font-semibold text-black">{"Brand Tag"}</h2>
                 <button
-                    className="bg-[#212121] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-                onClick={() => setIsModalOpen(true)}
+                    className="bg-[#06425F] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+                    onClick={() => setIsModalOpen(true)}
                 >
                     + Add Brand Tag
                 </button>
@@ -191,7 +191,7 @@ const BrandCategoryTag = () => {
                                 <input type="file" onChange={handlePhotoChange} className="w-full p-2 border rounded-md" />
                             </div>
 
-                
+
 
                             {/* Submit & Cancel Buttons */}
                             <div className="flex justify-end gap-2  border border-red-500">
