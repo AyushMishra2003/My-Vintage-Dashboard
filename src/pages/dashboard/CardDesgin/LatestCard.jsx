@@ -4,34 +4,14 @@ import { FaClipboardList } from "react-icons/fa";
 import io from "socket.io-client";
 
 const LatestOrders = () => {
-  const { data, isLoading, refetch } = useGetAllLatestQuery(); // Always declared at top level
+  const data=null
   const [visibleCount, setVisibleCount] = useState(10);
 
   const orders = data?.slice(0, visibleCount) || []; // Ensure this is not conditional
 
-  useEffect(() => {
-    const socket = io("https://db.shanyascans.com");
 
-    socket.on("connect", () => {
-      console.log("🟢 Connected to Socket.io server:", socket.id);
-    });
 
-    // Refetch data when a new order is placed
-    socket.on("orderPlaced", () => {
-      refetch(); // No async/await to avoid unexpected re-renders
-    });
 
-    // Cleanup to avoid memory leaks
-    return () => {
-      socket.off("orderPlaced");
-      socket.off("connect");
-      socket.disconnect();
-    };
-  }, []); // Dependency array should stay empty
-
-  if (isLoading) {
-    return <p className="text-center text-gray-600">Loading...</p>;
-  }
 
   return (
     <div className="bg-white shadow-md rounded-lg p-5 w-full border border-gray-200">

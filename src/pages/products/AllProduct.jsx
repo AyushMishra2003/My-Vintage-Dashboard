@@ -27,6 +27,9 @@ const AllProduct = () => {
     const tableData = data?.products || [];
     const totalPages = data?.totalPages || 1;
 
+
+  
+
     return (
         <div>
             <div className="flex items-center justify-between mb-2 mt-2">
@@ -50,7 +53,7 @@ const AllProduct = () => {
                                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">S.No.</th>
                                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Product Name</th>
                                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Rate</th>
-                                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Category Type</th>
+                                  
                                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Photo</th>
                                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Action</th>
                                 </tr>
@@ -63,7 +66,7 @@ const AllProduct = () => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product?.title || "N/A"}</td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product?.rate} Rs</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product?.categoryType || "N/A"}</td>
+                                       
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {product?.mainPhoto?.secure_url ? (
                                                 <img

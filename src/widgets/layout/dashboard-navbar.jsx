@@ -147,7 +147,7 @@ export function DashboardNavbar() {
 
           <div className="flex items-center gap-3">
             <button
-              className="px-8 py-2.5 rounded-lg text-[#06425F] bg-white hover:bg-blue-50 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 border border-white/20"
+              className="px-4 py-1 rounded-lg text-[#06425F] bg-white hover:bg-blue-50 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 border border-white/20"
               onClick={() => handleLogout()}
             >
               Logout
@@ -160,7 +160,7 @@ export function DashboardNavbar() {
             </IconButton>
           </div>
 
-          <Menu>
+          {/* <Menu>
             <MenuHandler>
               <IconButton
                 variant="text"
@@ -243,7 +243,7 @@ export function DashboardNavbar() {
                 </div>
               </MenuItem>
             </MenuList>
-          </Menu>
+          </Menu> */}
         </div>
       </div>
     </Navbar>

@@ -36,7 +36,8 @@ const statusColors = {
 
 const HomeCollectionOrders = () => {
    
-  const {data,isLoading,error}=useGetLatestHomeCollectionOrderQuery()
+  // const {data,isLoading,error}=useGetLatestHomeCollectionOrderQuery()
+  const data=null
 
 
   

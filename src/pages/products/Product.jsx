@@ -18,10 +18,11 @@ const Product = () => {
     const { data: themeData, isLoading: isThemeLoading } = useGetAllThemeTagQuery()
     const { data: productCMainData, isLoading: isProductCMainData } = useGetAllLabTestTagQuery()
     const { data: productDetailData, isLoading: isProductDetailLoading } = useGetProductDetailQuery(id, {
-        skip: !id,  
+        skip: !id,
     })
 
     const [addProduct, { isLoading, isError, isSuccess }] = useAddProductMutation();
+    const [selectedCategoryTypes, setSelectedCategoryTypes] = useState([]);
     const [editProduct] = useEditProductMutation();
 
     const [loading, setLoading] = useState(false)
@@ -37,7 +38,10 @@ const Product = () => {
         subCategory: '',
         description: '',
         faq: '',
-        contact: ''
+        contact: '',
+        productId: "",
+        brandId: "",
+        themeId: "",
     });
 
     const [mainPhoto, setMainPhoto] = useState(null);
@@ -91,7 +95,7 @@ const Product = () => {
         }));
 
         // When product category changes
-        if (name === "categoryId" && selectCategory === "product") {
+        if (name === "productId" && selectedCategoryTypes.includes("product")) {
             const found = productCMainData.find((cat) => cat._id === value);
             setSelectedProductCategory(found || null);
         }
@@ -105,14 +109,28 @@ const Product = () => {
     };
 
 
+    // Handle multi-category type selection
+    const handleCategoryTypeChange = (e) => {
+        const selectedOptions = Array.from(e.target.selectedOptions).map((opt) => opt.value);
+        setSelectedCategoryTypes(selectedOptions);
+    };
+
+
+
 
     const handlePhotoChange = (e) => {
+        console.log("ayush");
+
         const files = Array.from(e.target.files);
         const newPhotos = files.map(file => ({
             file,
             preview: URL.createObjectURL(file)
         }));
+
+
         setPhotos(prev => [...prev, ...newPhotos]);
+
+
     };
 
     const removePhoto = (index) => {
@@ -137,64 +155,77 @@ const Product = () => {
 
 
 
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-        const data = new FormData();
-        setLoading(true);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const data = new FormData();
+            setLoading(true);
 
-        data.append('name', formData.name);
-        data.append('rate', formData.rate);
-        data.append('discount', formData.discount);
-        data.append('categoryType', formData.categoryType);
-        data.append('categoryId', formData.categoryId);
-        if (formData.subCategory) data.append('subCategory', formData.subCategory);
-        data.append('description', formData.description);
-        data.append('faq', formData.faq);
-        data.append('contact', formData.contact);
-        if (mainPhoto) data.append('photo', mainPhoto);
-        photos.forEach(file => data.append('photos', file));
 
-        let response;
 
-        if (id) {
-            response = await editProduct({ data, id }).unwrap();
-        } else {
-            response = await addProduct(data).unwrap();  // FIXED
-        }
-
-        console.log('Response:', response);
-        setLoading(false);
-
-        if(response?.success){
-              setFormData({
-                name:'',
-                rate:'',
-                discount:'',
-                categoryType:'',
-                categoryId:'',
-                subCategory: '', // If needed, set this from productDetailData
-                description:'',
-                faq: '',
-                contact: ''
+            data.append('name', formData.name);
+            data.append('rate', formData.rate);
+            data.append('discount', formData.discount);
+            data.append('productId', formData?.productId)
+            data.append('themeId', formData?.themeId)
+            data.append('brandId', formData?.brandId)
+            // data.append('categoryType', formData.categoryType);
+            // data.append('categoryId', formData.categoryId);
+            if (formData?.subCategory) data.append('subCategory', formData?.subCategory);
+            data.append('description', formData.description);
+            data.append('faq', formData.faq);
+            data.append('contact', formData.contact);
+            if (mainPhoto) data.append('photo', mainPhoto);
+            photos.forEach(photo => {
+                data.append('photos', photo.file); // append only the File, not the object
             });
 
-            setPhotos([])
-            setPreview(null)
-            setMainPhoto(null)
+            
 
-            setCategoryOptions([])
-            setSubCategories([])
-            setStep("one")
-            setSelectedProductCategory(null)
 
+            let response;
+
+
+
+            if (id) {
+                response = await editProduct({ data, id }).unwrap();
+            } else {
+                response = await addProduct(data).unwrap();  // FIXED
+            }
+
+
+            setLoading(false);
+
+            if (response?.success) {
+                setFormData({
+                    name: '',
+                    rate: '',
+                    discount: '',
+                    categoryType: '',
+                    categoryId: '',
+                    subCategory: '', // If needed, set this from productDetailData
+                    description: '',
+                    faq: '',
+                    contact: ''
+                });
+
+                setPhotos([])
+                setPreview(null)
+                setMainPhoto(null)
+
+                setCategoryOptions([])
+                setSubCategories([])
+                setStep("one")
+                setSelectedProductCategory(null)
+                setSelectedCategoryTypes([])
+
+            }
+
+        } catch (error) {
+            console.error('Submission failed:', error);
+            setLoading(false);
         }
-
-    } catch (error) {
-        console.error('Submission failed:', error);
-        setLoading(false);
-    }
-};
+    };
 
 
     // When productDetailData arrives, update formData
@@ -209,8 +240,29 @@ const handleSubmit = async (e) => {
                 subCategory: '', // If needed, set this from productDetailData
                 description: productDetailData?.description || '',
                 faq: productDetailData?.faq || '',
-                contact: productDetailData?.contact || ''
+                contact: productDetailData?.contact || '',
+                productId: productDetailData?.productId,
+                themeId: productDetailData?.themeId,
+                brandId: productDetailData?.brandId
             });
+
+            const selectedTypes = [];
+
+            if (productDetailData?.productId) {
+                selectedTypes.push("product");
+            }
+
+            if (productDetailData?.brandId) {
+                selectedTypes.push("brand");
+            }
+
+            if (productDetailData?.themeId) {
+                selectedTypes.push("theme");
+            }
+
+            setSelectedCategoryTypes(selectedTypes);
+
+
 
             // Set main photo + preview
             if (productDetailData.mainPhoto) {
@@ -229,6 +281,18 @@ const handleSubmit = async (e) => {
             }
         }
     }, [productDetailData]);
+
+
+
+
+
+
+    
+
+
+    
+    
+
 
 
 
@@ -374,7 +438,111 @@ const handleSubmit = async (e) => {
                                     </div>
                                 </div>
 
+
+                                {/* Multi-select Category Type */}
                                 <div>
+                                    <label className="block mb-1 font-medium">Category Types</label>
+                                    <div className="border p-3 rounded space-y-2">
+                                        {["product", "brand", "theme"].map((type) => (
+                                            <label key={type} className="flex items-center space-x-2">
+                                                <input
+                                                    type="checkbox"
+                                                    value={type}
+                                                    checked={selectedCategoryTypes.includes(type)}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value;
+                                                        setSelectedCategoryTypes((prev) =>
+                                                            e.target.checked
+                                                                ? [...prev, value]
+                                                                : prev.filter((v) => v !== value)
+                                                        );
+                                                    }}
+                                                    className="form-checkbox h-4 w-4 text-blue-600"
+                                                />
+                                                <span className="capitalize">{type} Category</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
+
+
+                                {/* Product Category Dropdown */}
+                                {selectedCategoryTypes.includes("product") && (
+                                    <div>
+                                        <label className="block mb-1 font-medium">Product Category</label>
+                                        <select
+                                            name="productId"
+                                            value={formData.productId}
+                                            onChange={handleChange}
+                                            className="w-full border p-2 rounded"
+                                            required
+                                        >
+                                            <option value="">Select Product</option>
+                                            {productCMainData?.map((cat) => (
+                                                <option key={cat._id} value={cat._id}>{cat.category}</option>
+                                            ))}
+                                        </select>
+
+                                        {/* Subcategory if available */}
+                                        {selectedProductCategory?.subCategory?.length > 0 && (
+                                            <div className="mt-2">
+                                                <label className="block mb-1 font-medium">Sub Category</label>
+                                                <select
+                                                    name="subCategory"
+                                                    value={formData.subCategory}
+                                                    onChange={handleChange}
+                                                    className="w-full border p-2 rounded"
+                                                >
+                                                    <option value="">Select Sub Category</option>
+                                                    {selectedProductCategory.subCategory.map((sub, idx) => (
+                                                        <option key={idx} value={sub}>{sub}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* Brand Category Dropdown */}
+                                {selectedCategoryTypes.includes("brand") && (
+                                    <div>
+                                        <label className="block mb-1 font-medium">Brand Category</label>
+                                        <select
+                                            name="brandId"
+                                            value={formData.brandId}
+                                            onChange={handleChange}
+                                            className="w-full border p-2 rounded"
+                                            required
+                                        >
+                                            <option value="">Select Brand</option>
+                                            {brandData?.map((cat) => (
+                                                <option key={cat._id} value={cat._id}>{cat.brandName}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                )}
+
+                                {/* Theme Category Dropdown */}
+                                {selectedCategoryTypes.includes("theme") && (
+                                    <div>
+                                        <label className="block mb-1 font-medium">Theme Category</label>
+                                        <select
+                                            name="themeId"
+                                            value={formData.themeId}
+                                            onChange={handleChange}
+                                            className="w-full border p-2 rounded"
+                                            required
+                                        >
+                                            <option value="">Select Theme</option>
+                                            {themeData?.map((cat) => (
+                                                <option key={cat._id} value={cat._id}>{cat.themeName}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                )}
+
+
+                                {/* <div>
                                     <label className="block mb-1 font-medium">Category Type</label>
                                     <select
                                         name="categoryType"
@@ -391,9 +559,9 @@ const handleSubmit = async (e) => {
                                         <option value="theme">Theme Category</option>
                                     </select>
 
-                                </div>
+                                </div> */}
 
-                                {selectCategory === "brand" &&
+                                {/* {selectCategory === "brand" &&
 
                                     <div>
                                         <label className="block mb-1 font-medium">Category</label>
@@ -436,7 +604,7 @@ const handleSubmit = async (e) => {
                                     </div>
                                 )}
 
-                                {/* Show Subcategory Dropdown if Available */}
+                               
                                 {selectCategory === "product" &&
                                     selectedProductCategory?.subCategory?.length > 0 && (
                                         <div className="mb-4">
@@ -455,7 +623,7 @@ const handleSubmit = async (e) => {
                                                 ))}
                                             </select>
                                         </div>
-                                    )}
+                                    )} */}
 
                             </div>
                         </div>

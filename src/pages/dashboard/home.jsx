@@ -54,8 +54,8 @@ const DataCard = ({ title, count, icon, percentage, trend }) => {
 export function Home() {
 
 
-  const { data: initialData, isLoading,refetch } = useGetAllTotalOrderQuery();
-  const [orders, setOrders] = useState(initialData || []);
+  // const { data: initialData, isLoading,refetch } = useGetAllTotalOrderQuery();
+  const [orders, setOrders] = useState([]);
  const socket = io("https://db.shanyascans.com");
 //  const socket = io("https://dbsanya.drmanasaggarwal.com");
  

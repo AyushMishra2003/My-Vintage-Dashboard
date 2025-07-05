@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("vintagecraft@gmail.com");
+  const [password, setPassword] = useState("123456");
   const navigate = useNavigate();
 
   useEffect(() => {
