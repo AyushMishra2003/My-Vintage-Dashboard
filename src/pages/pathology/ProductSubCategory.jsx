@@ -12,7 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 const ProductSubCategory = () => {
         const {name}=useParams()
     const { data, isLoading } = useGetAllSubCategoryQuery(name)
-    const { data: pathology, isLoading: isPathology } = useGetAllSubCategoryQuery(name)
+    // const { data: pathology, isLoading: isPathology } = useGetAllSubCategoryQuery(name)
     const [addLabTestTag, { isLoading: isAddLoading, isError, isSuccess }] = useAddSubProductCategoryMutation();
     const [deleteLabTestTag, { isLoading: isDeleteLoading, isError: isDelete, isSuccess: isDeleteSuccess }] = useDeleteLabTestMutation();
     const [editLabTestTag] = useEditLabTagMutation();

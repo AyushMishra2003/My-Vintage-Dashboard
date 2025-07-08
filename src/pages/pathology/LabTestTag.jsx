@@ -1,5 +1,5 @@
 
-import { useAddLabTestTagMutation, useDeleteLabTagMutation, useEditLabTagMutation, useGetAllLabTestQuery, useGetAllLabTestTagQuery } from '@/Rtk/labTestTag';
+import { useAddLabTestMutation, useAddLabTestTagMutation, useDeleteLabTagMutation, useEditLabTagMutation, useEditLabTestMutation, useGetAllLabTestQuery, useGetAllLabTestTagQuery } from '@/Rtk/labTestTag';
 import React, { useState } from 'react'
 import { FaAddressBook, FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 import TableComponent from '../helper/TableComponent';
@@ -14,7 +14,8 @@ const LabTestTag = () => {
     const { data: pathology, isLoading: isPathology } = useGetAllLabTestQuery()
     const [addLabTestTag, { isLoading: isAddLoading, isError, isSuccess }] = useAddLabTestTagMutation();
     const [deleteLabTestTag, { isLoading: isDeleteLoading, isError: isDelete, isSuccess: isDeleteSuccess }] = useDeleteLabTagMutation();
-    const [editLabTestTag] = useEditLabTagMutation();
+    const [editLabTestTag] = useEditLabTestMutation();
+     
     const [currentTag, setCurrentTag] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [spinLoading, setSpinLoading] = useState(false)
@@ -47,7 +48,7 @@ const LabTestTag = () => {
         
 
         if(currentTag){
-             response=await editLabTestTag({data,pathologyId}).unwrap()
+             response=await editLabTestTag({data,id:pathologyId}).unwrap()
         }else{
              response = await addLabTestTag(data).unwrap(); // unwrap()
         }
@@ -105,7 +106,7 @@ const LabTestTag = () => {
 
     }
 
-    const handleEditTag=(data)=>{
+    const handleEditTag=(data)=>{ 
         setCurrentTag(data)
         setText(data?.category)
         setPathologyId(data?._id)
