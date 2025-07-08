@@ -52,6 +52,7 @@ const Product = () => {
     const [tab, setTab] = useState('description');
     const [step, setStep] = useState("one")
     const [selectedProductCategory, setSelectedProductCategory] = useState(null);
+    const [dltMainPhoto,setDltMainPhoto]=useState(false)
 
     const navigate = useNavigate()
 
@@ -117,10 +118,7 @@ const Product = () => {
 
 
 
-
     const handlePhotoChange = (e) => {
-        console.log("ayush");
-
         const files = Array.from(e.target.files);
         const newPhotos = files.map(file => ({
             file,
@@ -128,9 +126,8 @@ const Product = () => {
         }));
 
 
+
         setPhotos(prev => [...prev, ...newPhotos]);
-
-
     };
 
     const removePhoto = (index) => {
@@ -146,12 +143,16 @@ const Product = () => {
             setMainPhoto(file);
             setPreview(URL.createObjectURL(file));
         }
+        setDltMainPhoto(false)
     };
 
     const removeMainPhoto = () => {
         setMainPhoto(null);
         setPreview(null);
+        setDltMainPhoto(true)
     };
+
+
 
 
 
@@ -161,11 +162,9 @@ const Product = () => {
             const data = new FormData();
             setLoading(true);
 
-
-
             data.append('name', formData.name);
             data.append('rate', formData.rate);
-            data.append('discount', formData.discount);
+            data.append('discount', formData.discount || 0);
             data.append('productId', formData?.productId)
             data.append('themeId', formData?.themeId)
             data.append('brandId', formData?.brandId)
@@ -176,26 +175,41 @@ const Product = () => {
             data.append('faq', formData.faq);
             data.append('contact', formData.contact);
             if (mainPhoto) data.append('photo', mainPhoto);
+            if(dltMainPhoto) data.append('mainPhotoDeleted','true')
+            const photoMeta = photos.map(p => ({
+                isExisting: p.isExisting,
+                public_id: p.public_id,
+                preview: p.preview,
+            }));
+
+            data.append("photos", JSON.stringify(photoMeta));
+
+            // photos.forEach(photo => {
+
+            //     data.append('photos', photo.file); // append only the File, not the object
+            // });
+
             photos.forEach(photo => {
-                data.append('photos', photo.file); // append only the File, not the object
+                if (photo.file) {
+                    data.append('photos', photo.file);
+                }
             });
 
-            
-
-
             let response;
+
 
 
 
             if (id) {
                 response = await editProduct({ data, id }).unwrap();
             } else {
-                response = await addProduct(data).unwrap();  // FIXED
+                // response = await addProduct(data).unwrap();  
             }
 
 
             setLoading(false);
 
+       
             if (response?.success) {
                 setFormData({
                     name: '',
@@ -281,18 +295,6 @@ const Product = () => {
             }
         }
     }, [productDetailData]);
-
-
-
-
-
-
-    
-
-
-    
-    
-
 
 
 
@@ -428,7 +430,11 @@ const Product = () => {
                                                     className="w-full h-full object-cover rounded"
                                                 />
                                                 <button
-                                                    onClick={() => removePhoto(index)}
+                                                    onClick={(e) => {
+                                                        e.preventDefault(); // 🛑 stop accidental submit
+                                                        removePhoto(index);
+                                                    }}
+                                                    type="button"  // ✅ Add this line
                                                     className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1"
                                                 >
                                                     <X size={16} />
@@ -688,7 +694,7 @@ const Product = () => {
                         <div className="text-center flex items-center justify-center">
                             {loading ? <Spinner /> :
                                 <button type="submit" className="bg-[#06425F] text-white mt-4 px-6 py-2 rounded shadow hover:bg-indigo-700">
-                                    {id ? "Edit Product " : "Submit Product"}
+                                    {id ? "Save Product " : "Submit Product"}
                                 </button>
                             }
                         </div>

@@ -14,11 +14,11 @@ export const axiosInstance = axios.create({
 // ✅ Custom Axios Base Query for RTK Query
 const axiosBaseQuery = async ({ url, method, data }) => {
     try {
-        console.log("Request Data:", data); // ✅ Debugging
+    
 
         const response = await axiosInstance({
-            url,
             method,
+            url,
             ...(data instanceof FormData 
                 ? { data, headers: { "Content-Type": "multipart/form-data" } }  // ✅ Handles FormData properly
                 : { data }
