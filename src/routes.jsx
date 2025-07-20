@@ -52,6 +52,9 @@ import ProductSubCategory from "./pages/pathology/ProductSubCategory";
 import Product from "./pages/products/Product";
 import AllProduct from "./pages/products/AllProduct";
 import ProductDetail from "./pages/products/ProductDetail";
+import CreatePage from "./pages/Dynamic/Page";
+import ChildManager from "./pages/Dynamic/Child";
+import SectionManager from "./pages/Dynamic/Section";
 
 
 const icon = {
@@ -107,12 +110,12 @@ export const routes = [
         element: <Product />,
       },
 
-         {
+      {
         icon: <IoMdImages {...icon} />,
         name: "Product",
-        index:1,
+        index: 1,
         path: "/products/:id",
-        element: <Product/>,
+        element: <Product />,
       },
 
 
@@ -131,6 +134,35 @@ export const routes = [
         path: "/banner",
         element: <Banner />,
       },
+
+      {
+        icon: <IoMdImages {...icon} />,
+        name: "CMS",
+        path: "/cms",
+        element: <CreatePage />,
+
+
+      },
+
+      {
+        icon: <IoMdImages {...icon} />,
+        name: "Section Manager",
+        path: "/cms/:name",
+        index: 1,
+        element: <SectionManager />,
+
+
+      },
+
+      {
+        icon: <IoMdImages {...icon} />,
+        name: "Child Manager",
+        index: 1,
+        path: "/dashboard/children/:pageName",
+        element: <ChildManager />,
+
+      },
+
       // {
       //   icon: <RiTeamFill {...icon} />,
       //   name: "Team",

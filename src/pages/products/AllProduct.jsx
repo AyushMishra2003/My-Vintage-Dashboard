@@ -1,13 +1,15 @@
-import { useGetAllProductQuery } from '@/Rtk/productApi';
+import { useDeleteProductMutation, useGetAllProductQuery } from '@/Rtk/productApi';
 import React, { useState } from 'react';
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const AllProduct = () => {
     const [page, setPage] = useState(1);
     const limit = 10;
 
     const { data, isLoading } = useGetAllProductQuery({ page, limit });
+    const [deleteProduct, { isLoading: isDeleteLoading, isError: isDeleteError, isSuccess: isSuccessLoading }] = useDeleteProductMutation();
     const navigate = useNavigate();
 
     const handleEdit = (item) => {
@@ -20,15 +22,44 @@ const AllProduct = () => {
         navigate(`/dashboard/products/${item?._id}`)
     };
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
         // your delete logic
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!",
+        });
+
+        if (result?.isConfirmed) {
+            const response = await deleteProduct(id)
+
+
+            if (response?.success) {
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your item has been deleted.",
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false,
+                });
+            }
+        }
+
+
+
+
+
     };
 
     const tableData = data?.products || [];
     const totalPages = data?.totalPages || 1;
 
 
-  
+
 
     return (
         <div>
@@ -53,7 +84,7 @@ const AllProduct = () => {
                                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">S.No.</th>
                                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Product Name</th>
                                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Rate</th>
-                                  
+
                                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Photo</th>
                                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Action</th>
                                 </tr>
@@ -66,7 +97,7 @@ const AllProduct = () => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product?.title || "N/A"}</td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product?.rate} Rs</td>
-                                       
+
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {product?.mainPhoto?.secure_url ? (
                                                 <img

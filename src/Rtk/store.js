@@ -15,6 +15,7 @@ import { authApi } from "./authApi";
 import { galleryApi } from "./galleryApi";
 import { BrandApi } from "./brandTagApi";
 import { productApi } from "./productApi";
+import { dynamicPageApi } from "./dynamicApi";
 
 
 export const store = configureStore({
@@ -34,8 +35,9 @@ export const store = configureStore({
         [authApi.reducerPath]: authApi.reducer,
         [galleryApi.reducerPath]: galleryApi.reducer,
         [BrandApi.reducerPath]: BrandApi.reducer,
-        [productApi.reducerPath]: productApi.reducer
+        [productApi.reducerPath]: productApi.reducer,
+        [dynamicPageApi.reducerPath]:dynamicPageApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(testApi.middleware, scanApi.middleware, scanTestApi.middleware, bannerApi.middleware, labTestApi.middleware, packageApi.middleware, orderApi.middleware, carrerApi.middleware, blogApi.middleware, teamApi.middleware, inquiryApi.middleware, collectionApi.middleware, authApi.middleware, galleryApi.middleware, BrandApi.middleware,productApi.middleware),
+        getDefaultMiddleware().concat(testApi.middleware, scanApi.middleware, scanTestApi.middleware, bannerApi.middleware, labTestApi.middleware, packageApi.middleware, orderApi.middleware, carrerApi.middleware, blogApi.middleware, teamApi.middleware, inquiryApi.middleware, collectionApi.middleware, authApi.middleware, galleryApi.middleware, BrandApi.middleware,productApi.middleware,dynamicPageApi.middleware),
 });

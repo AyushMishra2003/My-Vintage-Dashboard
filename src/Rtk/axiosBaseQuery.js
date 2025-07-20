@@ -3,8 +3,8 @@ import axios from "axios";
 
 // ✅ Axios Instance 
 export const axiosInstance = axios.create({
-    baseURL:"https://api.myvintagecrafts.com/api/v1",
-    // baseURL: "http://localhost:5004/api/v1",
+    // baseURL:"https://api.myvintagecrafts.com/api/v1",
+    baseURL: "http://localhost:5004/api/v1",
     headers: {
         "Content-Type": "application/json",
     },

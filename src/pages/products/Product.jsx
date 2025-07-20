@@ -52,7 +52,7 @@ const Product = () => {
     const [tab, setTab] = useState('description');
     const [step, setStep] = useState("one")
     const [selectedProductCategory, setSelectedProductCategory] = useState(null);
-    const [dltMainPhoto,setDltMainPhoto]=useState(false)
+    const [dltMainPhoto, setDltMainPhoto] = useState(false)
 
     const navigate = useNavigate()
 
@@ -157,10 +157,14 @@ const Product = () => {
 
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
         try {
             const data = new FormData();
             setLoading(true);
+
+            console.log(formData);
+            
 
             data.append('name', formData.name);
             data.append('rate', formData.rate);
@@ -175,7 +179,7 @@ const Product = () => {
             data.append('faq', formData.faq);
             data.append('contact', formData.contact);
             if (mainPhoto) data.append('photo', mainPhoto);
-            if(dltMainPhoto) data.append('mainPhotoDeleted','true')
+            if (dltMainPhoto) data.append('mainPhotoDeleted', 'true')
             const photoMeta = photos.map(p => ({
                 isExisting: p.isExisting,
                 public_id: p.public_id,
@@ -197,19 +201,16 @@ const Product = () => {
 
             let response;
 
-
-
-
             if (id) {
                 response = await editProduct({ data, id }).unwrap();
             } else {
-                // response = await addProduct(data).unwrap();  
+                response = await addProduct(data).unwrap();
             }
 
 
             setLoading(false);
 
-       
+
             if (response?.success) {
                 setFormData({
                     name: '',
@@ -251,7 +252,7 @@ const Product = () => {
                 discount: productDetailData?.discount || '',
                 categoryType: productDetailData?.categoryType || '',
                 categoryId: productDetailData?.categoryId || '',
-                subCategory: '', // If needed, set this from productDetailData
+                subCategory: productDetailData?.subCategory || '', // ✅ Set subCategory here
                 description: productDetailData?.description || '',
                 faq: productDetailData?.faq || '',
                 contact: productDetailData?.contact || '',
@@ -276,8 +277,6 @@ const Product = () => {
 
             setSelectedCategoryTypes(selectedTypes);
 
-
-
             // Set main photo + preview
             if (productDetailData.mainPhoto) {
                 setMainPhoto(null);
@@ -293,8 +292,15 @@ const Product = () => {
                 }));
                 setPhotos(existingPhotos);
             }
+
+            // ✅ Set selected product category for subCategory options
+            if (productDetailData?.productId && selectedTypes.includes("product")) {
+                const found = productCMainData?.find((cat) => cat._id === productDetailData.productId);
+                setSelectedProductCategory(found || null);
+            }
         }
-    }, [productDetailData]);
+    }, [productDetailData, productCMainData]);
+
 
 
 
