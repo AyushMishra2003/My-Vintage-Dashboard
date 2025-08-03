@@ -9,12 +9,12 @@ export const blogApi = createApi({
         // ✅ GET All Tests (Fetch)
         getAllBlog: builder.query({
             query: () => ({
-                url: "/blog",
+                url: "/blog?isAdmin=admin",
                 method: "GET",
             }),
             providesTags: ["blog"],  // ✅ Caching Enable
         }),
-        
+
 
         // ✅ ADD New Banner (POST)
         addBlog: builder.mutation({
@@ -22,16 +22,16 @@ export const blogApi = createApi({
                 return {
                     url: "/blog",
                     method: "POST",
-                    data:formData,
-                    formData:true
-    
+                    data: formData,
+                    formData: true
+
                 };
             },
             invalidatesTags: ["blog"],
         }),
-        
-        
-        
+
+
+
 
         // ✅ EDIT Test (PUT)
         editBlog: builder.mutation({
@@ -52,6 +52,14 @@ export const blogApi = createApi({
             }),
             invalidatesTags: ["blog"], // ✅ Cache Refresh
         }),
+
+        updateStatus: builder.mutation({
+            query: (id) => ({
+                url: `/blog/status/update/${id}`,
+                method: "POST",
+            }),
+            providesTags: ["blog"],
+        }),
     }),
 });
 
@@ -60,5 +68,6 @@ export const {
     useGetAllBlogQuery,
     useAddBlogMutation,
     useEditBlogMutation,
-    useDeleteBlogMutation
+    useDeleteBlogMutation,
+    useUpdateStatusMutation
 } = blogApi;

@@ -14,19 +14,19 @@ export const packageApi = createApi({
             }),
             providesTags: ["theme"],  // ✅ Caching Enable
         }),
-        
+
 
         getAllThemeTag: builder.query({
             query: () => ({
-                url: "/theme",
+                url: "/theme?isAdmin=admin",
                 method: "GET",
             }),
             providesTags: ["theme"],  // ✅ Caching Enable
         }),
 
         addThemeTag: builder.mutation({
-            query: ({formData,pathologyId:slug}) => {
-           
+            query: ({ formData, pathologyId: slug }) => {
+
                 return {
                     url: `/theme`,
                     method: "POST",
@@ -37,8 +37,8 @@ export const packageApi = createApi({
             invalidatesTags: ["theme"],
         }),
 
-         // ✅ DELETE Test (DELETE)
-         deleteThemeTag: builder.mutation({
+        // ✅ DELETE Test (DELETE)
+        deleteThemeTag: builder.mutation({
             query: (id) => ({
                 url: `/theme/${id}`,
                 method: "DELETE",
@@ -49,7 +49,7 @@ export const packageApi = createApi({
         // ✅ ADD New Test (POST)
         addPackage: builder.mutation({
             query: (formData) => {
-            
+
                 return {
                     url: "/package/detail",
                     method: "POST",
@@ -59,10 +59,10 @@ export const packageApi = createApi({
             },
             invalidatesTags: ["theme"],
         }),
-        
+
         // ✅ EDIT Test (PUT)
         editThemeTag: builder.mutation({
-            query: ({formData,id}) => ({
+            query: ({ formData, id }) => ({
                 url: `/theme/${id}`,
                 method: "PUT",
                 data: formData, // ✅ Change from `body` to `data`
@@ -72,7 +72,7 @@ export const packageApi = createApi({
         }),
 
         updatePackage: builder.mutation({
-            query: ({formData,id}) => ({
+            query: ({ formData, id }) => ({
                 url: `/package/detail/${id}`,
                 method: "PUT",
                 data: formData, // ✅ Change from `body` to `data`
@@ -89,7 +89,15 @@ export const packageApi = createApi({
             invalidatesTags: ["theme"], // ✅ Cache Refresh
         }),
 
-       
+        updateStatus: builder.mutation({
+            query: (id) => ({
+                url: `/theme/status/update/${id}`,
+                method: "POST",
+            }),
+            providesTags: ["lab"],  
+        }),
+
+
     }),
 });
 
@@ -99,8 +107,9 @@ export const {
     useGetAllThemeTagQuery,
     useAddThemeTagMutation,
     useAddPackageMutation,
-     useEditThemeTagMutation,
+    useEditThemeTagMutation,
     useDeleteThemeTagMutation,
     useDeletePackageMutation,
-    useUpdatePackageMutation
+    useUpdatePackageMutation,
+    useUpdateStatusMutation
 } = packageApi;

@@ -1,17 +1,19 @@
-import { useDeleteBlogMutation, useGetAllBlogQuery } from '@/Rtk/blogApi'
+import { useDeleteBlogMutation, useGetAllBlogQuery, useUpdateStatusMutation } from '@/Rtk/blogApi'
 import React, { useState } from 'react'
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import TableComponent from '../helper/TableComponent';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import ToggleSwitch from '../toogle/ToogleSwitch';
 
 
 const Blog = () => {
 
-    const { data, isLoading } = useGetAllBlogQuery()
+    const { data, isLoading ,refetch} = useGetAllBlogQuery()
     const [deleteBlog] = useDeleteBlogMutation()
-    const [spinLoading,setSpinLoading]=useState(false)
-    const navigate=useNavigate()
+    const [spinLoading, setSpinLoading] = useState(false)
+    const navigate = useNavigate()
+        const [statusUpdate] = useUpdateStatusMutation()
 
     const columns = [
         { header: "Blog Name", accessor: "name" },
@@ -20,13 +22,22 @@ const Blog = () => {
         { header: "Action", accessor: "action", type: "action" }
     ];
 
-    const handleEdit=(data)=>{
-          navigate("/dashboard/add/blog",{state:data})
+    const handleEdit = (data) => {
+        navigate("/dashboard/add/blog", { state: data })
     }
 
-    const handleAdd=()=>{
-         navigate("/dashboard/add/blog")
+    const handleAdd = () => {
+        navigate("/dashboard/add/blog")
     }
+
+    const handleToggleStatus = async (id) => {
+        const res = await statusUpdate(id)
+        if (res?.data?.success) {
+            refetch()
+        }
+
+    }
+
 
     const tableData = data?.map((test) => ({
         name: test?.blogName
@@ -45,7 +56,7 @@ const Blog = () => {
         action: (
             <div className="flex gap-3">
                 <button
-                   onClick={()=>handleEdit(test)}
+                    onClick={() => handleEdit(test)}
                     className="text-blue-600 hover:text-blue-800"
                 >
                     <FaEdit size={18} />
@@ -56,6 +67,10 @@ const Blog = () => {
                 >
                     <FaTrash size={18} />
                 </button>
+                <ToggleSwitch
+                    isActive={test.isActive}
+                    onToggle={() => handleToggleStatus(test._id)}
+                />
             </div>
         ),
     })) || [];
@@ -101,8 +116,8 @@ const Blog = () => {
                 <h2 className="text-2xl font-semibold text-black">{"Blog"}</h2>
                 <button
                     className="bg-[#06425F] text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-                // onClick={() => setIsModalOpen(true)}
-                onClick={()=>navigate("/dashboard/add/blog")}
+                    // onClick={() => setIsModalOpen(true)}
+                    onClick={() => navigate("/dashboard/add/blog")}
                 >
                     + Add Blog
                 </button>

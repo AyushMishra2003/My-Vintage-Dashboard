@@ -9,12 +9,12 @@ export const bannerApi = createApi({
         // ✅ GET All Tests (Fetch)
         getAllBanner: builder.query({
             query: () => ({
-                url: "/banner",
+                url: "/banner?isAdmin=admin",
                 method: "GET",
             }),
             providesTags: ["banner"],  // ✅ Caching Enable
         }),
-        
+
 
         // ✅ ADD New Banner (POST)
         addBanner: builder.mutation({
@@ -29,9 +29,9 @@ export const bannerApi = createApi({
             },
             invalidatesTags: ["banner"],
         }),
-        
-        
-        
+
+
+
 
         // ✅ EDIT Test (PUT)
         editBanner: builder.mutation({
@@ -52,6 +52,15 @@ export const bannerApi = createApi({
             }),
             invalidatesTags: ["banner"], // ✅ Cache Refresh
         }),
+
+        updateStatus: builder.mutation({
+            query: (id) => ({
+                url: `/banner/status/update/${id}`,
+                method: "POST",
+            }),
+            providesTags: ["banner"],
+        }),
+
     }),
 });
 
@@ -61,4 +70,5 @@ export const {
     useAddBannerMutation,
     useEditBannerMutation,
     useDeleteBannerMutation,
+    useUpdateStatusMutation
 } = bannerApi;

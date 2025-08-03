@@ -9,16 +9,24 @@ export const labTestApi = createApi({
 
         getAllLabTestTag: builder.query({
             query: () => ({
-                url: "/productcategory",
+                url: "/productcategory?isAdmin=admin",
                 method: "GET",
             }),
-            providesTags: ["lab"],  // ✅ Caching Enable
+            providesTags: ["lab"], 
         }),
 
         getAllLabTest: builder.query({
             query: () => ({
                 url: "/productcategory",
                 method: "GET",
+            }),
+            providesTags: ["lab"]
+        }),
+
+        updateStatus: builder.mutation({
+            query: (id) => ({
+                url: `/productcategory/status/update/${id}`,
+                method: "POST",
             }),
             providesTags: ["lab"],  // ✅ Caching Enable
         }),
@@ -77,15 +85,15 @@ export const labTestApi = createApi({
 
         editLabTest: builder.mutation({
             query: ({ data, id }) =>
-                   
-                    (
-            
-                
+
+            (
+
+
                 {
-                url: `/productcategory/${id}`,
-                method: "PUT",
-                data
-            }),
+                    url: `/productcategory/${id}`,
+                    method: "PUT",
+                    data
+                }),
             invalidatesTags: ["lab"], // ✅ Cache Refresh
         }),
 
@@ -113,7 +121,7 @@ export const labTestApi = createApi({
         }),
 
         deleteLabTest: builder.mutation({
-            query: ({data,name}) => ({
+            query: ({ data, name }) => ({
                 url: `/productcategory/sub/${name}`,
                 method: "DELETE",
                 data
@@ -135,5 +143,6 @@ export const {
     useDeleteLabTagMutation,
     useDeleteLabTestMutation,
     useGetAllSubCategoryQuery,
-    useAddSubProductCategoryMutation
+    useAddSubProductCategoryMutation,
+    useUpdateStatusMutation
 } = labTestApi;

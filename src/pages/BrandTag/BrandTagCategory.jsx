@@ -6,14 +6,15 @@ import { useAddLabTestTagMutation, useDeleteLabTagMutation, useEditLabTagMutatio
 import { useDispatch } from 'react-redux';
 import Spinner from '../Loading/SpinLoading';
 import Swal from 'sweetalert2';
-import { useAddBrandMutation, useDeleteBrandMutation, useEditBrandMutation, useGetAllBrandNameQuery } from '@/Rtk/brandTagApi';
+import { useAddBrandMutation, useDeleteBrandMutation, useEditBrandMutation, useGetAllBrandNameQuery, useUpdateStatusMutation } from '@/Rtk/brandTagApi';
+import ToggleSwitch from '../toogle/ToogleSwitch';
 
 
 const BrandCategoryTag = () => {
 
-    const { data, isLoading } = useGetAllBrandNameQuery()
-
+    const { data, isLoading,refetch } = useGetAllBrandNameQuery()
     const [deleteBrandTag, { isLoading: isDeleteLoading, isError: isDelete, isSuccess: isDeleteSuccess }] = useDeleteBrandMutation()
+    const [statusUpdate] = useUpdateStatusMutation()
 
     const [addBrandTag] = useAddBrandMutation()
     const [editBrandTag] = useEditBrandMutation()
@@ -31,6 +32,15 @@ const BrandCategoryTag = () => {
         { header: "Action", accessor: "action", type: "action" }
     ];
 
+     
+    
+    const handleToggleStatus=async(id)=>{
+          const res=await statusUpdate(id)
+          if(res?.data?.success){
+            refetch()
+          }
+          
+    }
 
 
 
@@ -61,6 +71,10 @@ const BrandCategoryTag = () => {
                 >
                     <FaTrash size={18} />
                 </button>
+                <ToggleSwitch
+                    isActive={test.isActive}
+                    onToggle={() => handleToggleStatus(test._id)}
+                />
             </div>
         ),
     })) || [];

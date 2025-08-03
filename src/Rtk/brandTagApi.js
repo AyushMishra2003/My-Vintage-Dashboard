@@ -10,7 +10,7 @@ export const BrandApi = createApi({
         // ✅ GET All Tests (Fetch)
         getAllBrandName: builder.query({
             query: () => ({
-                url: "/brand",
+                url: "/brand?isAdmin=admin",
                 method: "GET",
             }),
             providesTags: ["brand"],  // ✅ Caching Enable
@@ -23,7 +23,7 @@ export const BrandApi = createApi({
                 return {
                     url: "/brand",
                     method: "POST",
-                    data, 
+                    data,
 
                 };
             },
@@ -32,19 +32,19 @@ export const BrandApi = createApi({
 
 
         editBrand: builder.mutation({
-            query: ({data,id}) => {
+            query: ({ data, id }) => {
                 return {
                     url: `/brand/${id}`,
                     method: "PUT",
-                    data, 
+                    data,
 
                 };
             },
             invalidatesTags: ["brand"],
         }),
-        
 
-      
+
+
         // ✅ DELETE Banner (DELETE)
         deleteBrand: builder.mutation({
             query: (id) => ({
@@ -53,13 +53,23 @@ export const BrandApi = createApi({
             }),
             invalidatesTags: ["brand"], // ✅ Cache Refresh
         }),
+
+
+        updateStatus: builder.mutation({
+            query: (id) => ({
+                url: `/brand/status/update/${id}`,
+                method: "POST",
+            }),
+            providesTags: ["lab"],  // ✅ Caching Enable
+        }),
     }),
 });
 
 // ✅ Hooks Export (Use in Components)
 export const {
-   useGetAllBrandNameQuery,
-   useDeleteBrandMutation,
+    useGetAllBrandNameQuery,
+    useDeleteBrandMutation,
     useAddBrandMutation,
-    useEditBrandMutation
+    useEditBrandMutation,
+    useUpdateStatusMutation
 } = BrandApi;

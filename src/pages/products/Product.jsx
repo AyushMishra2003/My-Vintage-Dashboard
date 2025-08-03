@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useGetAllBrandNameQuery } from '@/Rtk/brandTagApi';
 import { useGetAllThemeTagQuery } from '@/Rtk/packageApi';
 import { useGetAllLabTestTagQuery } from '@/Rtk/labTestTag';
-import { useAddProductMutation, useEditProductMutation, useGetProductDetailQuery } from '@/Rtk/productApi';
+import { useAddProductMutation, useEditProductMutation, useGetProductDetailQuery, useUpdateStatusMutation } from '@/Rtk/productApi';
 import { data } from 'autoprefixer';
 import { X } from 'lucide-react'; // Or use any close icon you prefer
 import { useNavigate, useParams } from 'react-router-dom';
@@ -16,6 +16,7 @@ const Product = () => {
     const { id } = useParams()
     const { data: brandData, isLoading: isBrandLoading } = useGetAllBrandNameQuery()
     const { data: themeData, isLoading: isThemeLoading } = useGetAllThemeTagQuery()
+    const [statusUpdate] = useUpdateStatusMutation()
     const { data: productCMainData, isLoading: isProductCMainData } = useGetAllLabTestTagQuery()
     const { data: productDetailData, isLoading: isProductDetailLoading } = useGetProductDetailQuery(id, {
         skip: !id,
@@ -42,6 +43,7 @@ const Product = () => {
         productId: "",
         brandId: "",
         themeId: "",
+        colors: ""
     });
 
     const [mainPhoto, setMainPhoto] = useState(null);
@@ -90,6 +92,8 @@ const Product = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target
+
+
         setFormData(prev => ({
             ...prev,
             [e.target.name]: e.target.value
@@ -164,7 +168,7 @@ const Product = () => {
             setLoading(true);
 
             console.log(formData);
-            
+
 
             data.append('name', formData.name);
             data.append('rate', formData.rate);
@@ -178,6 +182,7 @@ const Product = () => {
             data.append('description', formData.description);
             data.append('faq', formData.faq);
             data.append('contact', formData.contact);
+            data.append('colors', formData.colors)
             if (mainPhoto) data.append('photo', mainPhoto);
             if (dltMainPhoto) data.append('mainPhotoDeleted', 'true')
             const photoMeta = photos.map(p => ({
@@ -258,7 +263,8 @@ const Product = () => {
                 contact: productDetailData?.contact || '',
                 productId: productDetailData?.productId,
                 themeId: productDetailData?.themeId,
-                brandId: productDetailData?.brandId
+                brandId: productDetailData?.brandId,
+                colors: productDetailData?.colors
             });
 
             const selectedTypes = [];
@@ -447,7 +453,29 @@ const Product = () => {
                                                 </button>
                                             </div>
                                         ))}
+
+
+
                                     </div>
+
+
+
+
+                                    <div>
+                                        <label className="block mb-1 font-medium">Colors </label>
+
+                                        <input
+                                            type="text"
+                                            name="colors"
+                                            placeholder="Specific All Color Name Start from Main Photo  with sequence with commas"
+                                            value={formData.colors}
+                                            onChange={handleChange}
+                                            className="w-full text-sm border rounded px-2 pt-2 pb-4 mt-2 text-black"
+                                        />
+
+
+                                    </div>
+
                                 </div>
 
 
@@ -476,6 +504,7 @@ const Product = () => {
                                         ))}
                                     </div>
                                 </div>
+
 
 
                                 {/* Product Category Dropdown */}

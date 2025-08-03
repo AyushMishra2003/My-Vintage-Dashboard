@@ -1,4 +1,4 @@
-import { useAddThemeTagMutation,  useDeleteThemeTagMutation,  useEditThemeTagMutation, useGetAllThemeTagQuery } from '@/Rtk/packageApi'
+import { useAddThemeTagMutation,  useDeleteThemeTagMutation,  useEditThemeTagMutation, useGetAllThemeTagQuery, useUpdateStatusMutation } from '@/Rtk/packageApi'
 import React, { useState } from 'react'
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import TableComponent from '../helper/TableComponent';
@@ -6,14 +6,16 @@ import { useAddLabTestTagMutation, useDeleteLabTagMutation, useEditLabTagMutatio
 import { useDispatch } from 'react-redux';
 import Spinner from '../Loading/SpinLoading';
 import Swal from 'sweetalert2';
+import ToggleSwitch from '../toogle/ToogleSwitch';
 
 
 const ThemeCategoryTag = () => {
 
-    const { data, isLoading } = useGetAllThemeTagQuery()
+    const { data, isLoading,refetch } = useGetAllThemeTagQuery()
 
 
     const [deleteThemeTag, { isLoading: isDeleteLoading, isError: isDelete, isSuccess: isDeleteSuccess }] =   useDeleteThemeTagMutation()
+       const [statusUpdate] = useUpdateStatusMutation()
 
     const [addThemeCategoryTag]= useAddThemeTagMutation()
     const [editThemeTag] = useEditThemeTagMutation()
@@ -30,6 +32,14 @@ const ThemeCategoryTag = () => {
         // { header: "Photo", accessor: "photo" },
         { header: "Action", accessor: "action", type: "action" }
     ];
+
+        const handleToggleStatus=async(id)=>{
+          const res=await statusUpdate(id)
+          if(res?.data?.success){
+            refetch()
+          }
+          
+    }
 
    
     
@@ -61,6 +71,11 @@ const ThemeCategoryTag = () => {
                 >
                     <FaTrash size={18} />
                 </button>
+                         <ToggleSwitch
+                    isActive={test.isActive}
+                    onToggle={() => handleToggleStatus(test._id)}
+                />
+                
             </div>
         ),
     })) || [];
@@ -153,6 +168,9 @@ const ThemeCategoryTag = () => {
         setThemeId("")
         setIsModalOpen(false)
     }
+
+
+    
       
 
     return (

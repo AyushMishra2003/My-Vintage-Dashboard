@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { useAddBannerMutation, useDeleteBannerMutation, useEditBannerMutation, useGetAllBannerQuery } from '@/Rtk/bannerApi';
+import { useAddBannerMutation, useDeleteBannerMutation, useEditBannerMutation, useGetAllBannerQuery, useUpdateStatusMutation } from '@/Rtk/bannerApi';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import TableComponent from '../helper/TableComponent';
 import { useDeleteScanMutation } from '@/Rtk/scanApi';
 import Spinner from '../Loading/SpinLoading';
 import Swal from 'sweetalert2';
+import ToggleSwitch from '../toogle/ToogleSwitch';
 
 const Banner = () => {
-    const { data, isLoading } = useGetAllBannerQuery();
+    const { data, isLoading,refetch } = useGetAllBannerQuery();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentBanner, setCurrentBanner] = useState(null);
     const [selectedType, setSelectedType] = useState("banner1");
@@ -17,6 +19,7 @@ const Banner = () => {
     const [deleteBanner, { isLoading: isDeleteLoading, isError: isDeleteError, isSuccess: isDeleteSuccess }] = useDeleteBannerMutation();
     const [editBanner, { isLoading: isEditLoading, isError: isEditError, isSuccess: isEditSuccess }] = useEditBannerMutation();
     const [spinLoading, setSpinLoading] = useState(false)
+    const [statusUpdate] = useUpdateStatusMutation()
 
 
     // URL Mapping for Selection
@@ -30,7 +33,7 @@ const Banner = () => {
     // Open Modal with selected banner details
     const handleEdit = (banner) => {
         setCurrentBanner(banner);
-        setSelectedType(banner.types==="banner1" ? "banner1" :"banner2");
+        setSelectedType(banner.types === "banner1" ? "banner1" : "banner2");
         setSelectedUrl(banner.url || "/pathology"); // Set URL if available
         setIsModalOpen(true);
     };
@@ -47,11 +50,11 @@ const Banner = () => {
                 cancelButtonColor: "#3085d6",
                 confirmButtonText: "Yes, delete it!",
             });
-    
+
             if (result?.isConfirmed) {
                 const response = await deleteBanner(id);
                 console.log(response);
-    
+
                 if (response) {
                     Swal.fire({
                         title: "Deleted!",
@@ -68,7 +71,7 @@ const Banner = () => {
             setSpinLoading(false); // ✅ Always stop loading
         }
     };
-    
+
 
     // Handle File Upload
     const handlePhotoChange = (e) => {
@@ -90,13 +93,13 @@ const Banner = () => {
 
 
         let response
-        
-        if(currentBanner){
-           response = await editBanner({formData,id:currentBanner._id}) 
-        }else{
-            response = await addBanner(formData) 
+
+        if (currentBanner) {
+            response = await editBanner({ formData, id: currentBanner._id })
+        } else {
+            response = await addBanner(formData)
         }
-       
+
 
         if (response?.data) {
             setCurrentBanner(null)
@@ -108,6 +111,15 @@ const Banner = () => {
         // Send updated banner data to the API (implement API call here)
         setIsModalOpen(false);
     };
+
+    const handleToggleStatus = async (id) => {
+        const res = await statusUpdate(id)
+        if (res?.data?.success) {
+            refetch()
+        }
+
+    }
+
 
 
 
@@ -144,15 +156,19 @@ const Banner = () => {
                 >
                     <FaTrash size={18} />
                 </button>
+                <ToggleSwitch
+                    isActive={test.isActive}
+                    onToggle={() => handleToggleStatus(test._id)}
+                />
             </div>
         ),
     })) || [];
 
 
 
-    
 
-    
+
+
 
     return (
         <div>
@@ -226,7 +242,7 @@ const Banner = () => {
                                 </button>
                                 {spinLoading ? <Spinner /> : <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md">
                                     {currentBanner ? "Edit Save" :
-                                    "Save Changes"}
+                                        "Save Changes"}
                                 </button>}
 
                             </div>
@@ -236,7 +252,7 @@ const Banner = () => {
             )}
 
 
-            
+
         </div>
     );
 };

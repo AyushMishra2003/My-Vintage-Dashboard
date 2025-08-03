@@ -9,7 +9,7 @@ export const productApi = createApi({
 
         getAllProduct: builder.query({
             query: ({ page = 1, limit = 10 }) => ({
-                url: `/product?page=${page}&limit=${limit}`,
+                url: `/product?page=${page}&limit=${limit}$isAdmin=admin`,
                 method: "GET",
             }),
             providesTags: ["product"], // ✅ Keeps caching support
@@ -61,6 +61,14 @@ export const productApi = createApi({
             invalidatesTags: ["product"],
         }),
 
+                updateStatus: builder.mutation({
+            query: (id) => ({
+                url: `/product/status/update/${id}`,
+                method: "POST",
+            }),
+            providesTags: ["lab"],  
+        }),
+
 
     }),
 });
@@ -71,6 +79,8 @@ export const {
     useAddProductMutation,
     useGetProductDetailQuery,
     useEditProductMutation,
-    useDeleteProductMutation
+    useDeleteProductMutation,
+    useUpdateStatusMutation
+    
 
 } = productApi;

@@ -1,5 +1,5 @@
 
-import { useAddLabTestMutation, useAddLabTestTagMutation, useDeleteLabTagMutation, useEditLabTagMutation, useEditLabTestMutation, useGetAllLabTestQuery, useGetAllLabTestTagQuery } from '@/Rtk/labTestTag';
+import { useAddLabTestMutation, useAddLabTestTagMutation, useDeleteLabTagMutation, useEditLabTagMutation, useEditLabTestMutation, useGetAllLabTestQuery, useGetAllLabTestTagQuery, useUpdateStatusMutation } from '@/Rtk/labTestTag';
 import React, { useState } from 'react'
 import { FaAddressBook, FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 import TableComponent from '../helper/TableComponent';
@@ -8,14 +8,16 @@ import { useDispatch } from 'react-redux';
 import Spinner from '../Loading/SpinLoading';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import ToggleSwitch from '../toogle/ToogleSwitch';
 
 const LabTestTag = () => {
-    const { data, isLoading } = useGetAllLabTestTagQuery()
-    const { data: pathology, isLoading: isPathology } = useGetAllLabTestQuery()
+    const { data, isLoading ,refetch} = useGetAllLabTestTagQuery()
+    const [statusUpdate]=useUpdateStatusMutation()
+    // const { data: pathology, isLoading: isPathology } = useGetAllLabTestQuery()
     const [addLabTestTag, { isLoading: isAddLoading, isError, isSuccess }] = useAddLabTestTagMutation();
     const [deleteLabTestTag, { isLoading: isDeleteLoading, isError: isDelete, isSuccess: isDeleteSuccess }] = useDeleteLabTagMutation();
     const [editLabTestTag] = useEditLabTestMutation();
-     
+
     const [currentTag, setCurrentTag] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [spinLoading, setSpinLoading] = useState(false)
@@ -23,7 +25,7 @@ const LabTestTag = () => {
     const [pathologyId, setPathologyId] = useState("")
     const [photo, setPhoto] = useState(null);
     const dispatch = useDispatch()
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     const columns = [
         { header: "name", accessor: "type" },
@@ -35,8 +37,8 @@ const LabTestTag = () => {
         e.preventDefault();
         const formData = new FormData()
 
-        const data={
-             "category": text,
+        const data = {
+            "category": text,
         }
         setSpinLoading(true)
         // formData.append("category", text)
@@ -45,17 +47,17 @@ const LabTestTag = () => {
         let response
 
         console.log(pathologyId);
-        
 
-        if(currentTag){
-             response=await editLabTestTag({data,id:pathologyId}).unwrap()
-        }else{
-             response = await addLabTestTag(data).unwrap(); // unwrap()
+
+        if (currentTag) {
+            response = await editLabTestTag({ data, id: pathologyId }).unwrap()
+        } else {
+            response = await addLabTestTag(data).unwrap(); // unwrap()
         }
 
-        
 
-   
+
+
 
         if (response?.success) {
 
@@ -102,26 +104,35 @@ const LabTestTag = () => {
             }
         } catch (error) {
             console.error("Error deleting:", error);
-        } 
+        }
 
     }
 
-    const handleEditTag=(data)=>{ 
+    const handleEditTag = (data) => {
         setCurrentTag(data)
         setText(data?.category)
         setPathologyId(data?._id)
         // setPhoto(data?.icon?.secure_url)
         // setPathologyId(data?.labSlugName)
         setIsModalOpen(true)
-        
+
     }
 
-    const handleCancelTag=()=>{
+    const handleCancelTag = () => {
         setCurrentTag(null)
         setText("")
         setPhoto("")
         setPathologyId("")
         setIsModalOpen(false)
+    }
+
+
+    const handleToggleStatus=async(id)=>{
+          const res=await statusUpdate(id)
+          if(res?.data?.success){
+            refetch()
+          }
+          
     }
 
 
@@ -151,18 +162,22 @@ const LabTestTag = () => {
                 >
                     <FaTrash size={18} />
                 </button>
-                               <button
+                <button
                     onClick={() => navigate(`/dashboard/product/tag/${test.categorySlug}`)}
                     className="text-green-600 hover:text-red-800"
                 >
                     <FaEye size={18} />
                 </button>
+                <ToggleSwitch
+                    isActive={test.isActive}
+                    onToggle={() => handleToggleStatus(test._id)}
+                />
             </div>
         ),
     })) || [];
 
 
-    
+
 
 
 
@@ -228,7 +243,7 @@ const LabTestTag = () => {
                                     type="button"
                                     className="px-4 py-2 bg-gray-400 text-white rounded-md"
                                     onClick={() => handleCancelTag()}
-                              
+
 
                                 >
                                     Cancel
